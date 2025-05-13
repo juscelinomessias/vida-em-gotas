@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vida em Gotas é uma plataforma web dedicada a incentivar a doação de leite materno, promovendo informação, cadastro e mobilização social para salvar vidas de recém-nascidos.">
+  <meta name="keywords" content="doação de leite materno, banco de leite humano, leite materno, saúde neonatal, prematuros, amamentação, voluntariado, Vida em Gotas, coleta de leite humano, geolocalização de postos de coleta, plataforma web de saúde">
+  
+  <title>Dúvidas Frequentes sobre Doação de Leite | Vida Em Gotas</title>
+
+  <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">  
+
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <script src="assets/components/menu_footer/index.js"></script>
+  <script src="assets/components/menu_top/index.js"></script>
+
+  <script src="assets/components/Contatos/WhattAppButton.js"></script>
+
+  <link href="assets/css/main.css" rel="stylesheet">
+
+<style>
+    .pagination {
+        margin-top: 20px;
+    }
+
+    .page-item.active .page-link {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+    .page-link {
+        color: #6c757d;
+        margin: 0 5px;
+        border-radius: 4px;
+        padding: 8px 16px;
+    }
+
+    .page-link:hover {
+        color: #495057;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+</style>
+
+</head>
+
+<body class="index-page">
+
+    <header>
+        <!-- Exportando a Navegação e Banner -->
+        <menu-top></menu-top>
+        <!-- Exportando a Navegação e Banner -->
+    </header>
+
+    <main class="main">
+
+        <!-- Section Perguntas Frequentes -->
+        <section id="faq" class="faq section light-background"  style="background-color: #fff;">
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Dúvidas Frequentes</h2>
+            </div>
+            
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                        <div class="faq-container" id="faq-container">
+                            <!-- As perguntas serão carregadas dinamicamente aqui -->
+                        </div>
+
+                        <div class="pagination-container mt-4 text-center" id="pagination-container">
+                            <!-- A paginação será gerada aqui -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+ 
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let paginaAtual = 1;
+            const limite = 10;
+            
+            // Função para atualizar a paginação
+            function atualizarPaginacao(paginacao) {
+                const paginationContainer = document.getElementById('pagination-container');
+                paginationContainer.innerHTML = '';
+                
+                if (paginacao.totalPaginas <= 1) return;
+                
+                const ul = document.createElement('ul');
+                ul.className = 'pagination justify-content-center';
+                
+                // Botão Anterior
+                const liPrev = document.createElement('li');
+                liPrev.className = `page-item ${paginaAtual === 1 ? 'disabled' : ''}`;
+                liPrev.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
+                liPrev.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (paginaAtual > 1) {
+                        carregarPerguntas(paginaAtual - 1);
+                    }
+                });
+                ul.appendChild(liPrev);
+                
+                // Números das páginas
+                for (let i = 1; i <= paginacao.totalPaginas; i++) {
+                    const li = document.createElement('li');
+                    li.className = `page-item ${i === paginaAtual ? 'active' : ''}`;
+                    li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                    li.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if (i !== paginaAtual) {
+                            carregarPerguntas(i);
+                        }
+                    });
+                    ul.appendChild(li);
+                }
+                
+                // Botão Próximo
+                const liNext = document.createElement('li');
+                liNext.className = `page-item ${paginaAtual === paginacao.totalPaginas ? 'disabled' : ''}`;
+                liNext.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
+                liNext.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (paginaAtual < paginacao.totalPaginas) {
+                        carregarPerguntas(paginaAtual + 1);
+                    }
+                });
+                ul.appendChild(liNext);
+                
+                paginationContainer.appendChild(ul);
+            }
+            
+            // Função para carregar perguntas
+            function carregarPerguntas(pagina) {
+                
+                // Atualiza a página atual ANTES de fazer a requisição
+                paginaAtual = pagina;
+                
+                // Mostrar loader enquanto carrega
+                const container = document.getElementById('faq-container');
+                container.innerHTML = `
+                    <div class="text-center py-4">
+                        <div class="spinner-border text-primary"></div>
+                        <p class="mt-2">Carregando perguntas...</p>
+                    </div>
+                `;
+    
+                fetch(`/web/todas-perguntas-frequentes?pagina=${pagina}&limite=${limite}`)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Erro HTTP: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        
+                        container.innerHTML = '';
+                        
+                        // Se não houver perguntas, apenas não renderiza nada ou exibe uma mensagem
+                        if (!data.perguntas || data.perguntas.length === 0) {
+                            container.innerHTML = '<p>Nenhuma pergunta encontrada.</p>';
+                            document.getElementById('pagination-container').innerHTML = '';
+                            return;
+                        }
+                        
+                        // Renderizar perguntas recebidas
+                        renderizarPerguntas(data.perguntas);
+                        
+                        // Atualizar paginação se existir
+                        if (data.paginacao) {
+                            atualizarPaginacao(data.paginacao);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao carregar perguntas:', error);
+                        container.innerHTML = '<p>Ocorreu um erro ao carregar as perguntas.</p>';
+                        document.getElementById('pagination-container').innerHTML = '';
+                    });
+            }
+    
+            // Função para renderizar perguntas (reutilizável)
+            function renderizarPerguntas(perguntas) {
+                const container = document.getElementById('faq-container');
+                container.innerHTML = '';
+                
+                perguntas.forEach(pergunta => {
+                    const faqItem = document.createElement('div');
+                    faqItem.className = 'faq-item';
+                    
+                    faqItem.innerHTML = `
+                        <h3>${pergunta.pergunta || 'Pergunta sobre amamentação'}</h3>
+                        <div class="faq-content">
+                            <p>${pergunta.resposta || 'Resposta informativa sobre amamentação e doação de leite materno.'}</p>
+                        </div>
+                        <i class="faq-toggle bi bi-chevron-right"></i>
+                    `;
+                    
+                    faqItem.addEventListener('click', function() {
+                        this.classList.toggle('faq-active');
+                        const content = this.querySelector('.faq-content');
+                        const toggle = this.querySelector('.faq-toggle');
+                        
+                        if (this.classList.contains('faq-active')) {
+                            content.style.display = 'block';
+                            toggle.classList.remove('bi-chevron-right');
+                            toggle.classList.add('bi-chevron-down');
+                        } else {
+                            content.style.display = 'none';
+                            toggle.classList.remove('bi-chevron-down');
+                            toggle.classList.add('bi-chevron-right');
+                        }
+                    });
+                    
+                    container.appendChild(faqItem);
+                });
+            }
+    
+            // Carrega as perguntas iniciais
+            carregarPerguntas(paginaAtual);
+        });
+    </script>
+    
+
+    <!-- Componente whatsapp -->
+    <whatsapp-button></whatsapp-button>
+
+        
+    <footer>
+
+        <!-- Exportando o Footer -->
+        <menu-footer></menu-footer>
+        <!-- Exportando o Footer -->
+
+    </footer>
+
+    
+    <!-- Scroll Top -->
+    <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    
+    <!-- Preloader -->
+    <div id="preloader"></div>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+    <script src="assets/vendor/aos/aos.js"></script>
+    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+    
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+    
+</body>
+</html>

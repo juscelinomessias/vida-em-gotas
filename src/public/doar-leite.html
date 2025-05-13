@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vida em Gotas é uma plataforma web dedicada a incentivar a doação de leite materno, promovendo informação, cadastro e mobilização social para salvar vidas de recém-nascidos.">
+  <meta name="keywords" content="doação de leite materno, banco de leite humano, leite materno, saúde neonatal, prematuros, amamentação, voluntariado, Vida em Gotas, coleta de leite humano, geolocalização de postos de coleta, plataforma web de saúde">
+ 
+  <title>Doe Leite Materno | Vida Em Gotas – Salve Vidas com um Gesto de Amor</title>
+
+  <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">  
+
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <script src="assets/components/menu_footer/index.js"></script>
+  <script src="assets/components/menu_top/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+
+<style>
+  #ler{
+    padding-bottom: 0 !important;
+  }
+  #lerForm{
+    padding-top: 0 !important;
+  }
+  .swal2-popup {
+    font-size: 1.1rem !important;
+  }
+
+  .btn-outline-primary {
+    background-color: #fff !important;
+    border-color: #5b3101 !important;
+    color: #5b3101 !important;
+  }
+
+  .btn-primary {
+    background-color: #5b3101 !important;
+    border-color: #5b3101 !important;
+    color: #fff !important;
+  }    
+
+  .aviso-lgpd {
+    background-color: #f8f9fa;
+    border-left: 4px solid #5b3101;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 4px;
+  }
+
+  .aviso-lgpd p {
+    margin: 0;
+    color: #495057;
+    font-size: 0.9rem;
+  }
+
+  .checkbox-container {
+    margin: 20px 0;
+    padding: 0 15px;
+  }
+
+  .checkbox label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .checkbox input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  .input-group>:not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+      border-radius: 5px !important;
+  }
+</style>
+
+<body class="index-page">
+  
+  <header>
+
+    <!-- Importando a Navegação e o Banner -->
+    <menu-top></menu-top>
+    <!-- Importando a Navegação e o Banner -->
+
+  </header>
+
+  <main class="main">
+
+
+
+    <!--Doar leite -->
+    <section id="ler" id="featured-services" class="featured-services section" style="background-color: #fff;">
+      
+      <div class="container section-title" data-aos="fade-up">
+        <h2 id="doacao">Quem pode doar?</h2>
+      </div>
+
+      <div class="container">
+        <h3 id="titulo-doarleite">Leia as informações abaixo e analise se você está apta a todos requisitos!</h3>
+
+        <ul id="lista-doar">
+          <li> Estar amamentando ou ordenhando leite humano (LH) para o próprio filho.</li>
+          <li> Ser saudável.</li>
+          <li> Apresentar exames pré ou pós-natal compatíveis com a doação de LH.</li>
+          <li> Não fumar mais que 10 cigarros por dia.</li>
+          <li> Não usar medicamentos incompatíveis com a amamentação.</li>
+          <li> Não usar álcool ou drogas ilícitas.</li>
+          <li> Realizar exames (Hemograma completo, VDRL, anti-HIV) quando o cartão de pré-natal não estiver disponível ou a mãe não tiver realizado pré-natal.</li>
+          <li> Realizar outros exames conforme perfil epidemiológico local ou necessidade individual da doadora.</li>
+        </ul>
+        <button id="botao-som" class="btn btn-outline-primary">
+          <i class="fas fa-volume-up"></i> Ouvir
+      </button>
+      </div>
+
+      <!-- Aviso LGPD e Checkbox - Container ajustado -->
+      <div class="container">
+        <div class="aviso-lgpd">
+          <p>De acordo com a Lei nº 13.709/2018 (LGPD), ao prosseguir com o cadastro você autoriza o tratamento dos seus dados pessoais para fins de participação na iniciativa de doação de leite. Você pode solicitar a qualquer momento o acesso, a correção ou exclusão dos seus dados por meio de nosso canal de atendimento via WhatsApp.</p>
+        </div>
+        
+        <div class="checkbox-container">
+          <div class="checkbox">
+            <label id="txt-check">
+              <input type="checkbox" id="confirmacao">
+              Li e entendi todas as informações acima.
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        // Configuração do botão de som
+        document.addEventListener("DOMContentLoaded", function() {
+          const botaoSom = document.getElementById('botao-som');
+          let estaFalando = false;
+          let vozAtual = null;
+
+          if (botaoSom) {
+            botaoSom.addEventListener('click', function() {
+              if (estaFalando) {
+                window.speechSynthesis.cancel();
+                botaoSom.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir';
+                botaoSom.classList.remove('btn-primary');
+                botaoSom.classList.add('btn-outline-primary');
+                estaFalando = false;
+              } else {
+                const elementosParaLer = [
+                  document.querySelector('#doacao')?.textContent,
+                  document.querySelector('#titulo-doarleite')?.textContent,
+                  ...Array.from(document.querySelectorAll('#lista-doar li')).map(li => li.textContent),
+                  document.querySelector('.aviso-lgpd p')?.textContent,  
+                  document.querySelector('.checkbox')?.textContent.trim()  
+                ].filter(Boolean);
+
+                if (elementosParaLer.length === 0) {
+                    Swal.fire({
+                    icon: 'info',
+                    title: 'Aviso',
+                    text: 'Nenhum conteúdo disponível para leitura',
+                    confirmButtonColor: '#5b3101'
+                  });
+                }
+
+                const textoParaLer = elementosParaLer.join('. ');
+
+                vozAtual = new SpeechSynthesisUtterance(textoParaLer);
+                vozAtual.lang = 'pt-BR';
+                vozAtual.rate = 0.9;
+
+                vozAtual.onstart = function() {
+                  botaoSom.innerHTML = '<i class="fas fa-volume-up"></i> Parar';
+                  botaoSom.classList.remove('btn-outline-primary');
+                  botaoSom.classList.add('btn-primary');
+                  estaFalando = true;
+                };
+
+                vozAtual.onend = vozAtual.onerror = function() {
+                  botaoSom.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir';
+                  botaoSom.classList.remove('btn-primary');
+                  botaoSom.classList.add('btn-outline-primary');
+                  estaFalando = false;
+                };
+
+                window.speechSynthesis.speak(vozAtual);
+              }
+            });
+          }
+        });
+      </script>
+
+    </section>
+    <!--Doar leite -->
+
+
+
+    <section id="lerForm">
+      <div id="form-container">
+        <div id="form-header">
+          <h1>Seja uma doadora</h1>
+          <p id="subtitle">Preencha o formulário abaixo para se cadastrar e doar seu leite materno</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <form id="cadastroForm">
+          <!-- Seção 1 - Informações Pessoais -->
+          <div class="form-section" style="--order: 1">
+            <h2 class="section-title">Informações pessoais</h2>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label for="nome">Nome completo</label>
+                <input type="text" id="nome" name="nome" required>
+              </div>
+
+              <div class="input-group">
+                <label for="nomeMae">Nome da mãe da doadora</label>
+                <input type="text" id="nomeMae" name="nomeMae" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label for="dataNascimento">Data de nascimento</label>
+                <input type="date" id="dataNascimento" name="dataNascimento" required>
+              </div>
+
+              <div class="input-group">
+                <label for="naturalidade">Naturalidade</label>
+                <input type="text" id="naturalidade" name="naturalidade" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label for="telefone">Telefone</label>
+                <input type="tel" id="telefone" name="telefone" required placeholder="(00) 00000-0000" maxlength="15">
+              </div>
+
+              <div class="input-group">
+                <label for="profissao">Profissão</label>
+                <input type="text" id="profissao" name="profissao">
+              </div>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <div class="form-section" style="--order: 2">
+            <h2 class="section-title">Endereço</h2>
+
+            <div class="form-row">
+              <div class="input-group small cep-loading" id="cep-container">
+                <label for="cep">CEP</label>
+                <input type="text" id="cep" name="cep" required maxlength="9" pattern="\d{5}-?\d{3}"
+                  placeholder="00000-000">
+              </div>
+
+              <div class="input-group">
+                <label for="endereco">Rua</label>
+                <input type="text" id="endereco" name="logradouro" required>
+              </div>
+
+              <div class="input-group xsmall">
+                <label for="numero">Número</label>
+                <input type="text" id="numero" name="numero" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label for="bairro">Bairro</label>
+                <input type="text" id="bairro" name="bairro" required>
+              </div>
+
+              <div class="input-group">
+                <label for="cidade">Cidade</label>
+                <input type="text" id="cidade" name="cidade" required>
+              </div>
+
+              <div class="input-group xsmall">
+                <label for="estado">Estado</label>
+                <input type="text" id="estado" name="estado" required>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="input-group">
+                <label for="referencia">Ponto de referência</label>
+                <input type="text" id="referencia" name="referencia">
+              </div>
+            </div>
+          </div>
+          <div class="divider"></div>
+
+          <!-- Rodapé do Formulário -->
+          <div class="form-footer">
+            <button type="submit">Finalizar Cadastro</button>
+          </div>
+        </form>
+
+        <button id="botao-som-form" class="btn btn-outline-primary">
+          <i class="fas fa-volume-up"></i> Ouvir
+      </button>
+
+      
+      </div>
+
+  
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Configuração do botão de som do formulário
+            const botaoSomForm = document.getElementById('botao-som-form');
+            let estaFalandoForm = false;
+            let vozAtualForm = null;
+        
+            if (botaoSomForm) {
+                botaoSomForm.addEventListener('click', function() {
+                    if (estaFalandoForm) {
+                        // Parar a leitura
+                        window.speechSynthesis.cancel();
+                        botaoSomForm.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir Formulário';
+                        botaoSomForm.classList.remove('btn-primary');
+                        botaoSomForm.classList.add('btn-outline-primary');
+                        estaFalandoForm = false;
+                    } else {
+                        // Conteúdo para ler no formulário
+                        const elementosParaLerForm = [
+                            document.querySelector('#form-header h1')?.textContent,
+                            document.querySelector('#form-header p')?.textContent,
+                            ...Array.from(document.querySelectorAll('.section-title')).map(el => el.textContent),
+                            ...Array.from(document.querySelectorAll('.input-group label')).map(el => el.textContent + '. Campo de ' + el.getAttribute('for'))
+                        ].filter(Boolean);
+        
+                        if (elementosParaLerForm.length === 0) {
+                          Swal.fire({
+                            icon: 'info',
+                            title: 'Aviso',
+                            text: 'Nenhum conteúdo disponível para leitura',
+                            confirmButtonColor: '#5b3101'
+                        });
+                        return;
+                        }
+        
+                        const textoParaLerForm = elementosParaLerForm.join('. ');
+        
+                        vozAtualForm = new SpeechSynthesisUtterance(textoParaLerForm);
+                        vozAtualForm.lang = 'pt-BR';
+                        vozAtualForm.rate = 0.8;
+        
+                        vozAtualForm.onstart = function() {
+                            botaoSomForm.innerHTML = '<i class="fas fa-volume-up"></i> Parar';
+                            botaoSomForm.classList.remove('btn-outline-primary');
+                            botaoSomForm.classList.add('btn-primary');
+                            estaFalandoForm = true;
+                        };
+        
+                        vozAtualForm.onend = vozAtualForm.onerror = function() {
+                            botaoSomForm.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir Formulário';
+                            botaoSomForm.classList.remove('btn-primary');
+                            botaoSomForm.classList.add('btn-outline-primary');
+                            estaFalandoForm = false;
+                        };
+        
+                        window.speechSynthesis.speak(vozAtualForm);
+                    }
+                });
+            }
+        });
+        </script>
+
+    </section>
+
+ 
+    <a href="https://wa.me/558432327728" class="whatsapp-float" target="_blank">
+      <i class="bi bi-whatsapp"></i>
+    </a>
+
+  </main>
+
+  <footer>
+
+    <!-- Importando o Footer -->
+    <menu-footer></menu-footer>
+    <!-- Importando o Footer -->
+
+  </footer>
+
+  <!-- Scroll Top -->
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Preloader -->
+  <div id="preloader"></div>
+
+
+  <script src="https://code.responsivevoice.org/responsivevoice.js"></script>
+  <script>
+    responsiveVoice.speak(document.getElementById('texto-a-ler').innerText, "Brazilian Portuguese Female");
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Máscara para Telefone (11 dígitos)
+    const telefoneInput = document.getElementById('telefone');
+    telefoneInput.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+
+      if (value.length > 0) {
+        value = value.substring(0, 11);
+        let formattedValue = `(${value.substring(0, 2)})`;
+
+        if (value.length > 2) {
+          formattedValue += ` ${value.substring(2, 7)}`;
+        }
+
+        if (value.length > 7) {
+          formattedValue += `-${value.substring(7, 11)}`;
+        }
+
+        e.target.value = formattedValue;
+      }
+    });
+
+    // Máscara para CEP
+    const cepInput = document.getElementById('cep');
+    cepInput.addEventListener('input', function (e) {
+      let value = e.target.value.replace(/\D/g, '');
+
+      if (value.length > 5) {
+        value = value.substring(0, 5) + '-' + value.substring(5, 8);
+      }
+      e.target.value = value;
+    });
+
+    // Integração com ViaCEP
+    cepInput.addEventListener('blur', function () {
+      const cep = this.value.replace(/\D/g, '');
+      const cepContainer = document.getElementById('cep-container');
+
+      if (cep.length === 8) {
+        cepContainer.classList.add('loading');
+
+        fetch(`https://viacep.com.br/ws/${cep}/json/`)
+          .then(response => response.json())
+          .then(data => {
+            if (!data.erro) {
+              document.getElementById('endereco').value = `${data.logradouro || ''}`;
+              document.getElementById('bairro').value = data.bairro || '';
+              document.getElementById('cidade').value = data.localidade || '';
+              document.getElementById('estado').value = data.uf || '';
+
+              ['endereco', 'bairro', 'cidade', 'estado'].forEach(id => {
+                const field = document.getElementById(id);
+                if (field.value) field.readOnly = false;
+              });
+            } else {
+              Swal.fire({
+                icon: 'warning',
+                title: 'CEP não encontrado',
+                text: 'Por favor, verifique o número digitado.',
+                confirmButtonColor: '#5b3101'
+              });
+            }
+          })
+          .catch(error => {
+            console.error('Erro ao buscar CEP:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Erro na consulta',
+              text: 'Ocorreu um erro ao consultar o CEP. Por favor, tente novamente mais tarde.',
+              confirmButtonColor: '#5b3101',
+              confirmButtonText: 'Entendido'
+            });
+          })
+          .finally(() => {
+            cepContainer.classList.remove('loading');
+          });
+      } else if (this.value) {
+        Swal.fire({
+          icon: 'error',
+          title: 'CEP inválido',
+          text: 'Digite 8 números.',
+          confirmButtonColor: '#5b3101'
+        });
+      }
+    });
+
+    // Data atual como padrão
+    const dataCadastro = document.getElementById('dataCadastro');
+    const today = new Date().toISOString().split('T')[0];
+    dataCadastro.value = today;
+    dataCadastro.min = today;
+
+    // Validação do formulário
+    document.getElementById('cadastroForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const requiredFields = this.querySelectorAll('[required]');
+      let isValid = true;
+
+      requiredFields.forEach(field => {
+        if (!field.value) {
+          field.style.borderColor = '#e74c3c';
+          isValid = false;
+        } else {
+          field.style.borderColor = '';
+        }
+      });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const checkbox = document.getElementById("confirmacao");
+    const formContainer = document.getElementById("form-container");
+    const formInputs = document.querySelectorAll("#cadastroForm input, #cadastroForm button");
+
+    // Bloquear formulário inicialmente
+    formInputs.forEach(input => {
+      input.disabled = true;
+      input.style.opacity = "0.5";
+      input.style.cursor = "not-allowed";
+    });
+
+    const overlay = document.createElement("div");
+    overlay.style.position = "absolute";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.backgroundColor = "rgba(255, 255, 255, 0.7)";
+    overlay.style.zIndex = "10";
+    overlay.style.display = "flex";
+    overlay.style.alignItems = "center";
+    overlay.style.justifyContent = "center";
+    overlay.style.borderRadius = "10px";
+    formContainer.style.position = "relative";
+    formContainer.appendChild(overlay);
+
+    checkbox.addEventListener("change", function () {
+      if (this.checked) {
+        formInputs.forEach(input => {
+          input.disabled = false;
+          input.style.opacity = "1";
+          input.style.cursor = "";
+        });
+        overlay.style.display = "none";
+      } else {
+        formInputs.forEach(input => {
+          input.disabled = true;
+          input.style.opacity = "0.5";
+          input.style.cursor = "not-allowed";
+        });
+        overlay.style.display = "flex";
+      }
+    });
+  });
+
+  // Submissão final com envio de dados
+  document.getElementById('cadastroForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = {
+      nome: document.getElementById('nome').value,
+      nomeMae: document.getElementById('nomeMae').value,
+      dataNascimento: document.getElementById('dataNascimento').value,
+      naturalidade: document.getElementById('naturalidade').value,
+      profissao: document.getElementById('profissao').value,
+      telefone: document.getElementById('telefone').value,
+      cep: document.getElementById('cep').value,
+      logradouro: document.getElementById('endereco').value,
+      numero: document.getElementById('numero').value,
+      bairro: document.getElementById('bairro').value,
+      cidade: document.getElementById('cidade').value,
+      estado: document.getElementById('estado').value,
+      referencia: document.getElementById('referencia').value
+    };
+
+    try {
+      const response = await fetch('/web/doadoras/criar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        await Swal.fire({
+          icon: 'success',
+          title: 'Cadastro realizado!',
+          text: 'Seu cadastro foi realizado com sucesso. Nossa equipe entrará em contato pelo telefone informado para dar continuidade ao processo. Em caso de dúvidas, fale conosco pelo WhatsApp!',
+          confirmButtonText: 'Ótimo!',
+          confirmButtonColor: '#28a745'
+        });
+        this.reset();
+      } else {
+        await Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          html: `<strong>${data.mensagem || 'Algo deu errado.'}</strong><br>Por favor, verifique os dados.`,
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#dc3545'
+        });
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      await Swal.fire({
+        icon: 'warning',
+        title: 'Erro inesperado',
+        text: 'Não foi possível enviar o formulário. Tente novamente mais tarde.',
+        confirmButtonText: 'Fechar',
+        confirmButtonColor: '#ffc107'
+      });
+    }
+  });
+</script>
+
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Listar Usuário ADM</title>   
+    
+    <script src="../../assets/js/autorizacao.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="../../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- Importando o Menu -->
+    <script src="../../admin/components/menu_left/index.js"></script>
+    <script src="../../admin/components/menu_top/index.js"></script>
+    <script src="../../admin/components/menu_footer/index.js"></script>
+    
+    <style>
+        .usuario-card {
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+        .usuario-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .usuario-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .usuario-title {
+            font-size: 1.2rem;
+            color: #2A3F54;
+            margin-bottom: 5px;
+        }
+        .usuario-info {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: flex-start;
+        }
+        .usuario-info i {
+            width: 20px;
+            text-align: center;
+            margin-right: 8px;
+            color: #555;
+            margin-top: 3px;
+        }
+        .usuario-actions {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        .input-group-btn .btn-default {
+            height: 34px;
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+        .btn-success{
+            background-color: #26b99a !important;
+            color: #ffffff !important;
+        }
+        .btn-success.btn-sm:hover {
+            background-color: #197b66 !important;
+        }
+        .form-control {
+            height: 34px;
+        }
+</style>
+    </style>
+</head>
+
+<body class="nav-md">
+    <script>
+        // Verifica se o usuário está autenticado
+        checarAutorizacao();
+    </script>
+
+<div class="container body" id="conteudo">
+    <div class="main_container">
+        <!-- Menu lateral -->
+        <div class="col-md-3 left_col">
+            <div class="left_col scroll-view">
+                <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                    <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+                </div>
+                <div class="clearfix"></div>
+                <br />
+                <menu-left></menu-left>
+            </div>
+        </div>
+
+        <!-- Menu superior -->
+        <menu-top></menu-top>
+
+        <!-- Conteúdo principal -->
+        <div class="right_col" role="main">
+            <div class="">
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>Listar Usuários Administradores</h3>
+                    </div>
+                    <div class="title_right">
+                        <div class="col-md-12 col-sm-12 form-group">
+                            <div class="float-right">
+                                <a href="/admin/criar-usuario-adm" class="btn btn-success">
+                                    <i class="fa fa-plus"></i> Novo Usuário
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="clearfix"></div>
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="x_panel">
+                            <div class="x_content">
+                                <br />
+                                <div class="form-group">
+                                    <div class="page-title" style="margin-bottom: 30px;">
+                                        <div class="row">
+                                            <div class="col-md-8 col-sm-8">
+                                                <div class="title_left">
+                                                    <h2><i class="fa fa-users"></i> Contatos Cadastrados</h2>
+                                                </div>
+                                                
+                                                <!-- Área de busca -->
+                                                <div class="form-group top_search">
+                                                    <div class="input-group">
+                                                        <input type="text" id="campoBuscaUsuarios" class="form-control" 
+                                                               onkeyup="buscarUsuarios()" placeholder="Buscar por nome ou email...">
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-default" type="button" onclick="buscarUsuarios()">
+                                                                <i class="fa fa-search"></i> Buscar
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="x_content">
+                                <div class="row" id="usuariosContainer">
+                                    <!-- Usuários serão carregados aqui -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <menu-footer></menu-footer>
+    </div>
+</div>  
+
+
+
+    <!-- jQuery primeiro, depois Bootstrap -->
+    <script src="../../vendors/jquery/dist/jquery.min.js"></script>
+    <script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../../build/js/custom.min.js"></script>
+
+    <script>
+        // Função principal para carregar usuários
+        async function carregarUsuarios() {
+            try {
+                const container = $('#usuariosContainer');
+                container.html(`
+                    <div class="col-12 text-center py-4">
+                        <div class="spinner-border text-primary"></div>
+                        <p class="mt-2">Carregando usuários...</p>
+                    </div>
+                `);
+
+                const response = await fetch('/api/usuario-adm/listar');
+                
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const usuarios = data.data || [];
+
+                container.empty();
+
+                if (usuarios.length === 0) {
+                    container.html(`
+                        <div class="col-12 empty-state">
+                            <i class="fa fa-users"></i>
+                            <h4>Nenhum usuário cadastrado ainda</h4>
+                            <p>Adicione seu primeiro usuário</p>
+                            <a href="/admin/usuarios/criarUsuario" class="btn btn-success mt-3">
+                                <i class="fa fa-plus"></i> Adicionar Usuário
+                            </a>
+                        </div>
+                    `);
+                    return;
+                }
+
+                // Processamos os usuários
+                usuarios.forEach(usuario => {
+                    const card = $(`
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="usuario-card">
+                                <div class="usuario-header">
+                                    <h5 class="usuario-title">
+                                        <i class="fa fa-user"></i> ${usuario.nome || 'Nome não informado'}
+                                    </h5>
+                                </div>
+                                
+                                <div class="usuario-details">
+                                    <div class="usuario-info">
+                                        <i class="fa fa-envelope"></i>
+                                        ${usuario.email || 'Email não informado'}
+                                    </div>
+                                    
+                                    <div class="usuario-info">
+                                        <i class="fa fa-calendar"></i>
+                                        Cadastrado em: ${new Date(usuario.created_at).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                
+                                <div class="usuario-actions">
+                                    <button class="btn btn-primary btn-xs" onclick="abrirModalEditarUsuario(${usuario.id})">
+                                        <i class="fa fa-pencil"></i> Editar
+                                    </button>
+                                    
+                                    <button class="btn btn-danger btn-sm" onclick="confirmarExclusaoUsuario(${usuario.id})">
+                                        <i class="fa fa-trash"></i> Excluir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    
+                    container.append(card);
+                });
+
+            } catch (error) {
+                console.error('Erro ao carregar usuários:', error);
+                $('#usuariosContainer').html(`
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            <i class="fa fa-exclamation-triangle"></i> 
+                            ${error.message || 'Erro ao carregar usuários. Tente novamente.'}
+                        </div>
+                    </div>
+                `);
+            }
+        }
+
+        // Função para buscar usuários
+        async function buscarUsuarios() {
+            try {
+                const termoBusca = $('#campoBuscaUsuarios').val().trim();
+                
+                if (!termoBusca) {
+                    carregarUsuarios();
+                    return;
+                }
+
+                const container = $('#usuariosContainer');
+                container.html(`
+                    <div class="col-12 text-center py-4">
+                        <div class="spinner-border text-primary"></div>
+                        <p class="mt-2">Buscando usuários...</p>
+                    </div>
+                `);
+
+                const response = await fetch(`/api/usuario-adm/buscar?q=${encodeURIComponent(termoBusca)}`);
+                
+                if (!response.ok) {
+                    throw new Error(`Erro na requisição: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const usuarios = data.data || [];
+
+                container.empty();
+
+                if (usuarios.length === 0) {
+                    container.html(`
+                        <div class="col-12 empty-state">
+                            <i class="fa fa-search"></i>
+                            <h4>Nenhum usuário encontrado</h4>
+                            <p>Não foram encontrados usuários para "${termoBusca}"</p>
+                        </div>
+                    `);
+                    return;
+                }
+
+                // Processamos os usuários encontrados
+                usuarios.forEach(usuario => {
+                    const card = $(`
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="usuario-card">
+                                <div class="usuario-header">
+                                    <h5 class="usuario-title">
+                                        <i class="fa fa-user"></i> ${usuario.nome || 'Nome não informado'}
+                                    </h5>
+                                </div>
+                                
+                                <div class="usuario-details">
+                                    <div class="usuario-info">
+                                        <i class="fa fa-envelope"></i>
+                                        ${usuario.email || 'Email não informado'}
+                                    </div>
+                                    
+                                    <div class="usuario-info">
+                                        <i class="fa fa-calendar"></i>
+                                        Cadastrado em: ${new Date(usuario.created_at).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                
+                                <div class="usuario-actions">
+                                    <button class="btn btn-primary btn-xs" onclick="abrirModalEditarUsuario(${usuario.id})">
+                                        <i class="fa fa-pencil"></i> Editar
+                                    </button>
+                                    
+                                    <button class="btn btn-danger btn-sm" onclick="confirmarExclusaoUsuario(${usuario.id})">
+                                        <i class="fa fa-trash"></i> Excluir
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                    
+                    container.append(card);
+                });
+
+            } catch (error) {
+                console.error('Erro ao buscar usuários:', error);
+                $('#usuariosContainer').html(`
+                    <div class="col-12">
+                        <div class="alert alert-danger">
+                            <i class="fa fa-exclamation-triangle"></i> 
+                            ${error.message || 'Erro ao buscar usuários. Tente novamente.'}
+                        </div>
+                    </div>
+                `);
+            }
+        }
+
+        // Inicialização
+        $(document).ready(function() {
+            carregarUsuarios();
+            
+            // Configura o evento de busca ao pressionar Enter
+            $('#campoBuscaUsuarios').keypress(function(e) {
+                if (e.which === 13) {
+                    buscarUsuarios();
+                }
+            });
+        });
+// Função para confirmar exclusão de usuário
+async function confirmarExclusaoUsuario(id, email) {
+    try {
+        // Verifica se é o usuário admin padrão (pelo email)
+        if (email === 'admin@email.com') {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Operação não permitida',
+                text: 'Você não pode excluir o usuário administrador padrão do sistema.',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+
+        // Verifica quantos usuários existem
+        const response = await fetch('/api/listarUsuariosADM');
+        const data = await response.json();
+        
+        if (data.data && data.data.length <= 1) {
+            return Swal.fire({
+                icon: 'error',
+                title: 'Operação não permitida',
+                text: 'Você não pode excluir o único usuário do sistema.',
+                confirmButtonColor: '#3085d6'
+            });
+        }
+
+        // Se passou nas verificações, mostra a confirmação
+        const result = await Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá reverter esta ação!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Sim, excluir!',
+            cancelButtonText: 'Cancelar'
+        });
+
+        if (result.isConfirmed) {
+            const deleteResponse = await fetch(`/api/usuario-adm/delete/${id}`, {
+                method: 'DELETE'
+            });
+
+            const deleteResult = await deleteResponse.json();
+
+            if (!deleteResponse.ok) {
+                throw new Error(deleteResult.message || 'Erro ao excluir usuário');
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Usuário excluído com sucesso!',
+                timer: 2000,
+                showConfirmButton: false
+            });
+
+            // Recarrega a lista de usuários
+            carregarUsuarios();
+        }
+
+    } catch (error) {
+        console.error('Erro:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: error.message || 'Erro ao excluir usuário. Por favor, tente novamente.',
+            confirmButtonColor: '#3085d6'
+        });
+    }
+}
+        // Modal de edição (adicione este HTML antes do fechamento do body)
+const modalEdicaoHTML = `
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Usuário</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formEditarUsuario">
+                    <input type="hidden" id="editarUsuarioId">
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required-field">Nome</label>
+                                <input type="text" id="editarNome" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="required-field">E-mail</label>
+                                <input type="email" id="editarEmail" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Nova Senha</label>
+                                <input type="password" id="editarSenha" class="form-control">
+                                <small class="text-muted">Deixe em branco para manter a senha atual</small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="salvarEdicaoUsuario()">Salvar Alterações</button>
+            </div>
+        </div>
+    </div>
+</div>
+`;
+
+// Adicione o modal ao DOM
+document.body.insertAdjacentHTML('beforeend', modalEdicaoHTML);
+
+// Função para abrir o modal do PUT
+async function abrirModalEditarUsuario(id) {
+    try {
+        const modal = $('#modalEditarUsuario');
+        const modalBody = modal.find('.modal-body');
+        
+        // Mostrar loader
+        modalBody.html(`
+            <div class="text-center py-4">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Carregando dados do usuário...</p>
+            </div>
+        `);
+        
+        modal.modal('show');
+
+        // Buscar dados do usuário - ATUALIZEI A ROTA PARA MATCH COM O BACKEND
+        const response = await fetch(`/api/usuario-adm/obter/${id}`);
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `Erro ${response.status}`);
+        }
+
+        const result = await response.json();
+        
+        if (!result.success || !result.data) {
+            throw new Error(result.message || 'Dados do usuário inválidos');
+        }
+
+        const usuario = result.data;
+
+        // Restaurar o formulário
+        modalBody.html(`
+            <form id="formEditarUsuario">
+                <input type="hidden" id="editarUsuarioId">
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="required-field">Nome</label>
+                            <input type="text" id="editarNome" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="required-field">E-mail</label>
+                            <input type="email" id="editarEmail" class="form-control" required>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nova Senha</label>
+                            <input type="password" id="editarSenha" class="form-control">
+                            <small class="text-muted">Deixe em branco para manter a senha atual</small>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        `);
+
+        // Preencher os campos
+        $('#editarUsuarioId').val(usuario.id);
+        $('#editarNome').val(usuario.nome || '');
+        $('#editarEmail').val(usuario.email || '');
+
+    } catch (error) {
+        console.error('Erro:', error);
+        $('#modalEditarUsuario .modal-body').html(`
+            <div class="alert alert-danger">
+                <i class="fa fa-exclamation-triangle"></i>
+                <h5>Erro ao carregar usuário</h5>
+                <p>${error.message || 'Erro desconhecido'}</p>
+                <button class="btn btn-primary" onclick="abrirModalEditarUsuario(${id})">
+                    Tentar novamente
+                </button>
+            </div>
+        `);
+    }
+}
+
+// Função para salvar as alterações
+async function salvarEdicaoUsuario() {
+    const form = $('#formEditarUsuario');
+    
+    try {
+        // Validação do formulário
+        if (!form[0].checkValidity()) {
+            form.addClass('was-validated');
+            throw new Error('Por favor, preencha todos os campos obrigatórios');
+        }
+
+        const formData = {
+            id: $('#editarUsuarioId').val(),
+            nome: $('#editarNome').val().trim(),
+            email: $('#editarEmail').val().trim(),
+            senha: $('#editarSenha').val()
+        };
+
+        const response = await fetch(`/api/usuario-adm/atualizar/${formData.id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.message || 'Erro ao atualizar usuário');
+        }
+
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: result.message || 'Usuário atualizado com sucesso',
+            timer: 2000,
+            showConfirmButton: false
+        });
+
+        $('#modalEditarUsuario').modal('hide');
+        carregarUsuarios();
+
+    } catch (error) {
+        console.error('Erro ao salvar edição:', error);
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro!',
+            text: error.message || 'Falha ao atualizar usuário',
+            confirmButtonColor: '#3085d6'
+        });
+    }
+}
+
+    </script>
+</body>
+</html>

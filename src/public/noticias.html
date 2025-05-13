@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vida em Gotas é uma plataforma web dedicada a incentivar a doação de leite materno, promovendo informação, cadastro e mobilização social para salvar vidas de recém-nascidos.">
+  <meta name="keywords" content="doação de leite materno, banco de leite humano, leite materno, saúde neonatal, prematuros, amamentação, voluntariado, Vida em Gotas, coleta de leite humano, geolocalização de postos de coleta, plataforma web de saúde">
+  
+  <title>Notícias sobre Doação de Leite e Saúde Neonatal | Vida Em Gotas</title>
+
+  <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <script src="assets/components/menu_footer/index.js"></script>
+  <script src="assets/components/menu_top/index.js"></script>
+
+   <script src="assets/components/Contatos/WhattAppButton.js"></script>
+
+</head>
+
+
+<body class="index-page">
+
+
+<style>
+  /* Importando a fonte Prosto One */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,400;0,500;1,300;1,900&display=swap');
+  
+  /* Aplicando estilos globais */
+  body {
+    font-family: "Poppins", sans-serif;
+}
+
+  /* Título da seção */
+  .section-title h2 {
+    font-family: "Poppins", sans-serif;
+    color: #5b3101;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  /* Cards de notícias */
+  .card {
+    border: 1px solid rgba(0, 0, 0, 0.176) !important;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    font-family: "Poppins", sans-serif;
+    height: 100%;
+  }
+
+  .card:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Título do card - centralizado e com cor #5b3101 */
+  .card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #5b3101;
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  /* Descrição - justificada e com cor #5b3101 */
+  .card-text {
+    font-size: 16px;
+    color: #5b3101;
+    text-align: justify;
+    text-justify: inter-word;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    text-indent: 2em;
+  }
+
+  /* Imagens */
+  .card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  /* Rodapé do card */
+  .card-footer {
+    background-color: white !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  /* Botão Ouvir - à esquerda */
+  .btn-outline-primary {
+    background-color: #fff !important;
+    border-color: #5b3101 !important;
+    color: #5b3101 !important;
+    margin-right: auto;
+    margin-bottom: 10px;
+  }
+
+  .btn-primary {
+    background-color: #5b3101 !important;
+    border-color: #5b3101 !important;
+    color: #fff !important;
+}
+
+  /* Botão Veja Mais */
+  .card-footer a {
+    color: #5b3101 !important;
+    font-size: 16px;
+    background: #baa67a !important; 
+    padding: 8px 40px;
+    margin-top: 0;
+    border-radius: 4px;
+    transition: 0.3s;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .card-footer a:hover {
+    background-color: #fff !important;
+    color: #5b3101 !important;
+    border: 1px solid #5b3101 !important;
+  }
+
+  /* Data - cor #5b3101 */
+  .card-footer .text-muted {
+    color: #5b3101 !important;
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .card-title {
+      font-size: 18px;
+    }
+    .card-text {
+      font-size: 14px;
+      text-indent: 1.5em;
+    }
+    .card-img-top {
+      height: 150px;
+    }
+  }
+</style>
+
+<header>
+  <!-- Exportando a Navegação e Banner -->
+  <menu-top></menu-top>
+  <!-- Exportando a Navegação e Banner -->
+</header>
+
+<br>
+
+<div class="right_col" role="main">
+    <!-- Container principal centralizado -->
+    <div class="container">
+
+        <div class="row justify-content-center mb-4 mt-4">
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Notícias<br></h2>
+            </div>
+        </div>
+
+        <!-- Container das notícias com 3 cards por linha -->
+        <div class="row justify-content-center" id="noticiasContainer">
+            
+        </div>
+
+        <!-- Paginação centralizada -->
+        <div class="row">
+            <div class="col-md-12">
+                <div id="paginacaoNoticias" class="text-center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Componente whatsapp -->
+  <whatsapp-button></whatsapp-button>
+
+  <footer>
+
+    <!-- Exportando o Footer -->
+    <menu-footer></menu-footer>
+    <!-- Exportando o Footer -->
+
+  </footer>
+
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<script>
+    // Constantes
+    const NOTICIAS_POR_PAGINA = 6;
+    let paginaAtual = 1;
+
+    // Função principal para carregar notícias
+    async function carregarNoticias(pagina = 1) {
+    try {
+        const noticiasContainer = document.getElementById('noticiasContainer');
+        noticiasContainer.innerHTML = '<div class="col-12 text-center py-4"><div class="spinner-border text-primary"></div></div>';
+
+        const response = await fetch(`/api/noticias/listar?page=${pagina}&limit=6`);
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || `Erro na requisição: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        const noticias = data.data || [];
+
+        noticiasContainer.innerHTML = '';
+
+        if (noticias.length === 0) {
+            noticiasContainer.innerHTML = `
+                <div class="col-12 d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                    <div class="alert alert-info text-center m-0">Nenhuma notícia encontrada.</div>
+                </div>
+            `;
+            return;
+        };
+
+        // Função para formatar a data
+        function formatarData(dataString) {
+            try {
+                if (!dataString) return 'Data não disponível';
+                const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+                return new Date(dataString).toLocaleDateString('pt-BR', options);
+            } catch {
+                return 'Data inválida';
+            }
+        }
+
+        function getImagemUrl(imagemPath) {
+            if (!imagemPath) return '/assets/img/placeholder.jpg';
+
+            // Se já for uma URL completa, retorna diretamente
+            if (imagemPath.startsWith('http://') || imagemPath.startsWith('https://')) {
+                return imagemPath;
+            }
+
+            // Remove barras iniciais se existirem
+            const cleanedPath = imagemPath.startsWith('/') ? 
+                imagemPath.substring(1) : imagemPath;
+
+            // Usar a mesma região que o controller (us-east-1)
+            return `https://vida-em-gotas.s3.us-east-2.amazonaws.com/${cleanedPath}`;
+        }
+
+        // Adiciona cada notícia ao container
+        noticias.forEach(noticia => {
+            const primeiraImagem = noticia.imagens.length > 0 ? noticia.imagens[0] : null;
+            const imagemUrl = primeiraImagem ? getImagemUrl(primeiraImagem.url) : '/assets/img/placeholder.jpg';
+
+            const noticiaCard = document.createElement('div');
+            noticiaCard.className = 'col-md-6 col-lg-4 mb-4';
+            noticiaCard.innerHTML = `
+                <div class="card h-100 shadow-sm">
+                <img src="${imagemUrl}" 
+                    class="card-img-top"
+                    alt="${noticia.titulo}"
+                    style="height: 200px; object-fit: cover;"
+                    onerror="this.onerror=null; this.src='/assets/img/placeholder.jpg'">
+                <div class="card-body">
+                    <h5 class="card-title">${noticia.titulo || 'Sem título'}</h5>
+                    <p class="card-text">
+                    ${noticia.descricao ? 
+                        (noticia.descricao.length > 200 ? 
+                            noticia.descricao.substring(0, 200) + '...' : 
+                            noticia.descricao) : 
+                        'Sem descrição'}
+                    </p>
+                    <button class="btn btn-outline-primary botao-som">
+                    <i class="fas fa-volume-up"></i> Ouvir
+                    </button>
+                </div>
+        
+                <div class="card-footer d-flex justify-content-between align-items-center">
+                    <small class="text-muted">${formatarData(noticia.created_at)}</small>
+                    <a href="noticias-detalhes?id=${noticia.id}">
+                    Ler Notícia
+                    </a>
+                </div>
+                </div>
+            `;
+
+            noticiasContainer.appendChild(noticiaCard);
+        });
+    // Configura todos os botões de som após criar os cards
+    configurarBotoesSom();
+    
+
+        // Atualiza a paginação
+        if (data.totalPages > 1) {
+            atualizarPaginacao(data.totalPages, pagina);
+        }
+
+        } catch (error) {
+            console.error('Erro ao carregar notícias:', error);
+            document.getElementById('noticiasContainer').innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <i class="fa fa-exclamation-triangle"></i> 
+                        ${error.message || 'Erro ao carregar notícias'}
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function configurarBotoesSom() {
+        const botoesSom = document.querySelectorAll('.botao-som');
+        
+        botoesSom.forEach(botao => {
+            let estaFalando = false;
+            let vozAtual = null;
+
+            botao.addEventListener('click', function() {
+                const card = this.closest('.card');
+                const titulo = card.querySelector('.card-title').textContent;
+                const descricao = card.querySelector('.card-text').textContent;
+                const descricaoFooter = card.querySelector('.card-footer').textContent;
+
+                const conteudoParaLer = `${titulo}. ${descricao}. ${descricaoFooter}`;
+
+                if (estaFalando) {
+                    window.speechSynthesis.cancel();
+                    botao.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir';
+                    botao.classList.remove('btn-primary');
+                    botao.classList.add('btn-outline-primary');
+                    estaFalando = false;
+                } else {
+                    vozAtual = new SpeechSynthesisUtterance(conteudoParaLer);
+                    vozAtual.lang = 'pt-BR';
+                    vozAtual.rate = 0.9;
+
+                    vozAtual.onstart = function() {
+                        botao.innerHTML = '<i class="fas fa-volume-up"></i> Parar';
+                        botao.classList.remove('btn-outline-primary');
+                        botao.classList.add('btn-primary');
+                        estaFalando = true;
+                    };
+
+                    vozAtual.onend = vozAtual.onerror = function() {
+                        botao.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir';
+                        botao.classList.remove('btn-primary');
+                        botao.classList.add('btn-outline-primary');
+                        estaFalando = false;
+                    };
+
+                    window.speechSynthesis.speak(vozAtual);
+                }
+            });
+        });
+    } 
+    // Função para atualizar a paginação
+    function atualizarPaginacao(totalPaginas, paginaAtual, isBusca = false) {
+        const paginacao = document.getElementById('paginacaoNoticias');
+        
+        if (totalPaginas <= 1) {
+            paginacao.innerHTML = '';
+            return;
+        }
+
+        let html = '<ul class="pagination">';
+        
+        // Botão Anterior
+        if (paginaAtual > 1) {
+            html += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="${isBusca ? 'buscarNoticias' : 'carregarNoticias'}(${paginaAtual - 1})">
+                        &laquo;
+                    </a>
+                </li>
+            `;
+        }
+
+        // Páginas
+        for (let i = 1; i <= totalPaginas; i++) {
+            html += `
+                <li class="page-item ${i === paginaAtual ? 'active' : ''}">
+                    <a class="page-link" href="#" onclick="${isBusca ? 'buscarNoticias' : 'carregarNoticias'}(${i})">
+                        ${i}
+                    </a>
+                </li>
+            `;
+        }
+
+        // Botão Próximo
+        if (paginaAtual < totalPaginas) {
+            html += `
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="${isBusca ? 'buscarNoticias' : 'carregarNoticias'}(${paginaAtual + 1})">
+                        &raquo;
+                    </a>
+                </li>
+            `;
+        }
+
+        html += '</ul>';
+        paginacao.innerHTML = html;
+    }
+
+
+    // Função para abrir modal de edição
+    function abrirModalEditar(id) {
+        window.location.href = `/admin/noticias/editarNoticias?id=${id}`;
+    }
+
+    // Função para abrir modal de imagens
+    async function abrirModalImagens(id) {
+        try {
+            // Mostra o modal imediatamente com um spinner
+            $('#imagensModal').modal('show');
+            
+            // Atualiza o corpo do modal para mostrar carregamento
+            document.getElementById('modalImagensBody').innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">Carregando imagens...</p>
+                </div>
+            `;
+
+            // Faz a requisição para obter as imagens
+            const response = await fetch(`/api/noticias/obter/${id}`);
+            
+            if (!response.ok) {
+                throw new Error('Erro ao carregar notícia');
+            }
+
+            const { data: noticia } = await response.json();
+            
+            if (!noticia.imagens || noticia.imagens.length === 0) {
+                document.getElementById('modalImagensBody').innerHTML = `
+                    <div class="alert alert-info text-center">
+                        Esta notícia não possui imagens
+                    </div>
+                `;
+                return;
+            }
+
+            // Função para construir a URL da imagem corretamente
+            function getImageUrl(imagePath) {
+                if (!imagePath) return '/assets/img/placeholder.jpg';
+                
+                // Se já for uma URL completa, retorna diretamente
+                if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                    return imagePath;
+                }
+                
+                // Remove barras iniciais se existirem
+                const cleanedPath = imagePath.startsWith('/') ? 
+                    imagePath.substring(1) : imagePath;
+                
+                return `https://vida-em-gotas.s3.us-east-2.amazonaws.com/${cleanedPath}`;
+            }
+
+            // Cria o HTML do carrossel
+            const carouselHtml = `
+                <div id="carouselNoticiaImagens" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        ${noticia.imagens.map((img, index) => `
+                            <div class="carousel-item ${index === 0 ? 'active' : ''}">
+                                <img src="${getImageUrl(img.url)}" 
+                                    class="d-block w-100" 
+                                    style="max-height: 70vh; object-fit: contain;"
+                                    alt="Imagem ${index + 1} da notícia"
+                                    onerror="this.onerror=null;this.src='/assets/img/placeholder.jpg'">
+                                ${noticia.imagens.length > 1 ? `
+                                    <div class="carousel-caption d-none d-md-block">
+                                        <span class="badge bg-dark">${index + 1}/${noticia.imagens.length}</span>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    ${noticia.imagens.length > 1 ? `
+                        <a class="carousel-control-prev" href="#carouselNoticiaImagens" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Anterior</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselNoticiaImagens" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Próximo</span>
+                        </a>
+                    ` : ''}
+                </div>
+                
+                ${noticia.imagens.length > 1 ? `
+                    <ol class="carousel-indicators mt-2">
+                        ${noticia.imagens.map((img, index) => `
+                            <li data-target="#carouselNoticiaImagens" 
+                                data-slide-to="${index}" 
+                                class="${index === 0 ? 'active' : ''}"></li>
+                        `).join('')}
+                    </ol>
+                ` : ''}
+            `;
+
+            // Insere o carrossel no modal
+            document.getElementById('modalImagensBody').innerHTML = carouselHtml;
+
+        } catch (error) {
+            console.error('Erro ao abrir modal de imagens:', error);
+            document.getElementById('modalImagensBody').innerHTML = `
+                <div class="alert alert-danger">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    ${error.message || 'Erro ao carregar imagens'}
+                </div>
+            `;
+        }
+    }
+         
+  
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', function() {
+        carregarNoticias();
+        
+        // Configura o evento de busca
+        document.getElementById('campoBuscaNoticias').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarNoticias();
+            }
+        });
+    });
+    
+</script>
+
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

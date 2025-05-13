@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+	<title>Admin - Vida em Gotas - Listar Doadoras</title>
+   
+	<script src="../../admin/js/auth/autorizacao.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<!-- NProgress -->
+	<link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+	<!-- iCheck -->
+	<link href="../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	<!-- bootstrap-wysiwyg -->
+	<link href="../../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+	<!-- Select2 -->
+	<link href="../../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+	<!-- Switchery -->
+	<link href="../../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+	<!-- starrr -->
+	<link href="../../vendors/starrr/dist/starrr.css" rel="stylesheet">
+	<!-- bootstrap-daterangepicker -->
+	<link href="../../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+	<!-- Custom Theme Style -->
+	<link href="../../build/css/custom.min.css" rel="stylesheet">
+	<!-- SweetAlert2 -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+	<!-- Importando o Menu -->
+	<script src="../../admin/components/menu_left/index.js"></script>
+	<script src="../../admin/components/menu_top/index.js"></script>
+	<script src="../../admin/components/menu_footer/index.js"></script>
+
+	<style>
+		/* Efeito hover apenas no botão "Ver" */
+		.btn-outline-info.btn-xs:hover {
+			background-color: #2877ab !important;
+			/* Cor de fundo ao passar o mouse */
+		}
+
+		table.table td,
+		tr {
+			text-align: center;
+		}
+
+		.btn-status {
+			min-width: 70px;
+			/* Largura fixa */
+			display: inline-block;
+			text-align: center;
+		}
+
+		/* Adicione isso no seu <style> dentro do <head> */
+		.btn-leite {
+			min-width: 140px !important;
+			/* Largura fixa para ambos os botões */
+			text-align: center !important;
+			display: inline-block !important;
+			box-sizing: border-box !important;
+		}
+
+		/* Estilo específico para o botão indisponível */
+		.btn-leite.btn-link.text-danger {
+			color: #dc3545 !important;
+			background-color: transparent !important;
+			border: 1px solid #dc3545 !important;
+			opacity: 0.7 !important;
+			cursor: not-allowed !important;
+		}
+
+		/* Remove o sublinhado do link */
+		.btn-leite.btn-link.text-danger:hover {
+			text-decoration: none !important;
+		}
+
+		.btn.btn-outline-info.btn-xs {
+			background-color: var(--cor-primaria);
+			color: white;
+		}
+	</style>
+
+</head>
+
+<body class="nav-md">
+
+	<script>
+		// Verifica se o usuário está autenticado
+		checarAutorizacao();
+	</script>
+
+	<div class="container body" id="conteudo">
+		<div class="main_container">
+			<div class="col-md-3 left_col">
+				<div class="left_col scroll-view">
+					<div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                        <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+					</div>
+
+					<div class="clearfix"></div>
+
+					<br />
+
+					<!-- sidebar menu -->
+					<menu-left></menu-left>
+					<!-- /sidebar menu -->
+
+				</div>
+			</div>
+
+			<!-- top navigation -->
+			<menu-top></menu-top>
+			<!-- /top navigation -->
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>Listar Doadoras</h3>
+						</div>
+						<div class="title_right">
+							<div class="col-md-12 col-sm-12 form-group">  <!-- Ocupa toda a largura -->
+								<div class="float-right">  <!-- Flutuação à direita -->
+									<a href="/admin/doadoras/criar-doadoras" class="btn btn-success">
+										<i class="fa fa-plus"></i> Nova Doadora
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_content">
+									<br />
+
+									
+
+									<div class="form-group">
+										<!-- Filtro por Tipo de Doador -->
+										<div class="page-title" style="margin-bottom: 30px;">  <!-- Adicionei margin-bottom aqui -->
+											<div class="row">
+												<!-- Coluna esquerda (título e busca) -->
+												<div class="col-md-8 col-sm-8">
+													<div class="title_left">
+														<h2><i class="fa fa-users"></i> Doadoras</h2>
+													</div>
+													
+													<!-- Área de busca -->
+													<div class="form-group top_search" >
+														<div class="input-group">
+															<input type="text" id="campoBusca" class="form-control" 
+																   onkeyup="buscarDoadores()" placeholder="Buscar doadora pelo Nome">
+															<span class="input-group-btn">
+																<button class="btn btn-default" type="button" onclick="buscarDoadores()">
+																	<i class="fa fa-search"></i>Buscar
+																</button>
+															</span>
+														</div>
+													</div>
+												</div>
+												
+											
+											</div>
+										</div>
+									
+										<table class="table table-striped projects">
+											<thead>
+												<tr>
+													<th style="width: 5%">#</th>
+													<th style="width: 20%">Nome</th>
+													<th style="width: 25%">Telefone</th>
+													<th style="width: 50%">Ações</th>
+												</tr>
+											</thead>
+											<tbody id="tabelaDoadores">
+												<!-- Resultados aparecem aqui -->
+											</tbody>
+										</table>
+									</div>
+
+
+
+									<label for="tipo-doador-select">
+										<h2>
+											<i class="fa fa-filter"></i> Filtrar por Tipo de Doador
+										</h2>
+									</label>
+									<select id="tipo-doador-select" class="form-control" onchange="carregarDoador()">
+										<option value="">Todos</option>
+									</select>
+								</div>
+
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											        <th style="width: 5%">#</th>
+											       <th style="width: 20%">Nome</th>
+											       <th style="width: 25%">Telefone</th>
+											       <th style="width: 50%">Ações</th>
+										</tr>
+									</thead>
+									<tbody id="doador-corpo">
+										<!-- As linhas da tabela serão preenchidas aqui -->
+									</tbody>
+								</table>
+
+
+								<!-- Modal simplificado para adicionar leite -->
+								<!-- Modal para adicionar leite -->
+								<div id="modal-adicionar-leite" class="modal fade" tabindex="-1" role="dialog">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title">Adicionar Leite</h5>
+												<button type="button" class="close"
+													data-dismiss="modal">&times;</button>
+											</div>
+											<div class="modal-body">
+												<input type="hidden" id="leite-doador-id">
+
+												<div class="form-group">
+													<label>Doadora: <span id="leite-doador-nome"
+															class="font-weight-bold"></span></label>
+												</div>
+
+												<div class="form-group">
+													<label>Quantidade Atual (mL):</label>
+													<input type="number" id="leite-quantidade-atual"
+														class="form-control" readonly>
+												</div>
+
+												<div class="form-group">
+													<label>Quantidade a Adicionar (mL):</label>
+													<input type="number" id="leite-quantidade-adicionar"
+														class="form-control" min="1" value="1">
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-primary"
+													onclick="confirmarAdicaoLeite()">Adicionar</button>
+												<button type="button" class="btn btn-secondary"
+													data-dismiss="modal">Cancelar</button>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<!-- // Modal para exibir detalhes do doador		 -->
+
+								<script>
+									//
+									async function abrirModalAdicionarLeite(id, nome) {
+										try {
+											// Primeiro busca os dados atualizados da doadora
+											const response = await fetch(`/api/doadoras/obter/${id}`);
+
+											if (!response.ok) {
+												throw new Error(`Erro HTTP: ${response.status}`);
+											}
+
+											const doadora = await response.json();
+
+
+											// Preenche os campos do modal com os dados obtidos
+											document.getElementById('leite-doador-id').value = id;
+											document.getElementById('leite-doador-nome').textContent = nome;
+
+											// Acessa a quantidade de leite corretamente (verifique o nome exato no console)
+											const quantidadeLeite = doadora['Quantidade de Leite (mL)'] || doadora.quantidadeLeite || doadora.quantidade_leite_ml || 0;
+											document.getElementById('leite-quantidade-atual').value = quantidadeLeite;
+
+											document.getElementById('leite-quantidade-adicionar').value = 1;
+
+											// Abre o modal
+											$('#modal-adicionar-leite').modal('show');
+										} catch (error) {
+											console.error('Erro ao buscar dados da doadora:', error);
+											Swal.fire({
+												icon: 'error',
+												title: 'Erro ao carregar dados',
+												text: 'Não foi possível carregar os dados da doadora: ' + error.message,
+											});
+										}
+									}
+
+
+									//
+									async function confirmarAdicaoLeite() {
+										const doadorId = document.getElementById('leite-doador-id').value;
+										const quantidadeAtual = parseFloat(document.getElementById('leite-quantidade-atual').value) || 0;
+										const quantidadeAdicionar = parseFloat(document.getElementById('leite-quantidade-adicionar').value) || 0;
+										const novaQuantidade = quantidadeAtual + quantidadeAdicionar;
+
+										if (!quantidadeAdicionar || quantidadeAdicionar <= 0) {
+											Swal.fire({
+											icon: 'warning',
+											title: 'Aviso',
+											text: 'Por favor, informe uma quantidade válida para adicionar',
+										});
+										return;
+										}
+										try {
+											const response = await fetch(`/api/doadoras/${doadorId}/adicionar-leite`, {
+												method: 'PUT',
+												headers: {
+													'Content-Type': 'application/json',
+												},
+												body: JSON.stringify({
+													quantidade_leite_ml: quantidadeAdicionar,
+													// Inclui ambos os formatos para compatibilidade
+													'Quantidade de Leite (mL)': quantidadeAdicionar
+												})
+											});
+
+											if (!response.ok) {
+												const errorData = await response.json().catch(() => ({}));
+												throw new Error(errorData.message || `Erro HTTP: ${response.status}`);
+											}
+
+											const result = await response.json();
+											Swal.fire({
+												icon: 'success',
+												title: 'Sucesso!',
+												text: `Adicionado ${quantidadeAdicionar}mL com sucesso! Nova quantidade: ${novaQuantidade}mL`,
+											}).then(() => {
+												$('#modal-adicionar-leite').modal('hide');
+											});
+
+
+											// Atualiza a interface (use a mesma função que já funciona)
+											if (typeof carregarDoador === 'function') {
+												carregarDoador();
+											} else {
+												location.reload();
+											}
+										} catch (error) {
+											console.error('Erro ao adicionar leite:', error);
+											Swal.fire({
+												icon: 'error',
+												title: 'Erro ao adicionar leite',
+												text: 'Erro ao adicionar leite: ' + error.message,
+											});
+
+										}
+									}
+
+
+									// Buscar Doadoras
+									async function buscarDoadores() {
+										const nome = document.getElementById("campoBusca").value.trim(); // Remove espaços em branco
+										const tabela = document.getElementById("tabelaDoadores");
+
+										// Limpa a tabela antes de fazer a busca
+										tabela.innerHTML = "";
+
+										// Se o campo de busca estiver vazio, não faz a requisição
+										if (!nome) {
+											return; // Sai da função sem fazer nada
+										}
+
+										try {
+											// Faz a requisição para a API com o parâmetro de busca
+											const response = await fetch(`/api/doadoras/busca?nome=${nome}`);
+											const doadoras = await response.json(); // Recebe o array de doadoras diretamente
+
+											// Se não houver doadoras, exibe uma mensagem ou mantém a tabela vazia
+											if (doadoras.length === 0) {
+												tabela.innerHTML = "<tr><td colspan='5'>Nenhuma doadora encontrada.</td></tr>";
+												return;
+											}
+
+											// Itera sobre as doadoras retornadas e cria as linhas da tabela
+											doadoras.forEach((doador, index) => {
+												// Formata os telefones (se houver)
+												const telefonesFormatados = doador.telefones
+													? doador.telefones.join(', ') // Junta os telefones com vírgula
+													: 'N/A'; // Caso não haja telefones
+
+												// Cria o botão de situação
+												const botaoSituacao = `
+												<button class="btn btn-xs ${doador.situacao ? 'btn-success' : 'btn-secondary'}" 
+													onclick="alternarSituacao(${doador.id}, this)">
+													${doador.situacao ? 'Apta' : 'Inapta'}
+												</button>
+												`;
+
+												// Cria a linha da tabela
+												const row = `
+												<tr>
+													<td>${index + 1}</td>
+													<td>${doador.nome}</td>
+													<td>${telefonesFormatados}</td>
+
+												<td>
+													<!-- Ver -->
+													<a href="#" class="btn btn-outline-info btn-xs" onclick="detalharDoador(${doador.id})">
+														<i class="fa fa-eye"></i> Ver
+													</a>
+
+													<!-- Deletar -->
+													<a href="#" class="btn btn-danger btn-xs" onclick="confirmarExclusao(${doador.id}, '${doador.nome.replace(/'/g, "\\'")}')">
+														<i class="fa fa-trash"></i> Deletar
+													</a>
+
+													<!-- Status -->
+													<button class="btn btn-xs ${doador.situacao ? 'btn-success' : 'btn-danger'} btn-status" 
+														onclick="alternarSituacao(${doador.id}, this)">
+														${doador.situacao ? 'Apta' : 'Inapta'}
+													</button>
+
+													<!-- Adicionar Leite -->
+													<button class="btn btn-xs btn-leite ${doador.situacao ? 'btn-success' : 'btn-link text-danger'}" 
+														onclick="${doador.situacao ? `abrirModalAdicionarLeite(${doador.id}, '${doador.nome.replace(/'/g, "\\'")}')` : 'return false;'}"
+														${!doador.situacao ? 'disabled title="Doadora inapta não pode adicionar leite"' : ''}>
+														<i class="fa ${doador.situacao ? 'fa-plus-circle' : 'fa-minus-circle'}"></i>
+														${doador.situacao ? 'Adicionar Leite' : 'Indisponível'}
+													</button>
+
+												</td>
+												`;
+												tabela.innerHTML += row; // Adiciona a linha à tabela
+											});
+										} catch (error) {
+											console.error("Erro ao buscar doadoras:", error);
+											tabela.innerHTML = "<tr><td colspan='5'>Erro ao buscar doadoras. Tente novamente.</td></tr>";
+										}
+									}
+
+									// Carregar Tipos de Doador
+									async function carregarTiposDeDoador() {
+										try {
+											// Obtém o elemento <select> pelo ID
+											const selectTipos = document.getElementById('tipo-doador-select');
+
+											// Limpa o select antes de preencher
+											selectTipos.innerHTML = '<option value="">Todos</option>'; // Opção padrão
+
+											// Define as opções de filtro com base no campo "situacao"
+											const opcoes = [
+												{ value: 'true', text: 'Apta' }, // situacao = TRUE
+												{ value: 'false', text: 'Inapta' } // situacao = FALSE
+											];
+
+											// Adiciona as opções ao <select>
+											opcoes.forEach(opcao => {
+												const option = document.createElement('option');
+												option.value = opcao.value;
+												option.textContent = opcao.text;
+												selectTipos.appendChild(option);
+											});
+
+										} catch (error) {
+											console.error('Erro ao carregar tipos de doador:', error);
+										}
+									}
+
+									// Carregar Doadores com Filtro
+									let paginaAtual = 1;
+									const doadoresPorPagina = 10;
+
+									// Função para carregar doadoras
+									async function carregarDoador(pagina = 1) {
+										try {
+											// Obtém o valor selecionado no filtro de situação
+											const situacaoSelecionada = document.getElementById('tipo-doador-select').value;
+
+											// Monta a URL com paginação e filtro (se houver)
+											let url = `/api/doadoras/listar?page=${pagina}&limit=${doadoresPorPagina}`;
+											if (situacaoSelecionada) {
+												url += `&situacao=${situacaoSelecionada}`; // Adiciona o filtro de situação
+											}
+
+											// Faz a requisição para o backend
+											const response = await fetch(url);
+											const { doadoras, totalPaginas } = await response.json();
+
+											// Obtém o corpo da tabela e limpa o conteúdo atual
+											const doadorCorpo = document.getElementById('doador-corpo');
+											doadorCorpo.innerHTML = '';
+
+											// Itera sobre as doadoras retornadas e cria as linhas da tabela
+											doadoras.forEach((doador, index) => {
+												const linhaDoador = document.createElement('tr');
+
+												// Formata os telefones (se houver)
+												const telefonesFormatados = doador.telefones
+													? doador.telefones.join(', ') // Junta os telefones com vírgula
+													: 'N/A'; // Caso não haja telefones
+
+												// Cria o botão de situação
+												const botaoSituacao = `
+												<button class="btn btn-xs ${doador.situacao ? 'btn-success' : 'btn-secondary'}" 
+													onclick="alternarSituacao(${doador.id}, this)">
+													${doador.situacao ? 'Apta' : 'Inapta'}
+												</button>`;
+
+												// Preenche a linha da tabela com os dados da doadora
+												linhaDoador.innerHTML = `
+												<td>${(pagina - 1) * doadoresPorPagina + index + 1}</td>
+												<td>${doador.nome}</td>
+												<td>${telefonesFormatados}</td>
+               
+												<td>
+													<!-- Ver -->
+													<a href="#" class="btn btn-outline-info btn-xs" onclick="detalharDoador(${doador.id})">
+														<i class="fa fa-eye"></i> Ver
+													</a>
+
+													<!-- Status -->
+													<button class="btn btn-xs ${doador.situacao ? 'btn-success' : 'btn-danger'} btn-status" 
+														onclick="alternarSituacao(${doador.id}, this)">
+														${doador.situacao ? 'Apta' : 'Inapta'}
+													</button>
+
+													<!-- Adicionar Leite -->
+													<button class="btn btn-xs btn-leite ${doador.situacao ? 'btn-success' : 'btn-link text-danger'}" 
+														onclick="${doador.situacao ? `abrirModalAdicionarLeite(${doador.id}, '${doador.nome.replace(/'/g, "\\'")}')` : 'return false;'}"
+														${!doador.situacao ? 'disabled title="Doadora inapta não pode adicionar leite"' : ''}>
+														<i class="fa ${doador.situacao ? 'fa-plus-circle' : 'fa-minus-circle'}"></i>
+														${doador.situacao ? 'Adicionar Leite' : 'Indisponível'}
+													</button>
+
+													<!-- Deletar -->
+													<a href="#" class="btn btn-danger btn-xs" onclick="confirmarExclusao(${doador.id}, '${doador.nome.replace(/'/g, "\\'")}')">
+														<i class="fa fa-trash"></i> Deletar
+													</a>
+												</td>`;
+
+												// Adiciona a linha à tabela
+												doadorCorpo.appendChild(linhaDoador);
+											});
+
+											// Atualiza a paginação
+											atualizarPaginacao(totalPaginas, pagina);
+
+										} catch (error) {
+											console.error('Erro ao carregar doadoras:', error);
+										}
+									}
+
+									// Função para alternar a situação da doadora (Ativa/Inativa)
+									async function alternarSituacao(id, botao) {
+										try {
+											// Obtém o estado atual baseado no texto do botão (case insensitive)
+											const situacaoAtual = botao.textContent.trim().toLowerCase() === 'apta';
+											const novaSituacao = !situacaoAtual;
+
+											const response = await fetch(`/api/doadora/status/${id}`, {
+												method: 'PUT',
+												headers: {
+													'Content-Type': 'application/json',
+												},
+												body: JSON.stringify({ situacao: novaSituacao }),
+											});
+
+											if (response.ok) {
+												const data = await response.json();
+
+												// Atualiza o texto e a classe do botão de status
+												botao.textContent = data.situacao ? 'Apta' : 'Inapta';
+												botao.className = `btn btn-xs ${data.situacao ? 'btn-success' : 'btn-danger'} btn-status`;
+
+												// Encontra o botão de adicionar leite na mesma linha
+												const linha = botao.closest('tr');
+												const botaoLeite = linha.querySelector('.btn-leite');
+
+												if (botaoLeite) {
+													// Atualiza o botão de adicionar leite
+													if (data.situacao) {
+														botaoLeite.className = 'btn btn-xs btn-leite btn-success';
+														botaoLeite.innerHTML = '<i class="fa fa-plus-circle"></i> Adicionar Leite';
+														botaoLeite.onclick = function () {
+															abrirModalAdicionarLeite(id, linha.cells[1].textContent);
+														};
+														botaoLeite.disabled = false;
+														botaoLeite.title = '';
+													} else {
+														botaoLeite.className = 'btn btn-xs btn-leite btn-link text-danger';
+														botaoLeite.innerHTML = '<i class="fa fa-minus-circle"></i> Indisponível';
+														botaoLeite.onclick = null;
+														botaoLeite.disabled = true;
+														botaoLeite.title = 'Doadora inapta não pode adicionar leite';
+													}
+												}
+											} else {
+												console.error('Erro ao atualizar a situação:', await response.text());
+												// Mantém o estado atual em caso de erro
+												botao.textContent = situacaoAtual ? 'Apta' : 'Inapta';
+												botao.className = `btn btn-xs ${situacaoAtual ? 'btn-success' : 'btn-danger'} btn-status`;
+											}
+										} catch (error) {
+											console.error('Erro ao alternar situação:', error);
+											// Mantém o estado atual em caso de erro
+											const situacaoAtual = botao.textContent.trim().toLowerCase() === 'apta';
+											botao.textContent = situacaoAtual ? 'Apta' : 'Inapta';
+											botao.className = `btn btn-xs ${situacaoAtual ? 'btn-success' : 'btn-danger'} btn-status`;
+										}
+									}
+
+									// função para atualizar a paginação
+									async function atualizarPaginacao(totalPaginas, paginaAtual) {
+										const paginacao = document.getElementById('paginacao');
+										paginacao.innerHTML = ''; // Limpa a paginação antes de atualizar
+
+										// Botão "Anterior"
+										if (paginaAtual > 1) {
+											paginacao.innerHTML += `
+											<li class="page-item">
+												<a class="page-link" href="#" onclick="carregarDoador(${paginaAtual - 1})">&laquo;</a>
+											</li>`;
+										}
+
+										// Botões de páginas
+										for (let i = 1; i <= totalPaginas; i++) {
+											paginacao.innerHTML += `
+											<li class="page-item ${i === paginaAtual ? 'active' : ''}">
+												<a class="page-link" href="#" onclick="carregarDoador(${i})">${i}</a>
+											</li>`;
+										}
+
+										// Botão "Próximo"
+										if (paginaAtual < totalPaginas) {
+											paginacao.innerHTML += `
+											<li class="page-item">
+												<a class="page-link" href="#" onclick="carregarDoador(${paginaAtual + 1})">&raquo;</a>
+											</li>`;
+										}
+									}
+
+
+									// Função para deletar uma doadora
+									// Função para confirmar a exclusão (agora recebe id e nome)
+									function confirmarExclusao(id, nome) {
+										Swal.fire({
+											title: `Tem certeza que deseja excluir a doadora "${nome}"?`,
+											text: "Você não poderá reverter isso!",
+											icon: 'warning',
+											showCancelButton: true,
+											confirmButtonColor: '#3085d6',
+											cancelButtonColor: '#d33',
+											confirmButtonText: 'Sim, deletar!',
+											cancelButtonText: 'Cancelar'
+										}).then((result) => {
+											if (result.isConfirmed) {  // Only execute if user confirmed
+												excluirDoadora(id).then(() => {
+													// Recarrega a página após a exclusão bem-sucedida
+													window.location.reload();
+												}).catch(error => {
+													console.error('Erro:', error);
+													Swal.fire({
+														title: 'Erro!',
+														text: error.message || 'Falha ao excluir doadora',
+														icon: 'error',
+														confirmButtonText: 'Entendi'
+													});
+												});
+											}
+										});
+									}
+
+
+									// Função que faz a requisição DELETE
+									async function excluirDoadora(id) {
+										try {
+											const response = await fetch(`/api/doadoras/delete/${id}`, {
+												method: 'DELETE',
+												headers: {
+													'Content-Type': 'application/json',
+												}
+											});
+
+											const data = await response.json();
+
+											if (!response.ok) {
+												throw new Error(data.message || 'Erro ao excluir doadora');
+											}
+
+											// Feedback visual
+											Swal.fire({
+												title: 'Excluído!',
+												text: 'Doadora removido com sucesso',
+												icon: 'success',
+												timer: 1500,
+												timerProgressBar: true,
+												showConfirmButton: false
+											});
+
+											return data; // Return the response data
+
+										} catch (error) {
+											console.error('Erro:', error);
+											throw error; // Re-throw the error to be caught by the calling function
+										}
+									}
+
+
+									//função para abrir o modal de edição
+									async function abrirModalEditar(id, nome, coletaDomiciliar, doadoraExclusiva) {
+										// Preenche os campos do modal com os dados da doadora
+										document.getElementById('doador-id').value = id;
+										document.getElementById('doador-nome').value = nome;
+
+										// Seleciona o valor correto para "Coleta Domiciliar"
+										const selectColetaDomiciliar = document.getElementById('doador-coleta-domiciliar');
+										selectColetaDomiciliar.value = coletaDomiciliar || 'Não';
+
+										// Seleciona o valor correto para "Doadora Exclusiva"
+										const selectDoadoraExclusiva = document.getElementById('doadora-exclusiva');
+										selectDoadoraExclusiva.value = doadoraExclusiva || 'Não';
+
+										// Abre o modal
+										$('#modal-editar').modal('show');
+									}
+
+								
+
+									// Função para abrir o modal e preencher os dados
+									function abrirModalDetalhe(doadora) {
+										// Preenche os campos do modal com os dados da doadora
+										document.getElementById('detalhe-nome').textContent = doadora.nome || 'Não informado';
+										document.getElementById('detalhe-nome-mae').textContent = doadora.nome_da_mae || 'Não informado';
+										document.getElementById('detalhe-data-cadastro').textContent = doadora.data_de_cadastro || 'Não informado';
+										document.getElementById('detalhe-data-nascimento').textContent = doadora.data_de_nascimento || 'Não informado';
+										document.getElementById('detalhe-naturalidade').textContent = doadora.naturalidade || 'Não informado';
+										document.getElementById('detalhe-profissao').textContent = doadora.profissao || 'Não informado';
+										document.getElementById('detalhe-quantidade-leite').textContent = doadora.quantidade_leite_ml !== undefined ? doadora.quantidade_leite_ml : 'Não informado';
+										document.getElementById('detalhe-coleta-domiciliar').textContent = doadora.coleta_domiciliar ? 'Sim' : 'Não';
+										document.getElementById('detalhe-doadora-exclusiva').textContent = doadora.doadora_exclusiva ? 'Sim' : 'Não';
+										document.getElementById('detalhe-situacao').textContent = doadora.situacao ? 'Ativa' : 'Inativa';
+										document.getElementById('detalhe-receptor').textContent = doadora.receptor || 'Não informado';
+
+										// Telefones
+										const telefonesFormatados = doadora.telefones ? doadora.telefones.join(', ') : 'Não informado';
+										document.getElementById('detalhe-telefones').textContent = telefonesFormatados;
+
+										// Endereço (assumindo que há apenas um endereço)
+										const endereco = doadora.enderecos && doadora.enderecos.length > 0 ? doadora.enderecos[0] : null;
+										document.getElementById('detalhe-cep').textContent = endereco?.cep || 'Não informado';
+										document.getElementById('detalhe-logradouro').textContent = endereco?.logradouro || 'Não informado';
+										document.getElementById('detalhe-numero').textContent = endereco?.numero || 'Não informado';
+										document.getElementById('detalhe-bairro').textContent = endereco?.bairro || 'Não informado';
+										document.getElementById('detalhe-ponto-referencia').textContent = endereco?.ponto_de_referencia || 'Não informado';
+										document.getElementById('detalhe-municipio').textContent = endereco?.municipio || 'Não informado';
+										document.getElementById('detalhe-latitude').textContent = endereco?.latitude || 'Não informado';
+										document.getElementById('detalhe-longitude').textContent = endereco?.longitude || 'Não informado';
+
+										// Define o ID da doadora como data attribute no modal
+										document.getElementById("modal-detalhe").setAttribute("data-id", doadora.id);
+									}
+
+									// função detalharDoador
+									async function detalharDoador(id) {
+										try {
+											const response = await fetch(`/api/doadoras/obter/${id}`);
+											const doadora = await response.json();
+
+											abrirModalDetalhe(doadora);
+
+											$('#modal-detalhe').modal('show');
+										} catch (error) {
+											console.error('Erro ao carregar detalhes do doadora:', error);
+											Swal.fire({
+												icon: 'error',
+												title: 'Erro ao carregar detalhes',
+												text: 'Erro ao carregar detalhes do doadora.',
+											});
+										}
+									}
+
+									// Modal para exibir detalhes do doador
+									const modalDetalheHTML = `
+									<div id="modal-detalhe" class="modal fade" tabindex="-1" role="dialog">
+										<div class="modal-dialog modal-lg" role="document">
+											<div class="modal-content">
+												<div class="modal-header bg-primary text-white">
+													<h5 class="modal-title">Detalhes da Doadora</h5>
+													<button type="button" class="close text-white" data-dismiss="modal" aria-label="Fechar">
+														<span aria-hidden="true">&times;</span>
+													</button>
+												</div>
+												<div class="modal-body">
+													<div class="row">
+														<div class="col-md-6">
+															<h6 class="font-weight-bold">Informações Pessoais</h6>
+															<p><strong>Nome:</strong> <span id="detalhe-nome"></span></p>
+															<p><strong>Nome da Mãe:</strong> <span id="detalhe-nome-mae"></span></p>
+															<p><strong>Data de Cadastro:</strong> <span id="detalhe-data-cadastro"></span></p>
+															<p><strong>Data de Nascimento:</strong> <span id="detalhe-data-nascimento"></span></p>
+															<p><strong>Naturalidade:</strong> <span id="detalhe-naturalidade"></span></p>
+															<p><strong>Profissão:</strong> <span id="detalhe-profissao"></span></p>
+															<p><strong>Quantidade de Leite (mL):</strong> <span id="detalhe-quantidade-leite"></span></p>
+															<p><strong>Coleta Domiciliar:</strong> <span id="detalhe-coleta-domiciliar"></span></p>
+															<p><strong>Doadora Exclusiva:</strong> <span id="detalhe-doadora-exclusiva"></span></p>
+															<p><strong>Situação:</strong> <span id="detalhe-situacao"></span></p>
+															<p><strong>Receptor:</strong> <span id="detalhe-receptor"></span></p>
+															<p><strong>Telefones:</strong> <span id="detalhe-telefones"></span></p>
+														</div>
+														<div class="col-md-6">
+															<h6 class="font-weight-bold">Endereço</h6>
+															<p><strong>CEP:</strong> <span id="detalhe-cep"></span></p>
+															<p><strong>Logradouro:</strong> <span id="detalhe-logradouro"></span></p>
+															<p><strong>Número:</strong> <span id="detalhe-numero"></span></p>
+															<p><strong>Bairro:</strong> <span id="detalhe-bairro"></span></p>
+															<p><strong>Ponto de Referência:</strong> <span id="detalhe-ponto-referencia"></span></p>
+															<p><strong>Município:</strong> <span id="detalhe-municipio"></span></p>
+															<h6 class="font-weight-bold mt-3">Localização</h6>
+															<p><strong>Latitude:</strong> <span id="detalhe-latitude"></span></p>
+															<p><strong>Longitude:</strong> <span id="detalhe-longitude"></span></p>
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+													<button type="button" class="btn btn-primary" id="btn-editar">Editar</button>
+													<button type="button" class="btn btn-info" id="btn-localizacao">
+														<i class="fas fa-map-marker-alt"></i> Ver no Mapa
+													</button>
+												</div>
+											</div>
+										</div>
+									</div>`;
+
+									// Adiciona o modal ao corpo do documento
+									document.body.insertAdjacentHTML("beforeend", modalDetalheHTML);
+
+									// Adiciona o modal ao corpo do documento
+									document.body.insertAdjacentHTML("beforeend", modalDetalheHTML);
+
+									// Evento para o botão de edição
+									document.getElementById("btn-editar").addEventListener("click", function () {
+										const id = document.getElementById("modal-detalhe").getAttribute("data-id");
+
+
+										if (id) {
+											window.location.href = `/admin/doadora/editar-doadora?id=${id}`; // Redireciona para página de edição
+										} else {
+											Swal.fire({
+											icon: 'error',
+											title: 'Erro',
+											text: 'ID do doadora não encontrada.',
+										});
+										}
+									});
+
+
+									// Botão para abrir a localização no Google Maps
+									document.getElementById("btn-localizacao").addEventListener("click", function () {
+										const latitude = document.getElementById("detalhe-latitude").textContent;
+										const longitude = document.getElementById("detalhe-longitude").textContent;
+
+										if (latitude && longitude && latitude !== "Não informado" && longitude !== "Não informado") {
+											const mapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+											window.open(mapsUrl, "_blank"); // Abre em uma nova aba
+										} else {
+											Swal.fire({
+											icon: 'error',
+											title: 'Erro',
+											text: 'Localização não disponível.',
+										});
+										}
+									});
+
+									// Carregar dados ao iniciar a página
+									window.addEventListener('load', () => {
+
+										carregarTiposDeDoador();
+										carregarDoador(); // Carrega as doadoras inicialmente
+									});
+
+								</script>
+
+								<nav aria-label="Navegação de página">
+									<ul class="pagination justify-content-center" id="paginacao">
+										<!-- Os botões de página serão inseridos via JavaScript -->
+									</ul>
+								</nav>
+
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /page content -->
+
+		<!-- footer content -->
+		<menu-footer></menu-footer>
+		<!-- /footer content -->
+	</div>
+	</div>
+
+
+	<!-- jQuery -->
+	<script src="../../vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- FastClick -->
+	<script src="../../vendors/fastclick/lib/fastclick.js"></script>
+	<!-- NProgress -->
+	<script src="../../vendors/nprogress/nprogress.js"></script>
+	<!-- bootstrap-progressbar -->
+	<script src="../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+	<!-- iCheck -->
+	<script src="../../vendors/iCheck/icheck.min.js"></script>
+	<!-- bootstrap-daterangepicker -->
+	<script src="../../vendors/moment/min/moment.min.js"></script>
+	<script src="../../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script src="../../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+	<script src="../../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+	<script src="../../vendors/google-code-prettify/src/prettify.js"></script>
+	<!-- jQuery Tags Input -->
+	<script src="../../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+	<!-- Switchery -->
+	<script src="../../vendors/switchery/dist/switchery.min.js"></script>
+	<!-- Select2 -->
+	<script src="../../vendors/select2/dist/js/select2.full.min.js"></script>
+	<!-- Parsley -->
+	<script src="../../vendors/parsleyjs/dist/parsley.min.js"></script>
+
+	<!-- Parsley PT-BR -->
+	<script src="../../vendors/parsleyjs/dist/i18n/pt-br.js"></script>
+
+	<!-- Autosize -->
+	<script src="../../vendors/autosize/dist/autosize.min.js"></script>
+	<!-- jQuery autocomplete -->
+	<script src="../../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+	<!-- starrr -->
+	<script src="../../vendors/starrr/dist/starrr.js"></script>
+	<!-- Custom Theme Scripts -->
+	<script src="../../build/js/custom.min.js"></script>
+
+
+
+
+</body>
+
+</html>

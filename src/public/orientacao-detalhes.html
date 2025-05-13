@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vida em Gotas é uma plataforma web dedicada a incentivar a doação de leite materno, promovendo informação, cadastro e mobilização social para salvar vidas de recém-nascidos.">
+  <meta name="keywords" content="doação de leite materno, banco de leite humano, leite materno, saúde neonatal, prematuros, amamentação, voluntariado, Vida em Gotas, coleta de leite humano, geolocalização de postos de coleta, plataforma web de saúde">
+  
+  <title>Guia Completo para Doar Leite | Vida Em Gotas</title>
+
+  <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">    
+
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <script src="assets/components/menu_footer/index.js"></script>
+  <script src="assets/components/menu_top/index.js"></script>
+
+  <script src="assets/components/Contatos/WhattAppButton.js"></script>
+
+  <style>
+    .btn-outline-primary {
+        background-color: #fff !important;
+        border-color: #5b3101 !important;
+        color: #5b3101 !important;
+    }
+    .btn-primary {
+        background-color: #5b3101 !important;
+        border-color: #5b3101 !important;
+        color: #fff !important;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,400;0,500;1,300;1,900&display=swap');
+
+    .main-title {
+        color: #5b3101;
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: 'Prosto One', sans-serif;
+    }
+
+    .descricao-section {
+        margin: 30px 0;
+    }
+
+    .descricao-text {
+        font-size: 1.1rem;
+        color: #5b3101;
+        text-align: justify;
+        text-justify: inter-word;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        font-family: 'Prosto One', sans-serif;
+    }
+
+    .descricao-text p {
+        text-indent: 2em;
+        margin-bottom: 1rem;
+    }
+
+    .media-section {
+        margin: 40px 0;
+    }
+
+    .media-container {
+        width: 100%;
+        height: 600px;
+        overflow: hidden;
+        position: relative;
+        border-radius: 8px;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f8f9fa;
+    }
+
+    .media-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+    }
+    .video-container {
+        margin: 40px 0;
+    }
+
+    .section-title {
+        color: #5b3101;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .info-card {
+        padding: 30px;
+    }
+
+    .section-title i {
+        margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+        .main-title {
+            font-size: 1.5rem;
+        }
+        .media-container {
+            height: 250px;
+        }
+        .section-title {
+            font-size: 1.3rem;
+        }
+        .info-card {
+            padding: 16px;
+        }
+    }
+  </style>
+
+</head>
+
+<body class="index-page">
+ 
+<header>
+  <!-- Exportando a Navegação e Banner -->
+  <menu-top></menu-top>
+  <!-- Exportando a Navegação e Banner -->
+</header>
+
+<div class="container py-5">
+    <div id="detalhes-container" class="row">
+        <div class="col-12 text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <p class="mt-2">Carregando detalhes da orientação...</p>
+        </div>
+    </div>
+</div>
+
+  <!-- Componente whatsapp -->
+  <whatsapp-button></whatsapp-button>
+
+  <footer>
+
+    <!-- Exportando o Footer -->
+    <menu-footer></menu-footer>
+    <!-- Exportando o Footer -->
+     
+  </footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', async function() {
+        try {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orientacaoId = urlParams.get('id');
+            
+            if (!orientacaoId) {
+                throw new Error('ID da orientação não foi fornecido na URL');
+            }
+
+            const response = await fetch(`/api/orientacoes/obter-orientacao-por-id/?id=${orientacaoId}`);
+            
+            if (!response.ok) {
+                throw new Error(`Erro HTTP: ${response.status}`);
+            }
+            
+            const { data } = await response.json();
+
+            if (!data) {
+                throw new Error('Nenhum dado retornado pela API');
+            }
+
+            renderizarDetalhes(data);
+
+        } catch (error) {
+            console.error('Erro ao carregar detalhes:', error);
+            document.getElementById('detalhes-container').innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <h4>Erro ao carregar orientação</h4>
+                        <p>${error.message}</p>
+                        <a href="orientacoes.html" class="btn btn-primary">
+                            <i class="fas fa-arrow-left me-2"></i> Voltar
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+    });
+
+    function getImageUrl(img) {
+        if (!img) return 'assets/img/placeholder.jpg';
+        
+        if (img.startsWith('http://') || img.startsWith('https://')) {
+            return img;
+        }
+        
+        const cleanedPath = img.startsWith('/') ? img.substring(1) : img;
+        return `https://vida-em-gotas.s3.us-east-2.amazonaws.com/${cleanedPath}`;
+    }
+
+    function renderizarDetalhes(orientacao) {
+    const container = document.getElementById('detalhes-container');
+    
+    // Processa a descrição com parágrafos
+    let descricaoHtml = formatarDescricao(orientacao.descricao);
+    
+    // Processa imagens
+    let imagensHtml = '';
+    if (orientacao.imagens && orientacao.imagens.length > 0) {
+        imagensHtml = `
+            <div class="media-section">
+                <h3 class="section-title">
+                </h3>
+                ${orientacao.imagens.map(img => {
+                    const imgUrl = getImageUrl(img.url || img.imagem || img.key);
+                    return `
+                        <div class="media-container">
+                            <img src="${imgUrl}" 
+                                 alt="Imagem da orientação" 
+                                 onerror="this.onerror=null;this.src='assets/img/placeholder.jpg'">
+                        </div>
+                    `;
+                }).join('')}
+            </div>
+        `;
+    }
+    
+    // Processa vídeo
+    let videoHtml = '';
+    if (orientacao.video) {
+        videoHtml = `
+            <div class="video-section">
+                <h3 class="section-title">
+                </h3>
+                <div class="video-container">
+                    ${orientacao.video.includes('youtube.com') ? `
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/${orientacao.video.split('v=')[1].split('&')[0]}" 
+                                    frameborder="0" 
+                                    allowfullscreen></iframe>
+                        </div>
+                    ` : `
+                        <video controls class="w-100">
+                            <source src="${orientacao.video}">
+                        </video>
+                    `}
+                </div>
+            </div>
+        `;
+    }
+
+    // Monta o HTML
+    container.innerHTML = `
+        <div class="col-lg-12 mx-auto"></div>
+
+        <div class="col-lg-9 mx-auto">           
+            <div class="info-card">
+                <!-- Título -->
+                <h1 class="main-title">${orientacao.titulo || 'Sem título'}</h1>
+            
+                <!-- Seção de Descrição -->
+                <div class="descricao-section">
+                    <h3 class="section-title">
+                    </h3>
+                    <div class="descricao-text">
+                        ${descricaoHtml}
+                    </div>
+                </div>
+            
+                <!-- Seção de Imagens -->
+                ${imagensHtml || ''}
+                
+                <!-- Seção de Vídeo -->
+                ${videoHtml || ''}
+            
+                <!-- Rodapé -->
+                <div class="d-flex justify-content-between text-muted small mt-4">
+                    <span>
+                        <i class="far fa-calendar-alt me-1"></i>
+                        Criado em: ${new Date(orientacao.created_at).toLocaleDateString('pt-BR')}
+                    </span>
+                    ${orientacao.updated_at !== orientacao.created_at ? `
+                        <span>
+                            <i class="fas fa-sync-alt me-1"></i>
+                            Atualizado em: ${new Date(orientacao.updated_at).toLocaleDateString('pt-BR')}
+                        </span>
+                    ` : ''}
+                </div>
+            
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="orientacoes.html" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i> Voltar
+                    </a>
+                    <button id="botao-som" class="btn btn-outline-primary">
+                        <i class="fas fa-volume-up"></i> Ouvir
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+
+        configurarBotaoSom(orientacao);
+    }
+
+    function formatarDescricao(descricao) {
+        if (!descricao) return '<p class="text-muted text-center">Nenhuma descrição disponível</p>';
+        
+        // Converte quebras de linha em parágrafos
+        let html = descricao
+            .split('\n\n') // Divide em parágrafos
+            .map(paragrafo => 
+                `<p>${paragrafo.replace(/\n/g, '<br>')}</p>` // Mantém quebras dentro do parágrafo
+            )
+            .join('');
+            
+        return html;
+    }
+
+    function configurarBotaoSom(orientacao) {
+    const botaoSom = document.getElementById('botao-som');
+    
+    if (!botaoSom) return;
+
+    let estaFalando = false;
+    let vozAtual = null;
+    let cancelamentoManual = false; // Flag para controlar cancelamento manual
+
+    // Verifica suporte do navegador
+    if (!('speechSynthesis' in window)) {
+        botaoSom.disabled = true;
+        botaoSom.title = 'Recurso não suportado pelo seu navegador';
+        return;
+    }
+
+    botaoSom.addEventListener('click', function() {
+        if (estaFalando) {
+            cancelamentoManual = true; // Indica que o cancelamento é intencional
+            window.speechSynthesis.cancel();
+            atualizarEstadoBotao(false);
+            estaFalando = false;
+        } else {
+            // Seleciona conteúdo para ler
+            const titulo = document.querySelector('.main-title')?.textContent || '';
+            const descricao = document.querySelector('.descricao-text')?.textContent || '';
+            const conteudoParaLer = `${titulo}. ${descricao}`.trim();
+
+            if (!conteudoParaLer) {
+                alert('Nenhum conteúdo disponível para leitura');
+                return;
+            }
+
+            // Configura a voz
+            vozAtual = new SpeechSynthesisUtterance(conteudoParaLer);
+            vozAtual.lang = 'pt-BR';
+            vozAtual.rate = 0.9;
+            cancelamentoManual = false; // Reseta a flag
+
+            // Event listeners
+            vozAtual.onstart = () => {
+                atualizarEstadoBotao(true);
+                estaFalando = true;
+            };
+
+            vozAtual.onend = () => {
+                if (!cancelamentoManual) {
+                    atualizarEstadoBotao(false);
+                    estaFalando = false;
+                }
+            };
+
+            vozAtual.onerror = (event) => {
+                console.error('Erro na síntese de voz:', event);
+                if (!cancelamentoManual) {
+                    atualizarEstadoBotao(false);
+                    estaFalando = false;
+                    alert('Ocorreu um erro ao reproduzir o áudio');
+                }
+            };
+
+            // Inicia a síntese
+            window.speechSynthesis.speak(vozAtual);
+        }
+    });
+
+    // Função auxiliar para atualizar o botão
+    function atualizarEstadoBotao(falando) {
+        botaoSom.innerHTML = falando 
+            ? '<i class="fas fa-stop"></i> Parar' 
+            : '<i class="fas fa-volume-up"></i> Ouvir';
+        botaoSom.classList.toggle('btn-primary', falando);
+        botaoSom.classList.toggle('btn-outline-primary', !falando);
+    }
+
+    // Verifica vozes disponíveis
+    verificarVozesDisponiveis();
+}
+
+    function verificarVozesDisponiveis() {
+        const vozes = window.speechSynthesis.getVoices();
+        const temVozPT = vozes.some(voz => voz.lang.includes('pt'));
+
+        if (!temVozPT) {
+            console.warn('Nenhuma voz em português disponível');
+        }
+    }
+
+    // As vozes são carregadas assincronamente
+    window.speechSynthesis.onvoiceschanged = verificarVozesDisponiveis;
+    verificarVozesDisponiveis(); // Verificação inicial
+
+</script>
+
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

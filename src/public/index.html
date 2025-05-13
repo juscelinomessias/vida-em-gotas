@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vida em Gotas é uma plataforma web dedicada a incentivar a doação de leite materno, promovendo informação, cadastro e mobilização social para salvar vidas de recém-nascidos.">
+  <meta name="keywords" content="doação de leite materno, banco de leite humano, leite materno, saúde neonatal, prematuros, amamentação, voluntariado, Vida em Gotas, coleta de leite humano, geolocalização de postos de coleta, plataforma web de saúde">
+  
+  <title>Vida em Gotas – Plataforma de Doação de Leite Materno para Salvar Vidas</title>
+
+  <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <script src="assets/components/menu_top/index.js"></script>
+  <script src="assets/components/menu_footer/index.js"></script>
+  <script src="assets/components/Contatos/WhattAppButton.js"></script>
+  <script src="assets/components/EntregaComponent/EntregaLeite.js"></script>
+
+</head>
+
+<body class="index-page">
+
+  <header>
+
+    <!-- Importando a Navegação e o Banner -->
+    <menu-top></menu-top>
+    <!-- Importando a Navegação e o Banner -->
+     
+</header>
+
+<main class="main">
+
+  <!-- Section Números que Fazem a Diferença -->
+  <section id="featured-services" class="featured-services section" style="background-color: #fff;">
+
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Números que fazem a diferença</h2>
+    </div>
+
+    <div class="container">
+      <div class="row gy-4 justify-content-center">
+        
+        <!-- Card 1 - Doadoras -->
+        <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="100">
+          <div class="container-numeros w-100">
+            <div class="cards">
+              <div class="ellipse">
+                <i class="fas fa-heartbeat icon pulse"></i>
+              </div>
+              <div class="info">
+                <h3 id="card-doadoras">0</h3>
+                <p>Total de doadoras</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 - Leite Humano -->
+        <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="200">
+          <div class="container-numeros w-100">
+            <div class="cards">
+              <div class="ellipse">
+                <i class="fas fa-heartbeat icon pulse"></i>
+              </div>
+              <div class="info">
+                <h3 id="card-leite-humano">0</h3>
+                <p>Total de leite humano (ml)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 - Bebês Beneficiados -->
+        <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="300">
+          <div class="container-numeros w-100">
+            <div class="cards">
+              <div class="ellipse">
+                <i class="fas fa-heartbeat icon pulse"></i>
+              </div>
+              <div class="info">
+                <h3 id="card-bebes">0</h3>
+                <p>Bebês beneficiados</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      // Função para animar a contagem do número
+      function animateValue(element, target, duration = 2000) {
+        const start = 0;
+        const increment = target / (duration / 16);
+        let current = start;
+
+        const updateNumber = () => {
+          current += increment;
+          if (current < target) {
+            element.textContent = Math.floor(current).toLocaleString('pt-BR');
+            requestAnimationFrame(updateNumber);
+          } else {
+            element.textContent = Math.floor(target).toLocaleString('pt-BR');
+          }
+        };
+
+        updateNumber();
+      }
+    
+      // Função para buscar bebês beneficiados
+      async function fetchBebesBeneficiados() {
+        try {
+          const response = await fetch('/web/total-bebes');
+          if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+          const data = await response.json();
+          const target = data.total || 0;
+          animateValue(document.getElementById('card-bebes'), target);
+        } catch (error) {
+          console.error('Erro ao buscar bebês beneficiados:', error);
+          document.getElementById('card-bebes').textContent = '0';
+        }
+      }
+    
+      // Função para buscar doadoras ativas
+      async function fetchDoadorasAtivas() {
+        try {
+          const response = await fetch('/web/total-doadoras-ativas');
+          if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+          const data = await response.json();
+          const target = data.total || 0;
+          animateValue(document.getElementById('card-doadoras'), target);
+        } catch (error) {
+          console.error('Erro ao buscar doadoras ativas:', error);
+          document.getElementById('card-doadoras').textContent = '0';
+        }
+      }
+    
+      // Função para buscar total de leite humano
+      async function fetchTotalLeiteHumano() {
+        try {
+          const response = await fetch('/web/total-leite-humano');
+          if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+          const data = await response.json();
+          const target = data.total || 0;
+          animateValue(document.getElementById('card-leite-humano'), target);
+        } catch (error) {
+          console.error('Erro ao buscar total de leite humano:', error);
+          document.getElementById('card-leite-humano').textContent = '0';
+        }
+      }
+    
+      // Carrega todos os dados quando a página é carregada
+      document.addEventListener('DOMContentLoaded', () => {
+        fetchBebesBeneficiados();
+        fetchDoadorasAtivas();
+        fetchTotalLeiteHumano();
+      });
+    </script>
+    
+  </section>
+  <!-- Section Números que Fazem a Diferença -->
+
+
+
+  <!-- Section Doação -->
+  <section id="call-to-action" class="call-to-action section accent-background" style="background-color: #C9B487;">
+
+    <div class="container">
+      <div class="col-xl-3 col-md-6 d-flex" data-aos="fade-up" data-aos-delay="400">
+        
+        <div class="container-doacao">
+          
+          <!-- Container-esquerdo -->
+          <div class="container-texto-1">
+            <h2>Doe Leite Materno</h2>
+            <button onclick="window.location.href='doar-leite'"><a>DOAR</a> </button>
+            <div class="pote-esquerdo">
+              <img src="assets/img/doacao/pote.png" alt="Pote de Leite" title="Imagem Pote de Leite">
+            </div>
+            <div class="coracao-esquerdo">
+              <img src="assets/img/doacao/coracao-esq.png" alt="Coração esquerdo" title="Imagem Coração Pulsando" id="heartbeat">
+            </div>
+          </div>
+          <!-- Container-esquerdo -->
+
+          <div class="linha-divisoria"></div>
+
+          <!-- Container-direito -->
+          <div class="container-texto-2">
+            <h2>Doe Potes</h2>
+            <button onclick="window.location.href='doar-pote'"><a>DOAR</a> </button>
+            <div class="pote-direito">
+              <img src="assets/img/doacao/pote.png" alt="Pote de Leite" title="Imagem Pote de Leite">
+            </div>
+            <div class="coracao-direito"> 
+              <img src="assets/img/doacao/coracao-dir.png" alt="Coração direito" title="Imagem Coração Pulsando" id="heartbeat">
+            </div>
+          </div>
+          <!-- Container-direito -->
+
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+  <!-- Section Doação -->
+
+
+
+  <!-- Section Orientação -->
+  <section>
+
+    <div id="orientacao-detaque-container" class="row"></div>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', async () => {
+        const container = document.getElementById('orientacao-detaque-container');
+  
+        try {
+          const response = await fetch('/api/orientacoes/destaque');
+          const { data } = await response.json();
+  
+          if (!data || !data.titulo || !data.descricao || !data.imagens?.length) return;
+  
+          renderizarDestaque(data);
+  
+        } catch (error) {
+          console.error('Erro ao buscar orientações:', error);
+          container.innerHTML = '';
+        }
+      });
+  
+      function renderizarDestaque(data) {
+        const container = document.getElementById('orientacao-detaque-container');
+  
+        const imagemPrincipal = data.imagens[0].url;
+  
+        container.innerHTML = `
+          <section id="about" class="about section">
+            <div class="container section-title" data-aos="fade-up" data-aos-delay="0">
+                <h2>${data.titulo}</h2>
+            </div>
+  
+            <div class="container">
+                <div class="row gy-4">
+                    <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="0">
+                        <div class="video">
+                            <div class="video-img">
+                                <img src="${imagemPrincipal}" class="img-fluid" alt="${data.titulo}">
+                            </div>
+                        </div>
+                    </div>
+  
+                    <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="0">
+                        ${formatarDescricao(data.descricao)}
+                        <div class="text-center mt-4"> 
+                          <a href="orientacao-detalhe?id=${data.id}" class="btn-orientacoes">Continuar Lendo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </section>
+        `;
+  
+        function formatarDescricao(descricao) {
+          const descricaoLimitada = descricao.length > 540 
+            ? descricao.substring(0, 540).replace(/\s+\S*$/, '') + '...' 
+            : descricao;
+  
+          let html = descricaoLimitada.replace(/\n\n+/g, '</p><p>').replace(/\n/g, '<br>');
+          html = `<div class="descricao-formatada"><p>${html}</p></div>`;
+  
+          html = html.replace(
+            /<p>([A-ZÇÃÁÀÂÉÈÊÍÓÔÕÚÜ\s]{5,})<\/p>/g,
+            '<h4 class="descricao-titulo">$1</h4>'
+          );
+  
+          html = html.replace(
+            /<h4 class="descricao-titulo">(.*?)<\/h4>/g,
+            (_, titulo) => {
+              const formatado = titulo.split(' ')
+                .map(p => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase())
+                .join(' ');
+              return `<h4 class="descricao-titulo">${formatado}</h4>`;
+            }
+          );
+  
+          return html;
+        }
+      }
+    </script>
+  
+  </section>
+  <!-- Section Orientação -->
+
+
+
+  <!-- Section Perguntas Frequentes -->
+  <section id="faq" class="faq section light-background">
+
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Perguntas Frequentes</h2>
+    </div>
+    
+    <div class="container">
+    
+      <div class="row justify-content-center">
+    
+        <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+    
+          <div class="faq-container" id="faq-container">
+            <!-- As perguntas serão carregadas dinamicamente aqui -->
+            <div class="text-center py-4">
+              <div class="spinner-border text-primary"></div>
+              <p class="mt-2">Carregando perguntas...</p>
+            </div>
+          </div>
+
+          <div class="text-center mt-4"> 
+            <a href="duvidas" class="btn-faq">Ver Mais Perguntas</a>
+          </div>
+
+        </div>
+
+      </div>
+      
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', async function() {
+        const container = document.getElementById('faq-container');
+        
+        try {       
+          const response = await fetch('/web/perguntas-frequentes');
+    
+          const perguntas = response.ok ? await response.json() : [];
+    
+          if (perguntas && perguntas.length > 0) {
+            renderizarPerguntas(perguntas);
+          }
+    
+        } catch (error) {
+          console.error('Erro ao carregar perguntas:', error);
+        }
+      });
+    
+      // Função para renderizar as perguntas
+      function renderizarPerguntas(perguntas) {
+        const container = document.getElementById('faq-container');
+        container.innerHTML = '';
+    
+        perguntas.forEach(pergunta => {
+          const faqItem = document.createElement('div');
+          faqItem.className = 'faq-item';
+    
+          faqItem.innerHTML = `
+            <h3>${pergunta.pergunta}</h3>
+            <div class="faq-content">
+              <p>${pergunta.resposta}</p>
+            </div>
+            <i class="faq-toggle bi bi-chevron-right"></i>
+          `;
+    
+          faqItem.addEventListener('click', function() {
+            this.classList.toggle('faq-active');
+            const content = this.querySelector('.faq-content');
+            const toggle = this.querySelector('.faq-toggle');
+            
+            if (this.classList.contains('faq-active')) {
+              content.style.display = 'block';
+              toggle.classList.remove('bi-chevron-right');
+              toggle.classList.add('bi-chevron-down');
+            } else {
+              content.style.display = 'none';
+              toggle.classList.remove('bi-chevron-down');
+              toggle.classList.add('bi-chevron-right');
+            }
+          });
+    
+          container.appendChild(faqItem);
+        });
+      }
+    </script>
+    
+  </section>
+  <!-- Section Perguntas Frequentes -->
+
+
+
+  <!-- Section Depoimentos -->
+  <section class="testimonials section" style="background-color: #fff;">
+
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Cada gota de leite é um laço de carinho, força e conexão entre mãe e bebê.</h2>
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+      <!-- Carrossel de depoimentos -->
+      <div class="swiper init-swiper">
+        <div class="swiper-wrapper" id="depoimentos-carrossel">
+          <!-- Loading state -->
+          <div class="swiper-slide">
+            <div class="testimonial-item">
+              <div class="text-center py-4">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Carregando depoimentos...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <br><br><br><br><br><br>
+        <div class="swiper-pagination"></div>
+      </div>
+  
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('depoimentos-carrossel');
+    
+        // Mostrar loader
+        container.innerHTML = `
+          <div class="swiper-slide">
+            <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+              <div class="text-center">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Carregando depoimentos...</p>
+              </div>
+            </div>
+          </div>
+        `;
+    
+        setTimeout(async () => {
+          try {
+            const response = await fetch('/web/depoimentos/listar?destacado=true');
+    
+            if (!response.ok) {
+              throw new Error(`Erro HTTP: ${response.status}`);
+            }
+    
+            const data = await response.json();
+
+            console.log(data)
+    
+            if (!data || !data.success || !data.data || data.data.length === 0) {
+              container.innerHTML = ''; // Não mostra nada se vazio
+              return;
+            }
+    
+            renderDepoimentos(data.data);
+            initSwiper();
+    
+          } catch (error) {
+            console.error('Erro ao carregar depoimentos:', error);
+            container.innerHTML = ''; // Não mostra nada em caso de erro
+          }
+        }, 800);
+      });
+    
+
+      function renderDepoimentos(depoimentos) {
+        const container = document.getElementById('depoimentos-carrossel');
+
+        if (!depoimentos || depoimentos.length === 0) {
+          container.innerHTML = '';
+          return;
+        }
+
+        container.innerHTML = '';
+
+        depoimentos.forEach(depoimento => {
+          const slide = document.createElement('div');
+          slide.className = 'swiper-slide';
+
+          const textoDepoimento = depoimento.depoimento;
+          const nomeMae = depoimento.nome_mae;
+          const nomeCrianca = depoimento.nome_crianca;
+          const imagemMae = `https://vida-em-gotas.s3.us-east-2.amazonaws.com/${depoimento.imagem_mae}`;
+
+          slide.innerHTML = `
+          <div id="swiper-slide" class="testimonial-item">
+            <div class="texto">
+              <i class="bi bi-quote quote-icon-left"></i>
+              <span>${textoDepoimento}</span>
+              <i class="bi bi-quote quote-icon-right"></i>
+            </div>
+          </div>
+          <div class="perfil-img">
+            <img src="${imagemMae}" 
+                 alt="Foto de ${nomeMae}" 
+                 onerror="this.onerror=null;this.src='assets/img/depoimentos/logo-vida-em-gotas-pequeno.png'">
+          </div>
+          <div class="perfil-nome">
+            <h3>${nomeMae}</h3>
+            <h4>Mãe do(a) ${nomeCrianca}</h4>
+          </div>
+        `;
+
+          container.appendChild(slide);
+        });
+      }
+
+
+    
+      function initSwiper() {
+        try {
+          if (typeof Swiper !== 'function') {
+            throw new Error('Swiper não está carregado');
+          }
+    
+          new Swiper('.init-swiper', {
+          loop: true,
+          speed: 600,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false
+          },
+          slidesPerView: 1, // <--- fixa o slide no centro
+          pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true
+          },
+          breakpoints: {
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 40
+            },
+            1200: {
+              slidesPerView: 3,
+              spaceBetween: 20
+            }
+          }
+        });
+
+        } catch (e) {
+          console.error('Falha ao inicializar Swiper:', e);
+        }
+      }
+    </script>
+    
+    
+  </section>
+  <!-- Section Depoimentos -->
+
+
+
+  <!-- Section Momento Mamãe -->
+  <section id="gallery" class="gallery section" style="background-color: #f5f0e7;">
+
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Momento Mamãe</h2>
+    </div>
+
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+      <div class="swiper init-swiper-momento-mamae">
+        <div class="swiper-wrapper align-items-center" id="momento-mamae-carrossel">
+          
+          <!-- Loading state -->
+          <div class="swiper-slide">
+            <div class="text-center py-5">
+              <div class="spinner-border text-primary"></div>
+              <p class="mt-2">Carregando imagens...</p>
+            </div>
+          </div>
+          
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+    </div>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('momento-mamae-carrossel');
+    
+        // Mostrar loader
+        container.innerHTML = `
+          <div class="swiper-slide">
+            <div class="text">
+              <div class="spinner-border text-primary"></div>
+              <p class="mt-2">Carregando imagens...</p>
+            </div>
+          </div>
+        `;
+    
+        setTimeout(async () => {
+          try {
+            const response = await fetch('/web/momento-mae/listar?destacada=${destaque}');
+    
+            if (!response.ok) {
+              throw new Error(`Erro HTTP: ${response.status}`);
+            }
+    
+            const data = await response.json();
+    
+            if (!data || !data.success || !data.data || data.data.length === 0) {
+              throw new Error('Dados inválidos ou vazios');
+            }
+    
+            renderImagens(data.data);
+    
+          } catch (error) {
+            console.error('Erro ao carregar imagens:', error);
+            container.innerHTML = '';
+          } finally {
+            initSwiperMomentoMamae();
+          }
+        }, 800);
+      });
+    
+
+
+
+      function renderImagens(imagens) {
+        const container = document.getElementById('momento-mamae-carrossel');
+
+        if (!imagens || imagens.length === 0) {
+          console.warn('Nenhuma imagem encontrada');
+          container.innerHTML = '';
+          return;
+        }
+
+        container.innerHTML = '';
+
+        imagens.forEach(imagem => {
+          const slide = document.createElement('div');
+          slide.className = 'swiper-slide';
+
+          let caminhoImagem = '';
+
+          if (imagem.imagem.startsWith('http')) {
+            caminhoImagem = imagem.imagem;
+          } else if (/\.(jpg|jpeg|png|gif|webp)$/i.test(imagem.imagem)) {
+            caminhoImagem = `https://vida-em-gotas.s3.us-east-2.amazonaws.com/${imagem.imagem}`;
+          } else {
+            caminhoImagem = imagem.imagem;
+          }
+
+          slide.innerHTML = `
+            <a class="glightbox" data-gallery="images-gallery" href="${caminhoImagem}">
+              <div class="imagem-container" style="padding: 3px;">
+                <img src="${caminhoImagem}" class="img-fluid" style="width: 170px; height: 120px; object-fit: cover;">
+              </div>
+            </a>
+          `;
+
+          container.appendChild(slide);
+        });
+
+        if (typeof GLightbox !== 'undefined') {
+          const lightbox = GLightbox({
+            selector: '.glightbox'
+          });
+        }
+      }
+
+
+
+    
+      function initSwiperMomentoMamae() {
+        try {
+          if (typeof Swiper !== 'function') {
+            throw new Error('Swiper não está carregado');
+          }
+    
+          new Swiper('.init-swiper-momento-mamae', {
+            loop: true,
+            speed: 600,
+            autoplay: {
+              delay: 5000
+            },
+            slidesPerView: 'auto',
+            centeredSlides: true,
+            pagination: {
+              el: '.swiper-pagination',
+              type: 'bullets',
+              clickable: true
+            },
+            breakpoints: {
+              320: {
+                slidesPerView: 1,
+                spaceBetween: 0
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 20
+              },
+              1200: {
+                slidesPerView: 5,
+                spaceBetween: 20
+              }
+            }
+          });
+        } catch (e) {
+          console.error('Falha ao inicializar Swiper:', e);
+        }
+      }
+    </script>
+    
+  </section>
+  <!-- Section Momento Mamãe -->
+
+
+  
+  <!-- Componente localização do banco de leite -->
+  <entrega-component></entrega-component>
+
+  <!-- Componente whatsapp -->
+  <whatsapp-button></whatsapp-button>
+
+
+</main>
+
+
+<footer>
+
+  <!-- Importando o Footer -->
+  <menu-footer></menu-footer>
+  <!-- Importando o Footer -->
+
+</footer>
+
+ <!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i
+    class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Lista Bebês Beneficiados</title>
+   
+    <script src="../../admin/js/auth/autorizacao.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="../../build/css/custom.min.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Importando o Menu -->
+    <script src="../../admin/components/menu_left/index.js"></script>
+    <script src="../../admin/components/menu_top/index.js"></script>
+    <script src="../../admin/components/menu_footer/index.js"></script>
+    
+    <style>
+        .bebe-card {
+            margin-bottom: 20px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            height: 100%;
+            text-align: center;
+        }
+        .bebe-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        .bebe-header {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+        .bebe-title {
+            font-size: 1.5rem;
+            color: #2A3F54;
+            margin-bottom: 5px;
+        }
+        .bebe-count {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1ABB9C;
+            margin: 15px 0;
+        }
+        .bebe-actions {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+        }
+        .empty-state i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+        .info-text {
+            color: #555;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body class="nav-md">
+    <script>
+        checarAutorizacao();
+    </script>
+
+    <div class="container body" id="conteudo">
+        <div class="main_container">
+            <!-- Menu lateral -->
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                        <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <br />
+                    <menu-left></menu-left>
+                </div>
+            </div>
+
+            <!-- Menu superior -->
+            <menu-top></menu-top>
+
+            <!-- Conteúdo principal -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Bebês Beneficiados</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>Total de Bebês Beneficiados</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+                                    <div class="row" id="bebesContainer">
+                                        <!-- Card será carregado aqui -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           <!-- Modal para adicionar bebês beneficiados -->
+           <div id="modal-adicionar-bebes" class="modal fade" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Ajustar Quantidade de Bebês</h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Total Atual:</label>
+                            <input type="number" id="bebes-quantidade-atual" class="form-control" readonly>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Operação:</label>
+                            <select id="operacao-bebes" class="form-control">
+                                <option value="adicionar">Adicionar</option>
+                                <option value="remover">Remover</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Quantidade:</label>
+                            <input type="number" id="bebes-quantidade-ajuste" class="form-control" min="1" value="1">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" onclick="confirmarAjusteBebes()">Confirmar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <menu-footer></menu-footer>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="../../build/js/custom.min.js"></script>
+
+    <script>
+        // Variável global para armazenar os dados
+        let registroBebes = null;
+
+        // Carrega os dados quando a página é carregada
+        $(document).ready(function() {
+            carregarBebes();
+        });
+
+        
+
+        // Função para carregar o registro único
+        async function carregarBebes() {
+    const container = $('#bebesContainer');
+    
+    try {
+        // Mostra loading
+        container.html(`
+            <div class="col-12 text-center py-4">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Carregando dados...</p>
+            </div>
+        `);
+
+        const response = await fetch('/api/bebes-beneficiados/obter');
+        
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Dados recebidos:', data);
+
+        // Verificação para registro vazio (id = 0 e total = 0)
+        const registroVazio = (
+            data && 
+            typeof data === 'object' && 
+            data.id === 0 && 
+            data.total_bebes_beneficiados === 0
+        );
+
+        // Verificação para registro válido
+        const registroValido = (
+            data && 
+            typeof data === 'object' && 
+            (
+                (data.id !== null && data.id !== 0) || 
+                data.total_bebes_beneficiados > 0
+            )
+        );
+
+        if (registroVazio) {
+            mostrarEstadoVazio();
+        } else if (registroValido) {
+            registroBebes = data;
+            atualizarCard();
+        } else {
+            mostrarEstadoVazio();
+        }
+
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+        
+        container.html(`
+            <div class="col-12">
+                <div class="alert alert-danger">
+                    <i class="fa fa-exclamation-triangle"></i> 
+                    ${error.message || 'Erro ao carregar dados'}
+                    <button class="btn btn-secondary btn-sm mt-2" onclick="carregarBebes()">
+                        <i class="fa fa-refresh"></i> Tentar novamente
+                    </button>
+                </div>
+            </div>
+        `);
+    }
+}
+
+function mostrarEstadoVazio() {
+    $('#bebesContainer').html(`
+        <div class="col-12 empty-state">
+            <i class="fa fa-child"></i>
+            <h4>Nenhum registro cadastrado ainda</h4>
+            <p>Adicione seu primeiro registro de bebês beneficiados</p>
+           <a href="/admin/bebes-beneficiados/criar" class="btn btn-success mt-3">
+            <i class="fa fa-plus"></i> Adicionar registro
+            </a>
+        </div>
+    `);
+}
+
+
+       
+
+        // Função para atualizar o card com os dados
+         function atualizarCard() {
+    const container = $('#bebesContainer');
+    const total = registroBebes.total_bebes_beneficiados || 0;
+    
+    container.html(`
+        <div class="col-md-6 offset-md-3">
+            <div class="bebe-card">
+                <div class="bebe-header">
+                    <h3 class="bebe-title">
+                        <i class="fa fa-child"></i> Bebês Beneficiados
+                    </h3>
+                </div>
+                
+                <div class="bebe-count">
+                    ${total.toLocaleString('pt-BR')}
+                </div>
+                
+                <p class="info-text">
+                    Total de bebês que receberam leite materno através do nosso projeto
+                </p>
+                
+                <div class="bebe-actions">
+                    <button class="btn btn-primary btn-lg" onclick="abrirModalAjusteBebes()">
+                        <i class="fa fa-pencil"></i> Atualizar Total
+                    </button>
+                </div>
+            </div>
+        </div>
+    `);
+}
+
+        async function abrirModalAjusteBebes() {
+            try {
+                // Verifica se os elementos do modal existem
+                const quantidadeAtualInput = document.getElementById('bebes-quantidade-atual');
+                const quantidadeAjusteInput = document.getElementById('bebes-quantidade-ajuste');
+                const operacaoSelect = document.getElementById('operacao-bebes');
+                
+                if (!quantidadeAtualInput || !quantidadeAjusteInput || !operacaoSelect) {
+                    throw new Error('Elementos do modal não encontrados');
+                }
+
+                // Se já tivermos os dados carregados, usa-os
+                let quantidadeAtual = 0;
+                if (registroBebes) {
+                    quantidadeAtual = registroBebes.total_bebes_beneficiados || 0;
+                } else {
+                    // Se não, busca da API
+                    const response = await fetch('/api/bebes-beneficiados/obter');
+                    if (!response.ok) throw new Error('Erro ao buscar dados');
+                    const data = await response.json();
+                    if (data.data && data.data.length > 0) {
+                        quantidadeAtual = data.data[0].total_bebes_beneficiados || 0;
+                    } else if (data.total_bebes_beneficiados !== undefined) {
+                        quantidadeAtual = data.total_bebes_beneficiados;
+                    }
+                }
+
+                // Preenche os campos do modal
+                quantidadeAtualInput.value = quantidadeAtual;
+                quantidadeAjusteInput.value = 1;
+                operacaoSelect.value = 'adicionar';
+
+                // Abre o modal
+                $('#modal-adicionar-bebes').modal('show');
+                
+            } catch (error) {
+                console.error('Erro ao abrir modal:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: error.message || 'Erro ao carregar dados',
+                    confirmButtonColor: '#26B99A'
+                });
+            }
+        }
+
+        async function confirmarAjusteBebes() {
+            const modal = $('#modal-adicionar-bebes');
+            const quantidadeAtual = parseInt(document.getElementById('bebes-quantidade-atual').value) || 0;
+            const operacao = document.getElementById('operacao-bebes').value;
+            const quantidadeAjuste = parseInt(document.getElementById('bebes-quantidade-ajuste').value) || 0;
+
+            try {
+                // Validações
+                if (quantidadeAjuste <= 0) {
+                    throw new Error('A quantidade deve ser maior que zero');
+                }
+
+                if (operacao === 'remover' && quantidadeAjuste > quantidadeAtual) {
+                    throw new Error('Não é possível remover mais do que o total atual');
+                }
+
+                // Determina se estamos criando ou atualizando
+                const metodo = registroBebes ? 'PUT' : 'POST';
+                const url = registroBebes ? `/api/bebes-beneficiados/atualizar/${registroBebes.id}` : '/api/bebes-beneficiados/listar';
+
+                // Calcula o novo total
+                const novoTotal = operacao === 'adicionar' 
+                    ? quantidadeAtual + quantidadeAjuste 
+                    : quantidadeAtual - quantidadeAjuste;
+
+                // Faz a requisição
+                const response = await fetch(url, {
+                    method: metodo,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        total_bebes_beneficiados: novoTotal
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || `Erro: ${response.status}`);
+                }
+
+                const result = await response.json();
+                console.log('Resultado:', result);
+
+                // Atualiza os dados locais
+                registroBebes = result.data || result;
+
+                // Feedback visual
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    html: `
+                        <p>Operação: ${operacao === 'adicionar' ? 'Adição' : 'Remoção'}</p>
+                        <p>Quantidade: ${quantidadeAjuste}</p>
+                        <p>Total atualizado: ${novoTotal}</p>
+                    `,
+                    confirmButtonColor: '#26B99A',
+                    timer: 3000
+                });
+
+                // Fecha o modal e atualiza a interface
+                modal.modal('hide');
+                carregarBebes();
+
+            } catch (error) {
+                console.error('Erro:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: error.message,
+                    confirmButtonColor: '#26B99A'
+                });
+            }
+        }
+    </script>
+</body>
+</html>

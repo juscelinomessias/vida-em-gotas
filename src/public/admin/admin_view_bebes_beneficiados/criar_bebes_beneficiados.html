@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Adicionar Bebês Beneficiados</title>
+
+    <script src="../../admin/js/auth/autorizacao.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="../../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- Importando o Menu -->
+    <script src="../../admin/components/menu_left/index.js"></script>
+    <script src="../../admin/components/menu_top/index.js"></script>
+    <script src="../../admin/components/menu_footer/index.js"></script>
+
+    <style>
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+        .info-text {
+            color: #555;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body class="nav-md">
+    <script>
+        // Verifica se o usuário está autenticado
+        checarAutorizacao();
+    </script>
+    
+    <div class="container body" id="conteudo">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                        <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <br />
+
+                    <!-- sidebar menu -->
+                    <menu-left></menu-left>
+                    <!-- /sidebar menu -->                
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <menu-top></menu-top>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Adicionar Bebês Beneficiados</h3>
+                        </div>
+                        <div class="title_right">
+                            <div class="col-md-12 col-sm-12 form-group">  <!-- Ocupa toda a largura -->
+                                <div class="float-right">  <!-- Flutuação à direita -->
+                                    <a href="/admin/bebes-beneficiados/listar" class="btn btn-primary">
+                                        <i class="fa fa-list"></i> Voltar para Lista
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="clearfix"></div>
+                    
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <form id="formBebesBeneficiados" class="form-horizontal form-label-left">
+                                <div class="x_panel">
+                                    <div class="x_title">
+                                        <h2>Informações dos Bebês Beneficiados</h2>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <div class="x_content">
+                                        <!-- Total de Bebês Beneficiados -->
+                                        <div class="mb-3 row">
+                                            <label class="col-form-label col-md-3 col-sm-3 label-align required-field" for="total_bebes">Total de Bebês Beneficiados</label>
+                                            <div class="col-md-6 col-sm-6">
+                                                <input class="form-control" type="number" name="total_bebes" id="total_bebes" min="0" required>
+                                                <small class="form-text info-text">Digite o número total de bebês beneficiados pelo projeto</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="ln_solid"></div>
+                                        
+                                        <!-- Botão de Salvar -->
+                                        <div class="mb-3 row">
+                                            <div class="col-md-6 col-sm-6 offset-md-3">
+                                                <button type="submit" class="btn btn-success" id="btn-submit">
+                                                    <span id="submit-text">Salvar Registro</span>
+                                                    <span id="loading-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- footer content -->
+            <menu-footer></menu-footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="../../build/js/custom.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        // Configuração do envio do formulário
+        $('#formBebesBeneficiados').submit(async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = $('#btn-submit');
+            const submitText = $('#submit-text');
+            const loadingSpinner = $('#loading-spinner');
+            
+            // Mostra o loading
+            submitBtn.prop('disabled', true);
+            submitText.text('Enviando...');
+            loadingSpinner.removeClass('d-none');
+
+            try {
+                const formData = {
+                    total_bebes_beneficiados: $('#total_bebes').val().trim()
+                };
+
+                // Validações
+                if (!formData.total_bebes_beneficiados) {
+                    throw new Error('O campo Total de Bebês Beneficiados é obrigatório.');
+                }
+                
+                if (formData.total_bebes_beneficiados < 0) {
+                    throw new Error('O número de bebês beneficiados não pode ser negativo.');
+                }
+
+                const response = await fetch('/api/bebes-beneficiados/criar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                console.log('Resultado:', result);
+                
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Erro ao cadastrar bebês beneficiados');
+                }
+                
+                // Mensagem de sucesso
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Registro de bebês beneficiados cadastrado com sucesso!',
+                    confirmButtonColor: '#26B99A',
+                    timer: 2000,
+                    timerProgressBar: true
+                }).then(() => {
+                    // Redireciona para a lista de bebês beneficiados
+                    window.location.href = '/admin/bebes-beneficiados/listar';
+                });
+
+            } catch (err) {
+                console.error('Erro:', err);
+                
+                // Mensagem de erro
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: err.message || 'Erro ao se conectar ao servidor. Por favor, tente novamente.',
+                    confirmButtonColor: '#26B99A'
+                });
+            } finally {
+                // Restaura o botão
+                submitBtn.prop('disabled', false);
+                submitText.text('Salvar Registro');
+                loadingSpinner.addClass('d-none');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

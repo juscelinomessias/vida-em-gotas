@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Criar Contato de Assistência</title>
+    
+    <script src="../../admin/js/auth/autorizacao.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="../../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+    <!-- Switchery -->
+    <link href="../../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link href="../../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="../../build/css/custom.min.css" rel="stylesheet">
+
+    <!-- Importando o Menu -->
+    <script src="../../admin/components/menu_left/index.js"></script>
+    <script src="../../admin/components/menu_top/index.js"></script>
+    <script src="../../admin/components/menu_footer/index.js"></script>
+
+    <style>
+        .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+            background-color: #26B99A;
+            color: #fff;
+        }
+        
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+    </style>
+</head>
+
+<body class="nav-md">
+    <script>
+        // Verifica se o usuário está autenticado
+        checarAutorizacao();
+    </script>
+    
+    <div class="container body" id="conteudo">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                        <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <br />
+
+                    <!-- sidebar menu -->
+                    <menu-left></menu-left>
+                    <!-- /sidebar menu -->                
+
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <menu-top></menu-top>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Criar Contato de Assistência</h3>
+                        </div>
+                        <div class="title_right">
+							<div class="col-md-12 col-sm-12 form-group">  <!-- Ocupa toda a largura -->
+								<div class="float-right">  <!-- Flutuação à direita -->
+									<a href="/admin/contatos/listar-contatos" class="btn btn-primary">
+										<i class="fa fa-list"></i> Voltar para Lista
+									</a>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <form id="formContatoAssistencia" class="form-horizontal form-label-left">
+                                <h2 class="h5 font-weight-medium">Informações do Contato</h2>
+                            
+                                <!-- Nome do Hospital -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align required-field" for="nome_hospital">Nome do Hospital</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="nome_hospital" id="nome_hospital" required>
+                                    </div>
+                                </div>
+
+                                
+                                <!--email -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align required-field" for="email">email</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="email" id="email"  required>
+                                    </div>
+                                </div>
+                            
+                                <!-- Número do WhatsApp -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align required-field" for="numero_whatsapp">WhatsApp</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="numero_whatsapp" id="numero_whatsapp" placeholder="+55 (84) 9999-9999" required>
+                                    </div>
+                                </div>
+                            
+                                <!-- Setor -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align" for="setor">Setor</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="setor" id="setor">
+                                    </div>
+                                </div>
+                            
+                                <div class="ln_solid"></div>
+                            
+                                <h2 class="h5 font-weight-medium">Endereço do Hospital</h2>
+
+                                 <!-- maps_link -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align" for="maps_link">Link do Mapa</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="maps_link" id="maps_link">
+                                    </div>
+                                </div>
+
+                            
+                                <!-- Logradouro -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align" for="logradouro">Logradouro</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="logradouro" id="logradouro">
+                                    </div>
+                                </div>
+                            
+                                <!-- Número -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align" for="numero">Número</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="numero" id="numero">
+                                    </div>
+                                </div>
+                            
+                                <!-- Bairro -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align" for="bairro">Bairro</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="bairro" id="bairro">
+                                    </div>
+                                </div>
+                            
+                                <!-- Cidade -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align" for="cidade">Cidade</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="cidade" id="cidade">
+                                    </div>
+                                </div>
+                            
+                                <!-- Estado -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align" for="estado">Estado</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <select class="form-control" name="estado" id="estado">
+                                            <option value="">Selecione</option>
+                                            <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espírito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            
+                                <div class="ln_solid"></div>
+                            
+                                <!-- Botão de Salvar -->
+                                <div class="mb-3 row">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="submit" class="btn btn-success" id="btn-submit">
+                                            <span id="submit-text">Salvar Contato</span>
+                                            <span id="loading-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+          <!-- Adicione estas linhas no HEAD ou antes do seu script -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // Máscara para o campo de WhatsApp
+    $('#numero_whatsapp').inputmask({
+    mask: '+55 (99) 9999-9999',
+    greedy: false,
+    definitions: {
+        '#': {
+            validator: "[0-9]",
+            cardinality: 1
+        }
+    },
+    clearIncomplete: true
+});
+    
+    // Configuração do envio do formulário
+    $('#formContatoAssistencia').submit(async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = $('#btn-submit');
+        const submitText = $('#submit-text');
+        const loadingSpinner = $('#loading-spinner');
+        
+        // Mostra o loading
+        submitBtn.prop('disabled', true);
+        submitText.text('Enviando...');
+        loadingSpinner.removeClass('d-none');
+
+        try {
+            const formData = {
+    nome_hospital: $('#nome_hospital').val().trim(),
+    email: $('#email').val().trim(),
+    numero_whatsapp: $('#numero_whatsapp').val().trim(),
+    setor: $('#setor').val().trim(),
+    maps_link: $('#maps_link').val().trim(), 
+    logradouro: $('#logradouro').val().trim(),
+    numero: $('#numero').val().trim(),
+    bairro: $('#bairro').val().trim(),
+    cidade: $('#cidade').val().trim(),
+    estado: $('#estado').val().trim()
+};
+
+            // Validações
+            if (!formData.nome_hospital) {
+                throw new Error('O campo Nome do Hospital é obrigatório.');
+            }
+            
+            if (!formData.numero_whatsapp) {
+                throw new Error('O campo WhatsApp é obrigatório.');
+            }
+
+            // Remove máscara antes de enviar
+            const numeroWhatsappLimpo = formData.numero_whatsapp.replace(/\D/g, '');
+            formData.numero_whatsapp = numeroWhatsappLimpo;
+
+            const response = await fetch('/api/contatos-assistencia/criar', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+    },
+    body: JSON.stringify(formData)
+});
+
+const result = await response.json();
+
+if (!result.success) {
+    throw new Error(result.message);
+}
+            
+// Mensagem de sucesso
+Swal.fire({
+    icon: 'success',
+    title: 'Sucesso!',
+    text: 'Contato cadastrado com sucesso!',
+    confirmButtonColor: '#26B99A',
+    timer: 2000,
+    timerProgressBar: true
+}).then(() => {
+    // Limpa o formulário
+    $('#formContatoAssistencia')[0].reset();
+    // Redireciona para a lista de contatos
+    window.location.href = '/admin/contatos/listar-contatos';
+});
+
+        } catch (err) {
+            console.error('Erro:', err);
+            
+            // Mensagem de erro
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro',
+                text: err.message || 'Erro ao se conectar ao servidor. Por favor, tente novamente.',
+                confirmButtonColor: '#26B99A'
+            });
+        } finally {
+            // Restaura o botão
+            submitBtn.prop('disabled', false);
+            submitText.text('Salvar Contato');
+            loadingSpinner.addClass('d-none');
+        }
+    });
+});
+</script>
+        
+            <!-- Bootstrap JS -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <menu-footer></menu-footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FastClick -->
+    <script src="../../vendors/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="../../vendors/nprogress/nprogress.js"></script>
+    <!-- iCheck -->
+    <script src="../../vendors/iCheck/icheck.min.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="../../vendors/moment/min/moment.min.js"></script>
+    <script src="../../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Select2 -->
+    <script src="../../vendors/select2/dist/js/select2.full.min.js"></script>
+    <!-- Switchery -->
+    <script src="../../vendors/switchery/dist/switchery.min.js"></script>
+    <!-- jQuery Tags Input -->
+    <script src="../../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+    <!-- InputMask -->
+    <script src="../../vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+    
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Custom Theme Scripts -->
+    <script src="../../build/js/custom.min.js"></script>
+</body>
+</html>

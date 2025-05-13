@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Criar Usuário ADM</title>
+    
+    <script src="../../admin/js/auth/autorizacao.js"></script>
+
+    <!-- Bootstrap -->
+    <link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="../../build/css/custom.min.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Importando o Menu -->
+    <script src="../../admin/components/menu_left/index.js"></script>
+    <script src="../../admin/components/menu_top/index.js"></script>
+    <script src="../../admin/components/menu_footer/index.js"></script>
+
+    <style>
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+        .password-strength {
+            height: 5px;
+            margin-top: 5px;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+        .strength-0 { width: 20%; background-color: #dc3545; }
+        .strength-1 { width: 40%; background-color: #fd7e14; }
+        .strength-2 { width: 60%; background-color: #ffc107; }
+        .strength-3 { width: 80%; background-color: #28a745; }
+        .strength-4 { width: 100%; background-color: #20c997; }
+    </style>
+</head>
+
+<body class="nav-md">
+    <script>
+        // Verifica se o usuário está autenticado
+        checarAutorizacao();
+    </script>
+    
+    <div class="container body" id="conteudo">
+        <div class="main_container">
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                        <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+                    </div>
+
+                    <div class="clearfix"></div>
+                    <br />
+                    <menu-left></menu-left>
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <menu-top></menu-top>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Criar Usuário Administrador</h3>
+                        </div>
+                        <div class="title_right">
+							<div class="col-md-12 col-sm-12 form-group">  <!-- Ocupa toda a largura -->
+								<div class="float-right">  <!-- Flutuação à direita -->
+									<a href="/admin/gerenciar-usuario-adm" class="btn btn-primary">
+										<i class="fa fa-list"></i> Voltar para Lista
+									</a>
+								</div>
+							</div>
+						</div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12">
+                            <form id="formCriarUsuario" class="form-horizontal form-label-left">
+                                <h2 class="h5 font-weight-medium">Informações do Usuário</h2>
+                            
+                                <!-- Nome -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align required-field" for="nome">Nome</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="text" name="nome" id="nome" required>
+                                    </div>
+                                </div>
+                            
+                                <!-- Email -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align required-field" for="email">E-mail</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="email" name="email" id="email" required>
+                                    </div>
+                                </div>
+                            
+                                <!-- Senha -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align required-field" for="senha">Senha</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="password" name="senha" id="senha" required>
+                                        <div class="password-strength strength-0" id="password-strength"></div>
+                                        <small class="form-text text-muted">
+                                            A senha deve ter pelo menos 6 caracteres
+                                        </small>
+                                    </div>
+                                </div>
+                            
+                                <!-- Confirmação de Senha -->
+                                <div class="mb-3 row">
+                                    <label class="col-form-label col-md-4 col-sm-4 label-align required-field" for="confirmar_senha">Confirmar Senha</label>
+                                    <div class="col-md-8 col-sm-8">
+                                        <input class="form-control" type="password" name="confirmar_senha" id="confirmar_senha" required>
+                                        <small id="password-match-feedback" class="form-text"></small>
+                                    </div>
+                                </div>
+                            
+                                <div class="ln_solid"></div>
+                            
+                                <!-- Botão de Salvar -->
+                                <div class="mb-3 row">
+                                    <div class="col-md-8 offset-md-4">
+                                        <button type="submit" class="btn btn-success" id="btn-submit">
+                                            <span id="submit-text">Criar Usuário</span>
+                                            <span id="loading-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- footer content -->
+            <menu-footer></menu-footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script src="../../build/js/custom.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+    $(document).ready(function() {
+        // Função para verificar força da senha
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            
+            // Verifica o comprimento
+            if (password.length >= 6) strength++;
+            if (password.length >= 8) strength++;
+            
+            // Verifica caracteres especiais
+            if (/[!@#$%^&*(),.?":{}|<>]/.test(password)) strength++;
+            
+            // Verifica números
+            if (/\d/.test(password)) strength++;
+            
+            // Verifica letras maiúsculas e minúsculas
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+            
+            // Limita a força máxima a 4
+            return Math.min(strength, 4);
+        }
+
+        // Atualiza a barra de força da senha
+        $('#senha').on('input', function() {
+            const password = $(this).val();
+            const strength = checkPasswordStrength(password);
+            const strengthBar = $('#password-strength');
+            
+            strengthBar.removeClass('strength-0 strength-1 strength-2 strength-3 strength-4');
+            strengthBar.addClass(`strength-${strength}`);
+        });
+
+        // Verifica se as senhas coincidem
+        $('#confirmar_senha').on('input', function() {
+            const senha = $('#senha').val();
+            const confirmarSenha = $(this).val();
+            const feedback = $('#password-match-feedback');
+            
+            if (senha && confirmarSenha) {
+                if (senha === confirmarSenha) {
+                    feedback.text('As senhas coincidem').css('color', 'green');
+                } else {
+                    feedback.text('As senhas não coincidem').css('color', 'red');
+                }
+            } else {
+                feedback.text('');
+            }
+        });
+
+        // Configuração do envio do formulário
+        $('#formCriarUsuario').submit(async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = $('#btn-submit');
+            const submitText = $('#submit-text');
+            const loadingSpinner = $('#loading-spinner');
+            
+            // Mostra o loading
+            submitBtn.prop('disabled', true);
+            submitText.text('Criando...');
+            loadingSpinner.removeClass('d-none');
+
+            try {
+                const formData = {
+                    nome: $('#nome').val().trim(),
+                    email: $('#email').val().trim(),
+                    senha: $('#senha').val(),
+                    confirmar_senha: $('#confirmar_senha').val()
+                };
+
+                // Validações
+                if (!formData.nome) {
+                    throw new Error('O campo Nome é obrigatório.');
+                }
+                
+                if (!formData.email) {
+                    throw new Error('O campo E-mail é obrigatório.');
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+                    throw new Error('Por favor, insira um e-mail válido.');
+                }
+                
+                if (!formData.senha) {
+                    throw new Error('O campo Senha é obrigatório.');
+                } else if (formData.senha.length < 6) {
+                    throw new Error('A senha deve ter pelo menos 6 caracteres.');
+                }
+                
+                if (formData.senha !== formData.confirmar_senha) {
+                    throw new Error('As senhas não coincidem.');
+                }
+
+                const response = await fetch('/api/usuario-adm/criar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'Erro ao criar usuário');
+                }
+                
+                // Mensagem de sucesso
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Usuário criado com sucesso!',
+                    confirmButtonColor: '#26B99A',
+                    timer: 2000,
+                    timerProgressBar: true
+                }).then(() => {
+                    // Redireciona para a lista de usuários
+                    window.location.href = '/admin/gerenciar-usuario-adm';
+                });
+
+            } catch (err) {
+                console.error('Erro:', err);
+                
+                // Mensagem de erro
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erro',
+                    text: err.message || 'Erro ao criar usuário. Por favor, tente novamente.',
+                    confirmButtonColor: '#26B99A'
+                });
+            } finally {
+                // Restaura o botão
+                submitBtn.prop('disabled', false);
+                submitText.text('Criar Usuário');
+                loadingSpinner.addClass('d-none');
+            }
+        });
+    });
+    </script>
+</body>
+</html>

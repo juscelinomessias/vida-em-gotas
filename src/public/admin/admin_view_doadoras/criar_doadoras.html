@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+	<title>Admin - Vida em Gotas - Criar Doadoras</title>
+   
+    <script src="../../admin/js/auth/autorizacao.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<!-- NProgress -->
+	<link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+	<!-- iCheck -->
+	<link href="../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	<!-- bootstrap-wysiwyg -->
+	<link href="../../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+	<!-- Select2 -->
+	<link href="../../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+	<!-- Switchery -->
+	<link href="../../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+	<!-- starrr -->
+	<link href="../../vendors/starrr/dist/starrr.css" rel="stylesheet">
+	<!-- bootstrap-daterangepicker -->
+	<link href="../../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+	<!-- Custom Theme Style -->
+	<link href="../../build/css/custom.min.css" rel="stylesheet">
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<!-- Importando o Menu -->
+	<script src="../../admin/components/menu_left/index.js"></script>
+	<script src="../../admin/components/menu_top/index.js"></script>
+	<script src="../../admin/components/menu_footer/index.js"></script>
+
+	<style>
+		#seg-tab.active {
+			background-color: #26B99A; /* Cor do btn-success */
+			border-color: #169F85; /* Cor de borda do botão */
+			color: white; /* Texto branco */
+		}
+
+		.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+			background-color: #26B99A;
+			color: #fff;
+		}
+
+		.upload-area {
+			border: 2px dashed #169F85;
+			border-radius: 10px;
+			padding: 20px;
+			text-align: center;
+			color: #666;
+			cursor: pointer;
+			transition: background-color 0.2s ease;
+			position: relative;
+		}
+
+		.upload-area:hover {
+			background-color: #f0f8ff;
+		}
+
+		.upload-area img {
+			max-width: 100%;
+			max-height: 150px;
+			object-fit: cover;
+			border-radius: 5px;
+			margin-top: -5px;
+		}
+
+		.upload-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.file-preview {
+			margin-top: 5px;
+		}
+
+		.svg-placeholder {
+			width: 50px;
+			height: 50px;
+			margin: 0 auto;
+			margin-top: -10px;
+		}
+		
+	</style>
+	
+
+</head>
+
+<body class="nav-md">
+
+	<script>
+        // Verifica se o usuário está autenticado
+        checarAutorizacao();
+    </script>
+	
+	<div class="container body" id="conteudo">
+		<div class="main_container">
+			<div class="col-md-3 left_col">
+				<div class="left_col scroll-view">
+					<div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+						<a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+					</div>
+
+					<div class="clearfix"></div>
+
+                    <br />
+
+					<!-- sidebar menu -->
+					<menu-left></menu-left>
+					<!-- /sidebar menu -->				
+
+				</div>
+			</div>
+
+			<!-- top navigation -->
+			<menu-top></menu-top>
+			<!-- /top navigation -->
+
+			<!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+					<div class="page-title">
+						<div class="title_left">
+							<h3>Criar Doadoras</h3>
+						</div>
+						<div class="title_right">
+							<div class="col-md-12 col-sm-12 form-group">  <!-- Ocupa toda a largura -->
+								<div class="float-right">  <!-- Flutuação à direita -->
+									<a href="/admin/doadoras/listar-doadoras" class="btn btn-primary">
+										<i class="fa fa-list"></i> Voltar para Lista
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="clearfix"></div>
+					<div class="row">
+						<div class="col-md-12 col-sm-12">
+							<div class="x_panel">
+								<div class="x_content">
+									<form action="/api/doadoras/criar" method="POST" id="formDoadoras" data-parsley-validate class="form-horizontal form-label-left">
+										<h2 class="h5 font-weight-medium">Identificação da Doadora</h2>
+									
+										<!-- Nome -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="nome">Nome</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="nome" required>
+											</div>
+										</div>
+									
+										<!-- Nome da Mãe -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="nome_da_mae">Nome da Mãe</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="nome_da_mae" required>
+											</div>
+										</div>
+									
+										<!-- Data de Cadastro -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="data_de_cadastro">Data de Cadastro:</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="date" name="data_de_cadastro" id="data_de_cadastro" readonly>
+											</div>
+										</div>
+									
+										<!-- Data de Nascimento -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="data_de_nascimento">Data de Nascimento:</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="date" name="data_de_nascimento" required>
+											</div>
+										</div>
+									
+										<!-- Naturalidade -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="naturalidade">Naturalidade</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="naturalidade">
+											</div>
+										</div>
+									
+										<!-- Profissão -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="profissao">Profissão</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="profissao">
+											</div>
+										</div>
+									
+										<!-- Quantidade de Leite (mL) -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="quantidade_leite_mL">Quantidade de Leite (mL)</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="number" name="quantidade_leite_mL" id="quantidade_leite_mL" min="0" value="0" required>
+											</div>
+										</div>
+									
+										<!-- Coleta Domiciliar -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="coleta_domiciliar">Coleta Domiciliar</label>
+											<div class="col-md-8 col-sm-8">
+												<select class="form-control" name="coleta_domiciliar" required>
+													<option value="">Selecione</option>
+													<option value="Sim">Sim</option>
+													<option value="Não">Não</option>
+												</select>
+											</div>
+										</div>
+									
+										<!-- Doadora Exclusiva -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="doadora_exclusiva">Doadora Exclusiva</label>
+											<div class="col-md-8 col-sm-8">
+												<select class="form-control" name="doadora_exclusiva" required>
+													<option value="">Selecione</option>
+													<option value="Sim">Sim</option>
+													<option value="Não">Não</option>
+												</select>
+											</div>
+										</div>
+									
+										<!-- Receptor -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="receptor">Receptor</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="receptor">
+											</div>
+										</div>
+									
+										<!-- Situação -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="situacao">Situação</label>
+											<div class="col-md-8 col-sm-8">
+												<select class="form-control" name="situacao" required>
+													<option value="true">Ativa</option>
+													<option value="false">Inativa</option>
+												</select>
+											</div>
+										</div>
+									
+										<div class="ln_solid"></div>
+									
+										<h2 class="h5 font-weight-medium">Localização</h2>
+									
+										<!-- CEP -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="cep">CEP</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="cep" id="cep" maxlength="9" required>
+											</div>
+										</div>
+									
+										<!-- Logradouro -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="logradouro">Logradouro</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="logradouro" id="logradouro">
+											</div>
+										</div>
+									
+										<!-- Número -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="numero">Número</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="numero" id="numero">
+											</div>
+										</div>
+									
+										<!-- Bairro -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="bairro">Bairro</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="bairro" id="bairro">
+											</div>
+										</div>
+									
+										<!-- Ponto de Referência -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="ponto_de_referencia">Ponto de Referência</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="ponto_de_referencia">
+											</div>
+										</div>
+									
+										<!-- Município -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="municipio">Município</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="municipio" id="municipio">
+											</div>
+										</div>
+									
+										<!-- Latitude -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="latitude">Latitude</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="latitude" id="latitude">
+											</div>
+										</div>
+									
+										<!-- Longitude -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="longitude">Longitude</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="longitude" id="longitude">
+											</div>
+										</div>
+									
+										<div class="ln_solid"></div>
+									
+										<h2 class="h5 font-weight-medium">Contato</h2>
+									
+										<!-- Telefone -->
+										<div class="item form-group">
+											<label class="col-form-label col-md-4 col-sm-4 label-align" for="telefone">Telefone</label>
+											<div class="col-md-8 col-sm-8">
+												<input class="form-control" type="text" name="telefones[]" id="telefone" maxlength="15">
+											</div>
+										</div>
+									
+										<!-- Container para adicionar mais telefones -->
+										<div id="telefones-container"></div>
+									
+										<!-- Botão para adicionar mais telefones -->
+										<div class="item form-group">
+											<div class="col-md-8 col-sm-8 offset-md-4">
+												<button type="button" class="btn btn-success" onclick="addTelefone()">Adicionar telefone</button>
+											</div>
+										</div>
+									
+										<div class="ln_solid"></div>
+									
+										<!-- Botão de Salvar -->
+										<div class="item form-group">
+											<div class="col-md-8 col-sm-8 offset-md-4">
+												<button type="submit" class="btn btn-success">Salvar</button>
+											</div>
+										</div>
+									</form>
+									
+									<!-- Script para adicionar mais campos de telefone -->
+									<script>
+										function addTelefone() {
+											const container = document.getElementById('telefones-container');
+											const newInput = document.createElement('div');
+											newInput.classList.add('item', 'form-group');
+											newInput.innerHTML = `
+												<label class="col-form-label col-md-4 col-sm-4 label-align" for="telefone">Telefone</label>
+												<div class="col-md-8 col-sm-8">
+													<input class="form-control" type="text" name="telefones[]" maxlength="15">
+												</div>
+											`;
+											container.appendChild(newInput);
+										}
+									</script>
+									
+									
+									<script>
+										// Adiciona a máscara de CEP ao campo de CEP
+										document.getElementById('cep').addEventListener('input', function () {
+										const cep = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+										
+										if (cep.length === 8) {
+										fetch(`https://viacep.com.br/ws/${cep}/json/`)
+										.then(response => response.json())
+										.then(data => {
+										if (!data.erro) {
+										// Verifica se os elementos existem antes de preenchê-los
+										const logradouroField = document.getElementById('logradouro');
+										const bairroField = document.getElementById('bairro');
+										const municipioField = document.getElementById('municipio');
+										
+										if (logradouroField && bairroField && municipioField) {
+										logradouroField.value = data.logradouro || '';
+										bairroField.value = data.bairro || '';
+										municipioField.value = data.localidade || '';
+										
+										// Log para depuração
+										console.log('Dados ViaCEP:', data);
+										
+										// Monta o endereço completo
+										const enderecoCompleto = `${data.logradouro}, ${data.bairro}, ${data.localidade}, Brasil`;
+										console.log('Endereço completo:', enderecoCompleto);
+										
+										// Busca a latitude e longitude
+										getLatLon(enderecoCompleto);
+										} else {
+										console.error('Um ou mais campos de endereço não foram encontrados.');
+										}
+										} else {
+										alert('CEP não encontrado.');
+										}
+										})
+										.catch(error => {
+										console.error('Erro na consulta ao ViaCEP:', error);
+										alert('Erro ao buscar o CEP. Tente novamente.');
+										});
+										}
+										});
+										
+										// Função para buscar a latitude e longitude de um endereço
+										function getLatLon(endereco) {
+										const nominatimUrl = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`;
+										
+										fetch(nominatimUrl)
+										.then(response => {
+										if (!response.ok) {
+										throw new Error('Erro na requisição ao Nominatim.');
+										}
+										return response.json();
+										})
+										.then(data => {
+										console.log('Dados Nominatim:', data);
+										
+										if (data.length > 0) {
+										const latitudeField = document.getElementById('latitude');
+										const longitudeField = document.getElementById('longitude');
+										
+										if (latitudeField && longitudeField) {
+										latitudeField.value = data[0].lat;
+										longitudeField.value = data[0].lon;
+										} else {
+										console.error('Campos de latitude e longitude não encontrados.');
+										}
+										} else {
+										alert('Não foi possível encontrar a localização exata.');
+										}
+										})
+										.catch(error => {
+										console.error('Erro ao obter latitude e longitude:', error);
+										alert('Erro ao buscar a localização. Tente novamente.');
+										});
+										}
+                                          
+										// Função para definir a data de cadastro como a data atual
+										function definirDataCadastro() {
+										const dataAtual = new Date(); // Obtém a data e hora atuais
+										const ano = dataAtual.getFullYear(); // Obtém o ano (4 dígitos)
+										const mes = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Obtém o mês (2 dígitos)
+										const dia = String(dataAtual.getDate()).padStart(2, '0'); // Obtém o dia (2 dígitos)
+
+										// Formata a data no formato YYYY-MM-DD (necessário para o input type="date")
+										const dataFormatada = `${ano}-${mes}-${dia}`;
+
+										// Define a data no campo "data_de_cadastro"
+										const dataCadastroField = document.getElementById('data_de_cadastro');
+										if (dataCadastroField) {
+											dataCadastroField.value = dataFormatada;
+										} else {
+											console.error('Campo de data de cadastro não encontrado.');
+										}
+									}
+                                        
+									   //define a quantidade de leite como 0
+									     document.getElementById('quantidade_leite_mL').addEventListener('input', function () {
+											const quantidadeLeite = this.value;
+
+											// Se o valor for negativo, define como 0
+											if (quantidadeLeite < 0) {
+												this.value = 0;
+											}
+											});
+									  
+									// Executa a função quando a página for carregada
+									window.addEventListener('load', definirDataCadastro);
+										</script>
+	
+
+								
+										
+
+
+
+									<script>
+										let telefoneIndex = 1; // Começa em 1 porque já existe o primeiro campo
+										const maxTelefones = 3; // Define o limite de 3 telefones
+
+										function addTelefone() {
+											// Verifica se o número de campos já atingiu o limite
+											const totalTelefones = document.querySelectorAll('input[name="telefones[]"]').length;
+											if (totalTelefones >= maxTelefones) {
+												alert("Você só pode adicionar no máximo 3 telefones.");
+												return;
+											}
+
+											// Cria o novo campo de telefone com id único
+											const novoTelefone = `
+												<div class="item form-group" id="telefone-${telefoneIndex}">
+													<label class="col-form-label col-md-4 col-sm-4 label-align" for="telefones">Telefone</label>
+													<div class="col-md-8 col-sm-8">
+														<div class="input-group" style="margin-bottom: -5px">
+															<input class="form-control telefone-mask" type="text" name="telefones[]" id="telefone-input-${telefoneIndex}" maxlength="15">
+															<div class="input-group-append">
+																<button type="button" class="btn btn-danger" onclick="removeTelefone(${telefoneIndex})"> - </button>
+															</div>
+														</div>
+													</div>
+												</div>
+											`;
+
+											// Insere o novo campo no container
+											document.getElementById('telefones-container').insertAdjacentHTML('beforeend', novoTelefone);
+
+											// Aplica a máscara ao novo campo de telefone
+											applyPhoneMask(`telefone-input-${telefoneIndex}`);
+
+											telefoneIndex++; // Incrementa o índice
+										}
+
+										// Função para remover o campo de telefone
+										function removeTelefone(index) {
+											const telefoneField = document.getElementById(`telefone-${index}`);
+											telefoneField.remove();
+										}
+
+										// Função para aplicar a máscara de telefone
+										function applyPhoneMask(elementId) {
+											const telefoneInput = document.getElementById(elementId);
+											telefoneInput.addEventListener('input', function () {
+												let telefone = this.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+
+												if (telefone.length <= 11) {
+													telefone = telefone.replace(/(\d{2})(\d)/, '($1) $2'); // Adiciona parênteses em volta do DDD
+													telefone = telefone.replace(/(\d{5})(\d)/, '$1-$2');    // Adiciona hífen após os primeiros 5 dígitos do número
+												}
+
+												this.value = telefone; // Atualiza o valor do campo com a máscara
+											});
+										}
+
+										// Aplica a máscara ao campo de telefone inicial (caso já exista)
+										applyPhoneMask('telefone-input-0');
+
+									</script>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const success = urlParams.get('success');
+    const error = urlParams.get('error');
+
+    // Mostrar mensagem de sucesso
+    if (success === 'true') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: 'Doadora adicionada com sucesso!',
+            confirmButtonColor: '#26B99A',
+            timer: 2000,
+            timerProgressBar: true
+        }).then(() => {
+             window.location.href = '/admin/doadoras/listar-doadoras';
+        });
+    }
+    
+    // Mostrar mensagem de erro
+    if (error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: decodeURIComponent(error) || 'Ocorreu um erro ao processar a solicitação.',
+            confirmButtonColor: '#26B99A'
+        });
+    }
+</script>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- /page content -->
+
+			<!-- footer content -->
+			<menu-footer></menu-footer>
+			<!-- /footer content -->
+		</div>
+	</div>
+
+	
+	
+	<!-- jQuery -->
+	<script src="../../vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- FastClick -->
+	<script src="../../vendors/fastclick/lib/fastclick.js"></script>
+	<!-- NProgress -->
+	<script src="../../vendors/nprogress/nprogress.js"></script>
+	<!-- bootstrap-progressbar -->
+	<script src="../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+	<!-- iCheck -->
+	<script src="../../vendors/iCheck/icheck.min.js"></script>
+	<!-- bootstrap-daterangepicker -->
+	<script src="../../vendors/moment/min/moment.min.js"></script>
+	<script src="../../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script src="../../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+	<script src="../../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+	<script src="../../vendors/google-code-prettify/src/prettify.js"></script>
+	<!-- jQuery Tags Input -->
+	<script src="../../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+	<!-- Switchery -->
+	<script src="../../vendors/switchery/dist/switchery.min.js"></script>
+	<!-- Select2 -->
+	<script src="../../vendors/select2/dist/js/select2.full.min.js"></script>
+	<!-- Parsley -->
+	<script src="../../vendors/parsleyjs/dist/parsley.min.js"></script>
+	
+	<!-- Parsley PT-BR -->
+	<script src="../../vendors/parsleyjs/dist/i18n/pt-br.js"></script>
+
+	<!-- Autosize -->
+	<script src="../../vendors/autosize/dist/autosize.min.js"></script>
+	<!-- jQuery autocomplete -->
+	<script src="../../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+	<!-- starrr -->
+	<script src="../../vendors/starrr/dist/starrr.js"></script>
+	<!-- Custom Theme Scripts -->
+	<script src="../../build/js/custom.min.js"></script>
+
+	
+	<script>
+      const token = localStorage.getItem('token'); // Obtém o token armazenado no localStorage
+
+if (token) {
+    fetch('http://localhost:3000/admin/doador/criar-doador', {
+        method: 'GET', // Ou 'POST', dependendo do método da requisição
+        headers: {
+            'Authorization': `Bearer ${token}`, // Inclui o token no cabeçalho Authorization
+            'Content-Type': 'application/json', // Caso necessário
+        },
+    })
+    .then(response => response.json())
+    .then(data => console.log('Dados do doador:', data))
+    .catch(error => console.error('Erro:', error));
+} else {
+    console.log('Token não encontrado');
+}
+
+
+    </script>
+</body></html>
+
+

@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Listar Notícias</title>
+	
+    <script src="../../assets/js/autorizacao.js"></script>
+
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- jQuery e Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<!-- NProgress -->
+	<link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+	<!-- iCheck -->
+	<link href="../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	<!-- bootstrap-wysiwyg -->
+	<link href="../../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+	<!-- Select2 -->
+	<link href="../../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+	<!-- Switchery -->
+	<link href="../../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+	<!-- starrr -->
+	<link href="../../vendors/starrr/dist/starrr.css" rel="stylesheet">
+	<!-- bootstrap-daterangepicker -->
+	<link href="../../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+	<!-- Custom Theme Style -->
+	<link href="../../build/css/custom.min.css" rel="stylesheet">
+
+	<!-- Importando o Menu -->
+	<script src="../../admin/components/menu_left/index.js"></script>
+	<script src="../../admin/components/menu_top/index.js"></script>
+	<script src="../../admin/components/menu_footer/index.js"></script>
+  
+    <style>
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+            padding: 12px 8px;
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+            padding: 10px 8px;
+        }
+
+        .star-btn {
+            width: 110px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background-color: #d1d1d1;
+            border: none; 
+            color: #333; 
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning.star-btn {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .star-btn:hover {
+            background-color: #727272;
+            transform: translateY(-1px);
+        }
+
+        .btn-warning.star-btn:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+        .star-btn .fa-star {
+            color: #ffee00; 
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .star-btn .fa-star-o {
+            color: #333;
+            opacity: 0.9;
+        }
+
+        /* Container do carrossel */
+        .carousel {
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #imag-video .carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding-bottom: 70.25%; 
+            object-fit: cover;
+            margin-top: 20px;
+        }
+
+        /* Container responsivo para vídeo/imagem - mantém proporção 16:9 */
+        #imag-video {
+            width: 100%;
+            height: 0;
+            padding-bottom: 70.25%; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Imagem cortada centralizada */
+        .cropped-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Efeito hover suave */
+        .carousel:hover .cropped-image {
+            transform: scale(1.05);
+        }
+
+        /* Controles do carrossel */
+        .carousel-control-prev, 
+        .carousel-control-next {
+            background-color: rgba(0,0,0,0.2);
+            width: 40px;
+            height: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease, background-color 0.3s ease;
+        }
+
+        .carousel:hover .carousel-control-prev,
+        .carousel:hover .carousel-control-next {
+            opacity: 1;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        /* Indicadores (se quiser adicionar) */
+        .carousel-indicators {
+            bottom: 50px;
+        }
+
+        .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+        }
+
+        .carousel-indicators button.active {
+            background-color: white;
+        }
+
+        .cropped-image:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+    </style>
+
+</head>
+
+<body class="nav-md">
+
+	<script>
+        // Verifica se o usuário está autenticado
+        checarAutorizacao();
+    </script>
+	
+	<div class="container body" id="conteudo">
+        <div class="main_container">
+          
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    
+                    <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                        <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+                    </div>
+            
+                    <div class="clearfix"></div>
+                    
+                    <br />
+            
+                    <!-- sidebar menu -->
+                    <menu-left></menu-left>
+                    <!-- /sidebar menu -->
+
+                </div>
+            </div>
+      
+          <!-- top navigation -->
+          <menu-top></menu-top>
+          <!-- /top navigation -->
+      
+          <!-- page content -->
+          <div class="right_col" role="main">
+            <div class="">
+              <div class="page-title">
+                <div class="title_left">
+                  <h3>Listar Notícias</h3>
+                </div>
+                <div class="title_right">
+                  <div class="col-md-12 col-sm-12 form-group">
+                    <!-- Ocupa toda a largura -->
+                    <div class="float-right">
+                      <!-- Flutuação à direita -->
+                      <a href="/admin/noticias/criar-noticias" class="btn btn-success">
+                        <i class="fa fa-plus"></i> Nova Notícia
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="clearfix"></div>
+      
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <div class="x_panel">
+                    <div class="x_content">
+                      <div class="page-title" style="margin-bottom: 30px;">
+                        <!-- Adicionei margin-bottom aqui -->
+                        <div class="row">
+                          <!-- Coluna esquerda (título e busca) -->
+                          <div class="col-md-8 col-sm-8">
+                            <div class="title_left">
+                              <h2><i class="fa fa-users"></i> Notícias</h2>
+                            </div>
+      
+                            <!-- Área de busca -->
+                            <div class="form-group top_search">
+                              <div class="input-group">
+                                <input type="text" id="campoBuscaNoticias" class="form-control"
+                                  onkeyup="buscarNoticias()" placeholder="Buscar Notícias pelo Nome">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button" onclick="buscarNoticias()">
+                                    <i class="fa fa-search"></i>Buscar
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <table class="table table-striped projects">
+                        <thead>
+                          <tr>
+                            <th style="width: 3%">#</th>
+                            <th style="width: 20%">Título</th>
+                            <th style="width: 20%">Descrição</th>
+                            <th style="width: 20%">Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody id="tabelaNoticias">
+                          <!-- Resultados aparecem aqui -->
+                        </tbody>
+                      </table>
+      
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div id="paginacaoNoticias" class="text-center"></div>
+                        </div>
+                      </div>
+      
+                      <label for="tipo-doador-select">
+                        <h2><i class="fa fa-filter"></i> Lista por todas as Publicações</h2>
+                      </label>
+      
+                      <!-- Container para os vídeos/notícias -->
+                      <div id="noticiasContainer"></div>
+      
+                      <!-- Container para a paginação -->
+                      <div id="paginacaoNoticias"></div>
+      
+                      <!-- Modal Editar -->
+                      <div class="modal fade" id="modalEditarNoticias">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Editar Notícias</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+
+                              <input type="hidden" id="noticia-id">
+      
+                              <div class="mb-3">
+                                <label class="form-label">Título*</label>
+                                <input type="text" class="form-control" id="noticia-titulo" required>
+                              </div>
+      
+                              <div class="mb-3">
+                                <label class="form-label">Descrição*</label>
+                                <textarea class="form-control" id="noticia-descricao" rows="5" required></textarea>
+                              </div>
+
+                              <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="noticia-destaque">
+                                    <label class="form-check-label">Destacar esta notícia</label>
+                                </div>
+                              </div>
+
+                              <div class="mb-3">
+                                <label>Foto Atual</label>
+                                <div id="noticia-foto-atual-container"></div>
+                              </div>
+                            
+                              <div class="mb-3">
+                                <label for="noticia-nova-foto">Alterar Foto</label>
+                                <input type="file" class="form-control-file" id="noticia-nova-foto" name="imagem_mae" accept="image/*">
+                                <small class="form-text text-muted">Deixe em branco para manter a foto atual</small>
+                              </div>
+      
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-primary" onclick="salvarEdicaoNoticia()">Salvar</button>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+      
+                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      
+                    </div> <!-- x_content -->
+                  </div> <!-- x_panel -->
+                </div> <!-- col -->
+              </div> <!-- row -->
+            </div> <!-- "" -->
+          </div> <!-- right_col -->
+        </div> <!-- main_container -->
+      </div> <!-- container body -->
+      
+            
+<script>
+
+    const NOTICIAS_POR_PAGINA = 5;
+
+    // Função para carregar notícias
+    async function buscarNoticias(pagina = 1) {
+        const titulo = document.getElementById("campoBuscaNoticias").value.trim();
+        const tabela = document.getElementById("tabelaNoticias");
+        
+        if (titulo === "") {
+            tabela.innerHTML = "";
+            return;
+        }
+
+        try {
+            const offset = (pagina - 1) * NOTICIAS_POR_PAGINA;
+            const response = await fetch(`/api/noticias/buscar?busca=${encodeURIComponent(titulo)}&limit=${NOTICIAS_POR_PAGINA}&offset=${offset}`);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Erro na requisição: ${response.statusText}`);
+            }
+            
+            // Extrai os dados corretamente da resposta
+            const responseData = await response.json();
+            const noticias = responseData.data;
+            const totalNoticias = responseData.total;
+
+            tabela.innerHTML = "";
+
+            if (noticias.length === 0) {
+                tabela.innerHTML = "<tr><td colspan='6'>Nenhuma publicação encontrada.</td></tr>";
+                return;
+            }
+
+            // Calcula o total de páginas com o total retornado pelo backend
+            const totalPaginas = Math.ceil(totalNoticias / NOTICIAS_POR_PAGINA);
+
+            // Preenche a tabela com os dados
+            noticias.forEach((noticia) => {
+                const row = `
+                    <tr>
+                        <td>${noticia.id}</td>
+                        <td>${noticia.titulo.length > 10 ? noticia.titulo.substring(0, 10) + '...' : noticia.titulo}</td>
+                        <td>${noticia.descricao.length > 10 ? noticia.descricao.substring(0, 10) + '...' : noticia.descricao}</td>
+                        <td></td>
+                        <td>
+                            <button class="btn ${noticia.destacada ? 'btn-warning' : 'btn-secondary'} star-btn"
+                                    onclick="alternarDestacada(${noticia.id}, this)"
+                                    title="${noticia.destacada ? 'Remover destaque' : 'Destacar'}">
+                                <i class="fa ${noticia.destacada ? 'fa-star' : 'fa-star-o'}"></i>
+                                ${noticia.destacada ? 'Destacada' : 'Destacar'}
+                            </button>
+
+                            <a href="#" class="btn btn-info btn-xs" onclick="abrirModalEditarNoticias(${noticia.id})">
+                                <i class="fa fa-pencil"></i> Editar
+                            </a>
+                            <a href="#" class="btn btn-danger btn-xs" onclick="deletarNoticia(${noticia.id}, this)">
+                                <i class="fa fa-trash"></i> Deletar
+                            </a>
+                        </td>
+                    </tr>
+                `;
+                tabela.innerHTML += row;
+            });
+
+            // Atualiza a paginação
+            atualizarPaginacao(totalPaginas, pagina);
+        } catch (error) {
+            console.error("❌ Erro ao buscar publicações:", error);
+            tabela.innerHTML = `<tr><td colspan="6">Erro ao carregar notícias: ${error.message}</td></tr>`;
+        }
+    }
+
+
+
+    // Função principal para carregar notícias
+    async function carregarNoticias(pagina = 1) {
+        try {
+            const noticiasContainer = document.getElementById('noticiasContainer');
+            if (!noticiasContainer) {
+                console.error('Elemento noticiasContainer não encontrado');
+                return;
+            }
+
+            const response = await fetch(`/api/noticias/listar?page=${pagina}&limit=${NOTICIAS_POR_PAGINA}`);
+            
+            if (!response.ok) throw new Error(`Erro na requisição: ${response.status}`);
+
+            const responseData = await response.json();
+
+            const noticias = responseData.data || responseData.publicacoes || [];
+            const totalPaginas = responseData.totalPaginas || 1;
+            const totalNoticias = responseData.totalNoticias || noticias.length;
+
+            // Limpa container
+            noticiasContainer.innerHTML = '';
+            
+            // Estado vazio
+            if (noticias.length === 0) {
+                noticiasContainer.innerHTML = criarEmptyState();
+                atualizarPaginacao(1, 1);
+                return;
+            }
+
+            // Processa cada notícia
+            noticias.forEach(noticia => {
+                const videoSection = criarVideoSection(noticia);
+                noticiasContainer.appendChild(videoSection);
+            });
+
+            atualizarPaginacao(totalPaginas, pagina);
+
+        } catch (error) {
+            console.error('Erro ao carregar notícias:', error);
+            mostrarErroCarregamento(error);
+        }
+    }
+
+
+
+    function mostrarErro(mensagem) {
+        const modal = criarModal();
+        document.getElementById('fotosModalBody').innerHTML = `
+            <div class="alert alert-danger">
+                <h5>Erro</h5>
+                <p>${mensagem}</p>
+                <button class="btn btn-sm btn-primary" onclick="window.location.reload()">
+                    Recarregar página
+                </button>
+            </div>
+        `;
+        new bootstrap.Modal(modal).show();
+    }
+
+
+
+    // Funções auxiliares
+    function criarEmptyState() {
+        return `
+            <div class="col-12 empty-state text-center py-5">
+                <i class="fa fa-video-camera" style="font-size: 3rem; color: #ccc;"></i>
+                <h4 class="mt-3">Nenhuma notícia cadastrada ainda</h4>
+                <p class="text-muted">Adicione sua primeira notícia</p>
+                <a href="/admin/noticias/criar-noticias" class="btn btn-success mt-3">
+                    <i class="fa fa-plus"></i> Adicionar notícia
+                </a>
+            </div>
+        `;
+    }
+
+
+
+    function getImageUrl(img) {
+        try {
+            const baseUrl = 'https://vida-em-gotas.s3.us-east-2.amazonaws.com/';
+            
+            if (typeof img === 'string') {
+                const cleanedPath = img.startsWith('/') ? img.substring(1) : img;
+                return baseUrl + cleanedPath;
+            }
+            
+            if (img.url) {
+                if (img.url.includes('://')) return img.url; // URL absoluta
+                const cleanedPath = img.url.startsWith('/') ? img.url.substring(1) : img.url;
+                return baseUrl + cleanedPath;
+            }
+            
+            if (img.key) {
+                const cleanedPath = img.key.startsWith('/') ? img.key.substring(1) : img.key;
+                return baseUrl + cleanedPath;
+            }
+            
+            throw new Error('Formato de imagem inválido');
+        } catch (error) {
+            console.error('Erro ao obter URL da imagem:', img, error);
+            return '/assets/img/Banner-3 1.png'; // Fallback para imagem padrão
+        }
+    }
+
+
+
+    function criarVideoSection(noticia) {
+        const videoUrl = noticia.video || noticia.video_url || '';
+        const embedUrl = videoUrl ? videoUrl.replace('watch?v=', 'embed/').split('&')[0] : '';
+        const temImagens = noticia.imagens && noticia.imagens.length > 0;
+        const multiplasImagens = temImagens && noticia.imagens.length > 1;
+        const primeiraImagemUrl = temImagens
+            ? getImageUrl(noticia.imagens[0])
+            : '/assets/img/Banner-3 1.png';
+
+        const videoSection = document.createElement('div');
+        videoSection.className = 'video-item';
+
+        // Gerar HTML do carrossel se houver múltiplas imagens
+        const carrosselHTML = multiplasImagens
+            ? gerarCarrosselHTML(noticia.imagens, noticia.id)
+            : '';
+
+        videoSection.innerHTML = `
+            <section class="videos-conteudo-video">
+                <div class="video-container">
+                    ${embedUrl ? `
+                        <iframe src="${embedUrl}" frameborder="0" allowfullscreen></iframe>
+                    ` : `
+                        <div class="no-video-placeholder" id="imag-video">
+                            ${multiplasImagens ? carrosselHTML : `
+                                <img src="${primeiraImagemUrl}"
+                                    onerror="this.src='/assets/img/Banner-3 1.png';"
+                                    alt="${noticia.titulo || 'Notícia sem título'}"
+                                    class="img-fluid cropped-image">
+                                ${!temImagens ? '<div class="placeholder-label"></div>' : ''}
+                            `}
+                        </div>
+                    `}
+                    ${noticia.destacada
+                        ? '<span class="badge bg-warning destacada-badge">Destaque</span>'
+                        : ''}
+                </div>
+
+                <div class="video-info">
+                    <div class="videos-conteudo-video_titulo">
+                        <h4>${noticia.titulo || 'Sem título'}</h4>
+                    </div>
+
+                    <div class="videos-conteudo-video_descricao">
+                        <p title="${noticia.descricao || ''}">
+                            ${limitarTexto(noticia.descricao, 600)}
+                        </p>
+                    </div>
+
+                    <div class="video-actions">
+                        <button class="btn ${noticia.destacada ? 'btn-warning' : 'btn-secondary'} star-btn"
+                                onclick="alternarDestacada(${noticia.id}, this)"
+                                title="${noticia.destacada ? 'Remover destaque' : 'Destacar'}">
+                            <i class="fa ${noticia.destacada ? 'fa-star' : 'fa-star-o'}"></i>
+                            ${noticia.destacada ? 'Destacada' : 'Destacar'}
+                        </button>
+
+                        <a href="#" class="btn btn-info btn-xs btn-editar"
+                        onclick="abrirModalEditarNoticias(${noticia.id})">
+                            <i class="fa fa-pencil"></i> Editar
+                        </a>
+
+                        <a href="#" class="btn btn-danger btn-xs"
+                        onclick="confirmarExclusao(${noticia.id}, this)">
+                            <i class="fa fa-trash"></i> Deletar
+                        </a>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        return videoSection;
+    }
+
+
+
+    function limitarTexto(texto, limite = 500) {
+        if (!texto) return 'Sem descrição';
+        return texto.length > limite ? texto.substring(0, limite) + '...' : texto;
+    }
+
+
+
+    function mostrarErroCarregamento(error) {
+        const noticiasContainer = document.getElementById('noticiasContainer');
+        if (noticiasContainer) {
+            noticiasContainer.innerHTML = `
+                <div class="alert alert-danger">
+                    <h5>Erro ao carregar notícias</h5>
+                    <p>${error.message}</p>
+                    <button class="btn btn-sm btn-primary" onclick="carregarNoticias()">
+                        Tentar novamente
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+
+
+    // Função para alternar o status de destaque da estrela
+    async function alternarDestacada(id, botao) {
+        try {
+            // Determina o novo estado baseado no estado atual do botão
+            const isCurrentlyStarred = botao.classList.contains('btn-warning');
+            const newState = !isCurrentlyStarred;
+
+            const response = await fetch(`/api/noticias/${id}/destacada`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    destacada: newState
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao atualizar destaque');
+            }
+
+            const data = await response.json();
+            const icon = botao.querySelector('i');
+            
+            // Atualiza o botão visualmente
+            if (data.data.destacada) {
+                icon.classList.remove('fa-star-o');
+                icon.classList.add('fa-star');
+                botao.classList.remove('btn-secondary');
+                botao.classList.add('btn-warning');
+                botao.innerHTML = `<i class="fa fa-star"></i> Destacada`;
+                botao.title = 'Remover destaque';
+            } else {
+                icon.classList.remove('fa-star');
+                icon.classList.add('fa-star-o');
+                botao.classList.remove('btn-warning');
+                botao.classList.add('btn-secondary');
+                botao.innerHTML = `<i class="fa fa-star-o"></i> Destacar`;
+                botao.title = 'Destacar';
+            }
+
+            // Feedback visual
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Destaque atualizado com sucesso',
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+        } catch (error) {
+            console.error('Erro:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: error.message || 'Ocorreu um erro ao atualizar o destaque'
+            });
+        }
+    }
+
+
+
+    // Função de paginação otimizada
+    function atualizarPaginacao(totalPaginas, paginaAtual) {
+        const paginacao = document.getElementById("paginacaoNoticias");
+        if (!paginacao) {
+            console.warn("Elemento de paginação não encontrado");
+            return;
+        }
+        
+        // Não mostra paginação se só houver uma página
+        if (totalPaginas <= 1) {
+            paginacao.innerHTML = '';
+            return;
+        }
+        
+        // Cria elementos de paginação de forma segura
+        const ul = document.createElement('ul');
+        ul.className = 'pagination';
+        
+        // Botão anterior
+        if (paginaAtual > 1) {
+            ul.appendChild(criarItemPagina('«', paginaAtual - 1, false));
+        }
+        
+        // Páginas numeradas
+        for (let i = 1; i <= totalPaginas; i++) {
+            ul.appendChild(criarItemPagina(i, i, i === paginaAtual));
+        }
+        
+        // Botão próximo
+        if (paginaAtual < totalPaginas) {
+            ul.appendChild(criarItemPagina('»', paginaAtual + 1, false));
+        }
+        
+        paginacao.innerHTML = '';
+        paginacao.appendChild(ul);
+    }
+
+
+
+    // Helper para criar itens de paginação
+    function criarItemPagina(texto, pagina, ativo) {
+        const li = document.createElement('li');
+        li.className = `page-item ${ativo ? 'active' : ''}`;
+        
+        const a = document.createElement('a');
+        a.className = 'page-link';
+        a.href = '#';
+        a.textContent = texto;
+        a.onclick = (e) => {
+            e.preventDefault();
+            carregarNoticias(pagina);
+        };
+        
+        li.appendChild(a);
+        return li;
+    }
+
+
+
+    //Função para buscar notícias com tratamento robusto de erros
+    async function buscarNoticia(pagina = 1) {
+        try {
+            const response = await fetch(`/api/noticias?page=${pagina}`);
+        
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('[ERROR] Erro na resposta da API:', {
+                    status: response.status,
+                    errorText
+                });
+                throw new Error(`Erro HTTP ${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
+
+            return noticias;
+
+        } catch (error) {
+            console.error('[ERROR] Falha ao buscar Notícias:', {
+                error: error.message,
+                stack: error.stack
+            });
+            throw error;
+        }
+    }
+
+
+    //  ABRE MODAL DA NOTÍCIA - LINO
+    async function abrirModalEditarNoticias(id) {
+        try {
+            const response = await fetch(`/api/noticias/obter/${id}`);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Erro ao carregar notícia');
+            }
+
+            const { data: noticia } = await response.json();
+            
+            // Preencher o modal
+            document.getElementById('noticia-id').value = noticia.id;
+            document.getElementById('noticia-titulo').value = noticia.titulo;
+            document.getElementById('noticia-descricao').value = noticia.descricao;
+            document.getElementById('noticia-destaque').checked = noticia.destacada;
+
+            // Exibe a foto atual
+            const fotoContainer = document.getElementById('noticia-foto-atual-container');
+
+            if (noticia.imagens && noticia.imagens.length > 0) {
+                const imagensHTML = noticia.imagens.map(img =>
+                    `<img src="https://vida-em-gotas.s3.us-east-2.amazonaws.com/${img.url}" class="img-thumbnail" style="max-width: 150px;">`
+                ).join('');
+                fotoContainer.innerHTML = imagensHTML;
+            } else {
+                fotoContainer.innerHTML = '<p class="text-muted">Nenhuma foto cadastrada</p>';
+            };
+
+            // Abrir o modal
+            $('#modalEditarNoticias').modal('show');
+            
+        } catch (error) {
+            console.error('Erro ao abrir modal de edição:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: error.message || 'Ocorreu um erro ao carregar a orientação'
+            });
+        }
+    }
+
+
+    // SALVA ATUALIZAÇÃO DA NOTÍCIA - LINO
+    // Função para salvar edição
+    async function salvarEdicaoNoticia() {
+
+        const id = document.getElementById('noticia-id').value;
+        const titulo = document.getElementById('noticia-titulo').value.trim();
+        const descricao = document.getElementById('noticia-descricao').value.trim();
+        const destacada = document.getElementById('noticia-destaque').checked;
+        const inputFile = document.getElementById('noticia-nova-foto');
+
+        let hasError = false;
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        document.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+        
+        if (!titulo) {
+            showError('noticia-titulo', 'Título é obrigatório');
+            hasError = true;
+        }
+
+        if (!descricao) {
+            showError('noticia-descricao', 'Descrição é obrigatória');
+            hasError = true;
+        }
+
+        if (hasError) {
+            Swal.fire({ icon: 'error', title: 'Corrija os erros', text: 'Preencha os campos obrigatórios corretamente' });
+            return;
+        }
+
+        try {
+            const salvarBtn = document.querySelector('#modalEditarNoticias .btn-primary');
+            salvarBtn.disabled = true;
+            salvarBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Salvando...';
+
+            const formData = new FormData();
+            formData.append('titulo', titulo);
+            formData.append('descricao', descricao);
+            formData.append('destacada', destacada);
+
+            if (inputFile.files.length > 0) {
+                formData.append('imagensParaRemover', 'todas');
+
+                for (let i = 0; i < inputFile.files.length; i++) {
+                    formData.append('imagens', inputFile.files[i]);
+                }
+            }
+
+            const response = await fetch(`/api/noticias/atualizar/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao salvar alterações');
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: data.message || 'Alterações salvas com sucesso'
+            }).then(() => {
+                $('#modalEditarNoticias').modal('hide');
+                carregarNoticias(1); // Recarrega a página para exibir as modificações
+            });
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({ icon: 'error', title: 'Erro', text: error.message });
+        } finally {
+            const salvarBtn = document.querySelector('#modalEditarNoticias .btn-primary');
+            salvarBtn.disabled = false;
+            salvarBtn.innerHTML = 'Salvar';
+        }
+    }
+
+
+
+    // Função para exibir erros nos campos
+    function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+
+        field.classList.add('is-invalid');
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'invalid-feedback';
+        errorDiv.textContent = message;
+        
+        field.parentNode.appendChild(errorDiv);
+    }
+
+    // EXIBI TELA PARA CONFIRMAÇÃO PARA DELETAR NOTÍCIA - LINO
+    // Função para confirmar a exclusão
+    function confirmarExclusao(id) {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá reverter isso!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, deletar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deletarNoticia(id);
+            }
+        });
+    }
+
+
+    // DELETA A NOTÍCIA - LINO
+    // Função que faz a requisição DELETE para o backend
+    async function deletarNoticia(id) {
+        try {
+            const response = await fetch(`/api/noticias/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao deletar dúvida');
+            }
+
+            const data = await response.json();
+
+            Swal.fire(
+                'Deletado!',
+                data.mensagem || 'Dúvida deletada com sucesso.',
+                'success'
+            );
+
+            carregarNoticias();
+            
+        } catch (error) {
+            console.error('Erro:', error);
+            Swal.fire(
+                'Erro!',
+                error.message || 'Ocorreu um erro ao deletar a dúvida.',
+                'error'
+            );
+        }
+    }
+
+
+
+    // Inicialização quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verifica se os elementos necessários existem
+        if (!document.getElementById('noticiasContainer') || !document.getElementById('paginacaoNoticias')) {
+            console.error('Elementos necessários não encontrados no DOM');
+            return;
+        }
+        
+        // Carrega a primeira página
+        carregarNoticias(1);
+    });    
+             
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Busca inicial se necessário
+        buscarNoticias(1);
+        carregarNoticias(1);
+        
+        // Configura o evento de busca
+        document.getElementById("campoBuscaNoticias").addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarNoticias(1);
+
+            }
+        });
+    });
+                
+</script>
+    
+        <!-- footer content -->
+        <menu-footer></menu-footer>
+        <!-- /footer content -->
+
+    </div>
+</div>
+    
+
+ <!-- SweetAlert2 -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>	<!-- jQuery -->
+	<script src="../../vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- FastClick -->
+	<script src="../../vendors/fastclick/lib/fastclick.js"></script>
+	<!-- NProgress -->
+	<script src="../../vendors/nprogress/nprogress.js"></script>
+	<!-- bootstrap-progressbar -->
+	<script src="../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+	<!-- iCheck -->
+	<script src="../../vendors/iCheck/icheck.min.js"></script>
+	<!-- bootstrap-daterangepicker -->
+	<script src="../../vendors/moment/min/moment.min.js"></script>
+	<script src="../../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script src="../../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+	<script src="../../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+	<script src="../../vendors/google-code-prettify/src/prettify.js"></script>
+	<!-- jQuery Tags Input -->
+	<script src="../../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+	<!-- Switchery -->
+	<script src="../../vendors/switchery/dist/switchery.min.js"></script>
+	<!-- Select2 -->
+	<script src="../../vendors/select2/dist/js/select2.full.min.js"></script>
+	<!-- Parsley -->
+	<script src="../../vendors/parsleyjs/dist/parsley.min.js"></script>
+
+	<!-- Parsley PT-BR -->
+	<script src="../../vendors/parsleyjs/dist/i18n/pt-br.js"></script>
+
+	<!-- Autosize -->
+	<script src="../../vendors/autosize/dist/autosize.min.js"></script>
+	<!-- jQuery autocomplete -->
+	<script src="../../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+	<!-- starrr -->
+	<script src="../../vendors/starrr/dist/starrr.js"></script>
+	<!-- Custom Theme Scripts -->
+	<script src="../../build/js/custom.min.js"></script>
+
+	
+</body>
+
+</html>

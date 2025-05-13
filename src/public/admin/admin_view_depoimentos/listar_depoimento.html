@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Listar Depoimentos</title>
+	
+    <script src="../../assets/js/autorizacao.js"></script>
+
+	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- jQuery e Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Bootstrap -->
+	<link href="../../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="../../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<!-- NProgress -->
+	<link href="../../vendors/nprogress/nprogress.css" rel="stylesheet">
+	<!-- iCheck -->
+	<link href="../../vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	<!-- bootstrap-wysiwyg -->
+	<link href="../../vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+	<!-- Select2 -->
+	<link href="../../vendors/select2/dist/css/select2.min.css" rel="stylesheet">
+	<!-- Switchery -->
+	<link href="../../vendors/switchery/dist/switchery.min.css" rel="stylesheet">
+	<!-- starrr -->
+	<link href="../../vendors/starrr/dist/starrr.css" rel="stylesheet">
+	<!-- bootstrap-daterangepicker -->
+	<link href="../../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+	<!-- Custom Theme Style -->
+	<link href="../../build/css/custom.min.css" rel="stylesheet">
+
+	<!-- Importando o Menu -->
+	<script src="../../admin/components/menu_left/index.js"></script>
+	<script src="../../admin/components/menu_top/index.js"></script>
+	<script src="../../admin/components/menu_footer/index.js"></script>
+  
+    <style>
+        
+        .table thead th {
+            vertical-align: middle;
+            text-align: center;
+            padding: 12px 8px;
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+            padding: 10px 8px;
+        }
+        .star-btn {
+            width: 110px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 6px 12px;
+            background-color: #d1d1d1;
+            border: none; 
+            color: #333; 
+            transition: all 0.3s ease;
+        }
+
+        .btn-warning.star-btn {
+            background-color: #ffc107;
+            color: #212529;
+        }
+
+        .star-btn:hover {
+            background-color: #727272;
+            transform: translateY(-1px);
+        }
+
+        .btn-warning.star-btn:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
+        .star-btn .fa-star {
+            color: #ffee00; 
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .star-btn .fa-star-o {
+            color: #333;
+            opacity: 0.9;
+        }
+
+        /* Container do carrossel */
+        .carousel {
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #imag-video .carousel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding-bottom: 70.25%; 
+            object-fit: cover;
+            margin-top: 20px;
+        }
+
+        /* Container responsivo para vídeo/imagem - mantém proporção 16:9 */
+        #imag-video {
+            width: 100%;
+            height: 0;
+            padding-bottom: 70.25%; 
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Imagem cortada centralizada */
+        .cropped-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Efeito hover suave */
+        .carousel:hover .cropped-image {
+            transform: scale(1.05);
+        }
+
+        /* Controles do carrossel */
+        .carousel-control-prev, 
+        .carousel-control-next {
+            background-color: rgba(0,0,0,0.2);
+            width: 40px;
+            height: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease, background-color 0.3s ease;
+        }
+
+        .carousel:hover .carousel-control-prev,
+        .carousel:hover .carousel-control-next {
+            opacity: 1;
+        }
+
+        .carousel-control-prev:hover,
+        .carousel-control-next:hover {
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        /* Indicadores (se quiser adicionar) */
+        .carousel-indicators {
+            bottom: 50px;
+        }
+
+        .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+        }
+
+        .carousel-indicators button.active {
+            background-color: white;
+        }
+
+        .cropped-image:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+
+        .img-miniatura {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+    </style>
+
+</head>
+
+<body class="nav-md">
+
+	<script>
+        // Verifica se o usuário está autenticado
+        checarAutorizacao();
+    </script>
+	
+	<div class="container body" id="conteudo">
+        <div class="main_container">
+          
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    
+                    <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+                        <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+                    </div>
+            
+                    <div class="clearfix"></div>
+                    
+                    <br />
+            
+                    <!-- sidebar menu -->
+                    <menu-left></menu-left>
+                    <!-- /sidebar menu -->
+
+                </div>
+            </div>
+      
+          <!-- top navigation -->
+          <menu-top></menu-top>
+          <!-- /top navigation -->
+      
+          <!-- page content -->
+          <div class="right_col" role="main">
+            <div class="">
+              <div class="page-title">
+                <div class="title_left">
+                  <h3>Listar Depoimentos</h3>
+                </div>
+                <div class="title_right">
+                  <div class="col-md-12 col-sm-12 form-group">
+                    <!-- Ocupa toda a largura -->
+                    <div class="float-right">
+                      <!-- Flutuação à direita -->
+                      <a href="/admin/depoimentos/criar-depoimento" class="btn btn-success">
+                        <i class="fa fa-plus"></i> Novo Depoimento
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      
+              <div class="clearfix"></div>
+      
+              <div class="row">
+                <div class="col-md-12 col-sm-12">
+                  <div class="x_panel">
+                    <div class="x_content">
+                      <div class="page-title" style="margin-bottom: 30px;">
+                        <!-- Adicionei margin-bottom aqui -->
+                        <div class="row">
+                          <!-- Coluna esquerda (título e busca) -->
+                          <div class="col-md-8 col-sm-8">
+                            <div class="title_left">
+                              <h2><i class="fa fa-users"></i> Depoimentos</h2>
+                            </div>
+      
+                            <!-- Área de busca -->
+                            <div class="form-group top_search">
+                              <div class="input-group">
+                                <input type="text" id="campoBuscaDepoimentos" class="form-control"
+                                  onkeyup="buscarDepoimentos()" placeholder="Buscar Notícias pelo Nome">
+                                <span class="input-group-btn">
+                                  <button class="btn btn-default" type="button" onclick="buscarDepoimentos()">
+                                    <i class="fa fa-search"></i>Buscar
+                                  </button>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+      
+                      <table class="table table-striped projects">
+                          <thead>
+                            <tr>
+                                <th style="width: 5%">#</th>
+                                <th style="width: 15%">Mãe</th>
+                                <th style="width: 15%">Criança</th>
+                                <th style="width: 15%">Depoimento</th>
+                                <th style="width: 15%">Foto</th>
+                                <th style="width: 35%">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="depoimentosContainer">
+                            <!-- As linhas serão inseridas aqui -->
+                        </tbody>
+                      </table>
+      
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div id="paginacaoDepoimentos"></div>
+                        </div>
+                      </div>
+      
+                      <label for="tipo-doador-select">
+                        <h2><i class="fa fa-filter"></i> Lista por todas as Publicações</h2>
+                      </label>
+      
+                      <!-- Container para os vídeos/depoimentos -->
+                      <div id="depoimentosContainer"></div>
+      
+                      <!-- Container para a paginação -->
+                      <div id="paginacaoDepoimentos"></div>
+      
+                      <!-- Modal Editar -->
+                      <div class="modal fade" id="modalEditarDepoimentos">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Editar Depoimentos</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+
+                              <input type="hidden" id="depoimento-id">
+      
+                              <div class="form-group">
+                                <label for="depoimento-nome-mae">Nome da Mãe*</label>
+                                <input type="text" class="form-control" id="depoimento-nome-mae" name="nome_mae" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="depoimento-nome-crianca">Nome da Criança (opcional)</label>
+                                <input type="text" class="form-control" id="depoimento-nome-crianca" name="nome_crianca">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="depoimento-texto">Depoimento*</label>
+                                <textarea class="form-control" id="depoimento-texto" name="depoimento" rows="5" required></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="depoimento-destaque" name="destacado">
+                                    <label class="form-check-label" for="depoimento-destaque">
+                                        Destacar este depoimento
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Foto Atual</label>
+                                <div id="depoimento-foto-atual-container" class="mb-3"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="depoimento-nova-foto">Alterar Foto</label>
+                                <input type="file" class="form-control-file" id="depoimento-nova-foto" name="imagem_mae" accept="image/*">
+                                <small class="form-text text-muted">Deixe em branco para manter a foto atual</small>
+                            </div>
+      
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="button" class="btn btn-primary" onclick="salvarEdicaoDepoimento()">Salvar</button>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+      
+                      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+      
+                    </div> <!-- x_content -->
+                  </div> <!-- x_panel -->
+                </div> <!-- col -->
+              </div> <!-- row -->
+            </div> <!-- "" -->
+          </div> <!-- right_col -->
+        </div> <!-- main_container -->
+      </div> <!-- container body -->
+      
+            
+<script>
+
+    const DEPOIMENTOS_POR_PAGINA = 5;
+
+    // Função para carregar depoimentos no Admin - LINO
+    async function buscarDepoimentos(pagina = 1) {
+        const titulo = document.getElementById("campoBuscaDepoimentos").value.trim();
+        const tabela = document.getElementById("depoimentosContainer");
+        
+        if (titulo === "") {
+            tabela.innerHTML = "";
+            return;
+        }
+
+        try {
+            const offset = (pagina - 1) * DEPOIMENTOS_POR_PAGINA;
+            const response = await fetch(`/api/depoimentos/buscar?busca=${encodeURIComponent(titulo)}&limit=${DEPOIMENTOS_POR_PAGINA}&offset=${offset}`);
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Erro na requisição: ${response.statusText}`);
+            }
+            
+            // Extrai os dados corretamente da resposta
+            const responseData = await response.json();
+            const depoimentos = responseData.data;
+            const totalDepoimentos = responseData.total;
+
+            tabela.innerHTML = "";
+
+            if (depoimentos.length === 0) {
+                tabela.innerHTML = "<tr><td colspan='6'>Nenhuma publicação encontrada.</td></tr>";
+                return;
+            }
+
+            // Calcula o total de páginas com o total retornado pelo backend
+            const totalPaginas = Math.ceil(totalDepoimentos / DEPOIMENTOS_POR_PAGINA);
+
+            // Preenche a tabela com os dados
+            depoimentos.forEach((depoimento) => {
+                const row = `
+                        <tr>
+                            <td>${depoimento.id}</td>
+                            <td>${depoimento.nome_mae}</td>
+                            <td>${depoimento.nome_crianca || '-'}</td>
+                            <td>${depoimento.depoimento.length > 30 ? depoimento.depoimento.substring(0, 30) + '...' : depoimento.depoimento}</td>
+                            <td>
+                                ${depoimento.imagem_mae ? 
+                                    `<img src="https://vida-em-gotas.s3.us-east-2.amazonaws.com/${depoimento.imagem_mae}" width="50" height="50" class="rounded-circle">` : 
+                                    '<i class="fa fa-user-circle fa-2x"></i>'}
+                            </td>
+                            <td>
+                                <button class="btn ${depoimento.destacado ? 'btn-warning' : 'btn-secondary'} star-btn" 
+                                        onclick="alternarDestacado(${depoimento.id}, this)"
+
+                                        title="${depoimento.destacada ? 'Remover destaque' : 'Destacar'}">
+                                    <i class="fa ${depoimento.destacada ? 'fa-star' : 'fa-star-o'}"></i> 
+                                    ${depoimento.destacada ? 'Destacado' : 'Destacar'}
+                                </button>
+
+                                <button class="btn btn-info btn-xs" onclick="abrirModalVerDepoimento(${depoimento.id})" title="Ver">
+                                    <i class="fa fa-eye"></i> Ver
+                                </button>
+
+                                <a href="#" class="btn btn-info btn-xs" onclick="abrirModalEditarDepoimento(${depoimento.id})">
+                                    <i class="fa fa-pencil"></i> Editar
+                                </a>
+                                <a href="#" class="btn btn-danger btn-xs" onclick="confirmarExcluirDepoimento(${depoimento.id})">
+                                    <i class="fa fa-trash"></i> Deletar
+                                </a>
+                            </td>
+                        </tr>
+                `;
+                tabela.innerHTML += row;
+            });
+
+            // Atualiza a paginação
+            atualizarPaginacao(totalPaginas, pagina);
+        } catch (error) {
+            console.error("❌ Erro ao buscar publicações:", error);
+            tabela.innerHTML = `<tr><td colspan="6">Erro ao carregar depoimentos: ${error.message}</td></tr>`;
+        }
+    }
+
+
+    
+
+
+    async function carregarDepoimentos(pagina = 1) {
+        try {
+            const depoimentosContainer = document.getElementById('depoimentosContainer');
+            if (!depoimentosContainer) {
+                console.error('Elemento depoimentosContainer não encontrado');
+                return;
+            }
+
+            const response = await fetch(`/api/depoimentos/listar?page=${pagina}&limit=${DEPOIMENTOS_POR_PAGINA}`);
+            
+            if (!response.ok) throw new Error(`Erro na requisição: ${response.status}`);
+
+            const responseData = await response.json();
+            const depoimentos = responseData.data || responseData.publicacoes || [];
+            const totalPaginas = responseData.totalPaginas || 1;
+
+            depoimentosContainer.innerHTML = '';
+
+            // Estado vazio
+            if (depoimentos.length === 0) {
+                depoimentosContainer.innerHTML = criarEmptyState();
+                atualizarPaginacao(1, 1);
+                return;
+            }
+
+            depoimentos.forEach((depoimento, index) => {
+            const imagemUrl = depoimento.imagem_mae
+                ? getImageUrl(depoimento.imagem_mae)
+                : '/assets/img/logo-vida-em-gotas-pequeno.png';
+
+            const linha = document.createElement('tr');
+            linha.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${depoimento.nome_mae || '-'}</td>
+                <td>${depoimento.nome_crianca || '-'}</td>
+                <td>${limitarTexto(depoimento.depoimento, 60)}</td>
+                <td>
+                    <img src="${imagemUrl}" class="img-miniatura" alt="Foto da mãe" 
+                         onerror="this.src='/assets/img/logo-vida-em-gotas-pequeno.png';">
+                </td>
+                <td>
+                    <button class="btn ${depoimento.destacado ? 'btn-warning' : 'btn-secondary'} star-btn"
+                            onclick="alternarDestacada(${depoimento.id}, this)"
+                            title="${depoimento.destacado ? 'Remover destaque' : 'Destacar'}">
+                        <i class="fa ${depoimento.destacado ? 'fa-star' : 'fa-star-o'}"></i>
+                        ${depoimento.destacado ? 'Destacada' : 'Destacar'}
+                    </button>
+
+                    <button class="btn btn-info btn-sm"
+                            onclick="abrirModalEditarDepoimentos(${depoimento.id})">
+                        <i class="fa fa-pencil"></i> Editar
+                    </button>
+
+                    <button class="btn btn-danger btn-sm"
+                            onclick="confirmarExclusao(${depoimento.id}, this)">
+                        <i class="fa fa-trash"></i> Deletar
+                    </button>
+                </td>
+            `;
+
+            depoimentosContainer.appendChild(linha);
+        });
+
+        atualizarPaginacao(totalPaginas, pagina);
+
+        } catch (error) {
+            console.error('Erro ao carregar depoimentos:', error);
+            mostrarErroCarregamento(error);
+        }
+    }
+
+
+
+
+
+    function mostrarErro(mensagem) {
+        const modal = criarModal();
+        document.getElementById('fotosModalBody').innerHTML = `
+            <div class="alert alert-danger">
+                <h5>Erro</h5>
+                <p>${mensagem}</p>
+                <button class="btn btn-sm btn-primary" onclick="window.location.reload()">
+                    Recarregar página
+                </button>
+            </div>
+        `;
+        new bootstrap.Modal(modal).show();
+    }
+
+
+
+    // Funções auxiliares
+    function criarEmptyState() {
+        return `
+            <tr>
+                <td colspan="6" style="background-color: #fff;">
+                    <div class="text-center py-5">
+                        <i class="fa fa-comments" style="font-size: 3rem; color: #ccc;"></i>
+                        <h4 class="mt-3">Nenhum depoimento cadastrado ainda</h4>
+                        <p class="text-muted">Adicione seu primeiro depoimento</p>
+                        <a href="/admin/depoimentos/criar-depoimento" class="btn btn-success mt-3">
+                            <i class="fa fa-plus"></i> Adicionar depoimento
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        `;
+    }
+
+
+
+
+    function getImageUrl(img) {
+        try {
+            const baseUrl = 'https://vida-em-gotas.s3.us-east-2.amazonaws.com/';
+            
+            if (typeof img === 'string') {
+                const cleanedPath = img.startsWith('/') ? img.substring(1) : img;
+                return baseUrl + cleanedPath;
+            }
+            
+            if (img.url) {
+                if (img.url.includes('://')) return img.url; // URL absoluta
+                const cleanedPath = img.url.startsWith('/') ? img.url.substring(1) : img.url;
+                return baseUrl + cleanedPath;
+            }
+            
+            if (img.key) {
+                const cleanedPath = img.key.startsWith('/') ? img.key.substring(1) : img.key;
+                return baseUrl + cleanedPath;
+            }
+            
+            throw new Error('Formato de imagem inválido');
+        } catch (error) {
+            console.error('Erro ao obter URL da imagem:', img, error);
+            return '/assets/img/logo-vida-em-gotas-pequeno.png'; // Fallback para imagem padrão
+        }
+    }
+
+  
+
+    function criarVideoSection(depoimento) {
+        const temImagem = Boolean(depoimento.imagem_mae);
+        const imagemUrl = temImagem
+            ? getImageUrl(depoimento.imagem_mae)
+            : '/assets/img/logo-vida-em-gotas-pequeno.png';
+
+        const videoSection = document.createElement('div');
+        videoSection.className = 'video-item';
+
+        videoSection.innerHTML = `
+            <section class="videos-conteudo-video">
+                <div class="video-container">
+                    <div class="no-video-placeholder" id="imag-video">
+                        <img src="${imagemUrl}"
+                            onerror="this.src='/assets/img/logo-vida-em-gotas-pequeno.png';"
+                            alt="Imagem do depoimento ${depoimento.id}"
+                            class="img-fluid cropped-image">
+                        ${!temImagem ? '<div class="placeholder-label"></div>' : ''}
+                    </div>
+                    ${depoimento.destacado
+                        ? '<span class="badge bg-warning destacada-badge">Destaque</span>'
+                        : ''}
+                </div>
+
+                <div class="video-info">
+                    <div class="videos-conteudo-video_titulo">
+                        <h4>${depoimento.depoimento || 'Sem texto'}</h4>
+                    </div>
+
+                    <div class="videos-conteudo-video_descricao">
+                        <p title="${depoimento.depoimento}">
+                            ${limitarTexto(depoimento.depoimento, 600)}
+                        </p>
+                    </div>
+
+                    <div class="video-actions">
+                        <button class="btn ${depoimento.destacado ? 'btn-warning' : 'btn-secondary'} star-btn"
+                                onclick="alternarDestacada(${depoimento.id}, this)"
+                                title="${depoimento.destacado ? 'Remover destaque' : 'Destacar'}">
+                            <i class="fa ${depoimento.destacado ? 'fa-star' : 'fa-star-o'}"></i>
+                            ${depoimento.destacado ? 'Destacada' : 'Destacar'}
+                        </button>
+
+                        <a href="#" class="btn btn-info btn-xs btn-editar"
+                        onclick="abrirModalEditarDepoimentos(${depoimento.id})">
+                            <i class="fa fa-pencil"></i> Editar
+                        </a>
+
+                        <a href="#" class="btn btn-danger btn-xs"
+                        onclick="confirmarExclusao(${depoimento.id}, this)">
+                            <i class="fa fa-trash"></i> Deletar
+                        </a>
+                    </div>
+                </div>
+            </section>
+        `;
+
+        return videoSection;
+    }
+
+
+
+    function limitarTexto(texto, limite = 500) {
+        if (!texto) return 'Sem descrição';
+        return texto.length > limite ? texto.substring(0, limite) + '...' : texto;
+    }
+
+
+
+    function mostrarErroCarregamento(error) {
+        const depoimentosContainer = document.getElementById('depoimentosContainer');
+        if (depoimentosContainer) {
+            depoimentosContainer.innerHTML = `
+                <div class="alert alert-danger">
+                    <h5>Erro ao carregar depoimentos</h5>
+                    <p>${error.message}</p>
+                    <button class="btn btn-sm btn-primary" onclick="carregarDepoimentos()">
+                        Tentar novamente
+                    </button>
+                </div>
+            `;
+        }
+    }
+
+  
+
+    // Função para alternar o status de destaque da estrela
+    async function alternarDestacada(id, botao) {
+        try {
+            // Determina o novo estado (inverte o atual)
+            const novoEstado = !botao.classList.contains('btn-warning');
+            
+            const response = await fetch(`/api/depoimentos/${id}/destacada`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    destacada: novoEstado  // Note o campo no feminino
+                })
+            });
+
+            const data = await response.json();
+            console.log('Resposta da API:', data);
+            
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || 'Erro ao atualizar destaque');
+            }
+
+            // Atualiza a UI
+            const icon = botao.querySelector('i');
+            
+            if (data.data.destacado) {  // Note a verificação no feminino
+                botao.classList.remove('btn-secondary');
+                botao.classList.add('btn-warning');
+                icon.classList.remove('fa-star-o');
+                icon.classList.add('fa-star');
+                botao.title = 'Remover destaque';
+                botao.innerHTML = '<i class="fa fa-star"></i> Destacado';
+            } else {
+                botao.classList.remove('btn-warning');
+                botao.classList.add('btn-secondary');
+                icon.classList.remove('fa-star');
+                icon.classList.add('fa-star-o');
+                botao.title = 'Destacar';
+                botao.innerHTML = '<i class="fa fa-star-o"></i> Destacar';
+            }
+
+            // Feedback visual
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: 'Status de destaque atualizado',
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+        } catch (error) {
+            console.error('Erro:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: error.message || 'Ocorreu um erro ao atualizar o destaque'
+            });
+            
+            // Reverte visualmente em caso de erro
+            botao.classList.toggle('btn-warning');
+            botao.classList.toggle('btn-secondary');
+        }
+    }
+
+
+
+    // Função de paginação otimizada
+    function atualizarPaginacao(totalPaginas, paginaAtual) {
+        const paginacao = document.getElementById("paginacaoDepoimentos");
+        if (!paginacao) {
+            console.warn("Elemento de paginação não encontrado");
+            return;
+        }
+        
+        // Não mostra paginação se só houver uma página
+        if (totalPaginas <= 1) {
+            paginacao.innerHTML = '';
+            return;
+        }
+        
+        // Cria elementos de paginação de forma segura
+        const ul = document.createElement('ul');
+        ul.className = 'pagination';
+        
+        // Botão anterior
+        if (paginaAtual > 1) {
+            ul.appendChild(criarItemPagina('«', paginaAtual - 1, false));
+        }
+        
+        // Páginas numeradas
+        for (let i = 1; i <= totalPaginas; i++) {
+            ul.appendChild(criarItemPagina(i, i, i === paginaAtual));
+        }
+        
+        // Botão próximo
+        if (paginaAtual < totalPaginas) {
+            ul.appendChild(criarItemPagina('»', paginaAtual + 1, false));
+        }
+        
+        paginacao.innerHTML = '';
+        paginacao.appendChild(ul);
+    }
+
+
+
+    // Helper para criar itens de paginação
+    function criarItemPagina(texto, pagina, ativo) {
+        const li = document.createElement('li');
+        li.className = `page-item ${ativo ? 'active' : ''}`;
+        
+        const a = document.createElement('a');
+        a.className = 'page-link';
+        a.href = '#';
+        a.textContent = texto;
+        a.onclick = (e) => {
+            e.preventDefault();
+            carregarDepoimentos(pagina);
+        };
+        
+        li.appendChild(a);
+        return li;
+    }
+
+
+
+    //Função para buscar depoimentos com tratamento robusto de erros
+    async function buscarDepoimento(pagina = 1) {
+        try {
+            const response = await fetch(`/api/depoimentos?page=${pagina}`);
+        
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('[ERROR] Erro na resposta da API:', {
+                    status: response.status,
+                    errorText
+                });
+                throw new Error(`Erro HTTP ${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
+
+            return depoimentos;
+
+        } catch (error) {
+            console.error('[ERROR] Falha ao buscar Depoimentos:', {
+                error: error.message,
+                stack: error.stack
+            });
+            throw error;
+        }
+    }
+
+
+
+    //  ABRE MODAL DA NOTÍCIA - LINO
+    async function abrirModalEditarDepoimentos(id) {
+    try {
+        const response = await fetch(`/api/depoimentos/obter/${id}`);
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Erro ao carregar depoimento');
+        }
+
+        const { data: depoimento } = await response.json();
+
+        // Preencher os campos do modal com os dados do depoimento
+        document.getElementById('depoimento-id').value = depoimento.id;
+        document.getElementById('depoimento-nome-mae').value = depoimento.nome_mae || '';
+        document.getElementById('depoimento-nome-crianca').value = depoimento.nome_crianca || '';
+        document.getElementById('depoimento-texto').value = depoimento.depoimento || '';
+        document.getElementById('depoimento-destaque').checked = depoimento.destacado;
+
+        // Exibe a imagem atual, se houver
+        const fotoContainer = document.getElementById('depoimento-foto-atual-container');
+
+        if (depoimento.imagem_mae) {
+            fotoContainer.innerHTML = `
+                <img src="https://vida-em-gotas.s3.us-east-2.amazonaws.com/${depoimento.imagem_mae}" 
+                     class="img-thumbnail" style="max-width: 150px;">
+            `;
+        } else {
+            fotoContainer.innerHTML = '<p class="text-muted">Nenhuma foto cadastrada</p>';
+        }
+
+        // Abrir o modal
+        $('#modalEditarDepoimentos').modal('show');
+
+        } catch (error) {
+            console.error('Erro ao abrir modal de edição:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Erro!',
+                text: error.message || 'Ocorreu um erro ao carregar o depoimento'
+            });
+        }
+    }
+
+
+
+    // SALVA ATUALIZAÇÃO DA NOTÍCIA - LINO
+    // Função para salvar edição
+    async function salvarEdicaoDepoimento() {
+
+        const id = document.getElementById('depoimento-id').value;
+        const nomeMae = document.getElementById('depoimento-nome-mae').value.trim();
+        const nomeCrianca = document.getElementById('depoimento-nome-crianca').value.trim();
+        const depoimentoTexto = document.getElementById('depoimento-texto').value.trim();
+        const destacado = document.getElementById('depoimento-destaque').checked;
+        const inputFile = document.getElementById('depoimento-nova-foto');
+
+        let hasError = false;
+        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+        document.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+
+        if (!nomeMae) {
+            showError('depoimento-nome-mae', 'Nome da mãe é obrigatório');
+            hasError = true;
+        }
+
+        if (!depoimentoTexto) {
+            showError('depoimento-texto', 'O depoimento é obrigatório');
+            hasError = true;
+        }
+
+        if (hasError) {
+            Swal.fire({ icon: 'error', title: 'Corrija os erros', text: 'Preencha os campos obrigatórios corretamente' });
+            return;
+        }
+
+        try {
+            const salvarBtn = document.querySelector('#modalEditarDepoimentos .btn-primary');
+            salvarBtn.disabled = true;
+            salvarBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Salvando...';
+
+            const formData = new FormData();
+            formData.append('nome_mae', nomeMae);
+            formData.append('nome_crianca', nomeCrianca);
+            formData.append('depoimento', depoimentoTexto);
+            formData.append('destacado', destacado);
+
+            if (inputFile.files.length > 0) {
+                formData.append('imagensParaRemover', 'todas');
+
+                for (let i = 0; i < inputFile.files.length; i++) {
+                    formData.append('imagens', inputFile.files[i]);
+                }
+            }
+
+            const response = await fetch(`/api/depoimentos/atualizar/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Erro ao salvar alterações');
+            }
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Sucesso!',
+                text: data.message || 'Alterações salvas com sucesso'
+            }).then(() => {
+                $('#modalEditarDepoimentos').modal('hide');
+                carregarDepoimentos(1);
+            });
+
+        } catch (error) {
+            console.error(error);
+            Swal.fire({ icon: 'error', title: 'Erro', text: error.message });
+        } finally {
+            const salvarBtn = document.querySelector('#modalEditarDepoimentos .btn-primary');
+            salvarBtn.disabled = false;
+            salvarBtn.innerHTML = 'Salvar';
+        }
+    }
+
+
+
+    // Função para exibir erros nos campos
+    function showError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        if (!field) return;
+
+        field.classList.add('is-invalid');
+        
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'invalid-feedback';
+        errorDiv.textContent = message;
+        
+        field.parentNode.appendChild(errorDiv);
+    }
+
+
+    
+    // EXIBI TELA PARA CONFIRMAÇÃO PARA DELETAR DEPOIMENTO - LINO
+    // Função para confirmar a exclusão
+    function confirmarExclusao(id) {
+        Swal.fire({
+            title: 'Tem certeza?',
+            text: "Você não poderá reverter isso!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, deletar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                deletarDepoimento(id);
+            }
+        });
+    }
+
+
+
+    // DELETA A NOTÍCIA - LINO
+    // Função que faz a requisição DELETE para o backend
+    async function deletarDepoimento(id) {
+        try {
+            const response = await fetch(`/api/depoimentos/delete/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erro ao deletar depoimento');
+            }
+
+            const data = await response.json();
+
+            Swal.fire(
+                'Deletado!',
+                data.mensagem || 'Depoimento deletado com sucesso.',
+                'success'
+            );
+
+            carregarDepoimentos();
+            
+        } catch (error) {
+            console.error('Erro:', error);
+            Swal.fire(
+                'Erro!',
+                error.message || 'Ocorreu um erro ao deletar a depoimento.',
+                'error'
+            );
+        }
+    }
+
+
+
+    // Inicialização quando o DOM estiver pronto
+    document.addEventListener('DOMContentLoaded', function() {
+        // Verifica se os elementos necessários existem
+        if (!document.getElementById('depoimentosContainer') || !document.getElementById('paginacaoDepoimentos')) {
+            console.error('Elementos necessários não encontrados no DOM');
+            return;
+        }
+        
+        // Carrega a primeira página
+        carregarDepoimentos(1);
+    });    
+             
+    
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Busca inicial se necessário
+        buscarDepoimentos(1);
+        carregarDepoimentos(1);
+        
+        // Configura o evento de busca
+        document.getElementById("campoBuscaDepoimentos").addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                buscarDepoimentos(1);
+
+            }
+        });
+    });
+                
+</script>
+    
+        <!-- footer content -->
+        <menu-footer></menu-footer>
+        <!-- /footer content -->
+
+    </div>
+</div>
+    
+
+ <!-- SweetAlert2 -->
+ <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>	<!-- jQuery -->
+	<script src="../../vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="../../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- FastClick -->
+	<script src="../../vendors/fastclick/lib/fastclick.js"></script>
+	<!-- NProgress -->
+	<script src="../../vendors/nprogress/nprogress.js"></script>
+	<!-- bootstrap-progressbar -->
+	<script src="../../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+	<!-- iCheck -->
+	<script src="../../vendors/iCheck/icheck.min.js"></script>
+	<!-- bootstrap-daterangepicker -->
+	<script src="../../vendors/moment/min/moment.min.js"></script>
+	<script src="../../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<!-- bootstrap-wysiwyg -->
+	<script src="../../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+	<script src="../../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
+	<script src="../../vendors/google-code-prettify/src/prettify.js"></script>
+	<!-- jQuery Tags Input -->
+	<script src="../../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
+	<!-- Switchery -->
+	<script src="../../vendors/switchery/dist/switchery.min.js"></script>
+	<!-- Select2 -->
+	<script src="../../vendors/select2/dist/js/select2.full.min.js"></script>
+	<!-- Parsley -->
+	<script src="../../vendors/parsleyjs/dist/parsley.min.js"></script>
+
+	<!-- Parsley PT-BR -->
+	<script src="../../vendors/parsleyjs/dist/i18n/pt-br.js"></script>
+
+	<!-- Autosize -->
+	<script src="../../vendors/autosize/dist/autosize.min.js"></script>
+	<!-- jQuery autocomplete -->
+	<script src="../../vendors/devbridge-autocomplete/dist/jquery.autocomplete.min.js"></script>
+	<!-- starrr -->
+	<script src="../../vendors/starrr/dist/starrr.js"></script>
+	<!-- Custom Theme Scripts -->
+	<script src="../../build/js/custom.min.js"></script>
+
+	
+</body>
+
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    
+    <title>Admin - Vida em Gotas - Editar Doadora</title>
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .form-section {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .form-section h5 {
+            color: #0d6efd;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+        .required-field::after {
+            content: " *";
+            color: red;
+        }
+        #loading {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Editar Doadora</h2>
+            <div class="text-end">
+                <span id="doadora-nome" class="h4 text-muted"></span>
+                <div id="doadora-status" class="text-muted"></div>
+            </div>
+        </div>
+
+        <div id="loading" class="text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <p class="mt-2">Carregando dados da doadora...</p>
+        </div>
+
+        <div id="form-container" style="display: none;">
+            <form id="form-editar-doadora">
+                <!-- Seção Informações Pessoais -->
+                <div class="form-section">
+                    <h5>Informações Pessoais</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nome" class="form-label required-field">Nome</label>
+                            <input type="text" class="form-control" id="nome" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="nome_da_mae" class="form-label required-field">Nome da Mãe</label>
+                            <input type="text" class="form-control" id="nome_da_mae" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="data_de_nascimento" class="form-label required-field">Data de Nascimento</label>
+                            <input type="date" class="form-control" id="data_de_nascimento" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="naturalidade" class="form-label">Naturalidade</label>
+                            <input type="text" class="form-control" id="naturalidade">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="profissao" class="form-label">Profissão</label>
+                            <input type="text" class="form-control" id="profissao">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Situação -->
+                <div class="form-section">
+                    <h5>Situação</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="coleta_domiciliar">
+                            <label class="form-check-label" for="coleta_domiciliar">Coleta Domiciliar</label>
+                        </div>
+                        <div class="col-md-4 mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="doadora_exclusiva">
+                            <label class="form-check-label" for="doadora_exclusiva">Doadora Exclusiva</label>
+                        </div>
+                        <div class="col-md-4 mb-3 form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="situacao" checked>
+                            <label class="form-check-label" for="situacao">Ativa</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="quantidade_leite_ml" class="form-label">Quantidade de Leite (ml)</label>
+                            <input type="number" class="form-control" id="quantidade_leite_ml">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="receptor" class="form-label">Receptor</label>
+                            <input type="text" class="form-control" id="receptor">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Contato -->
+                <div class="form-section">
+                    <h5>Contato</h5>
+                    <div class="mb-3">
+                        <label for="telefones" class="form-label">Telefones</label>
+                        <input type="text" class="form-control" id="telefones" placeholder="Separe por vírgula">
+                    </div>
+                </div>
+
+                <!-- Seção Endereço -->
+                <div class="form-section">
+                    <h5>Endereço</h5>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="cep" class="form-label">CEP</label>
+                            <input type="text" class="form-control" id="cep">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="logradouro" class="form-label">Logradouro</label>
+                            <input type="text" class="form-control" id="logradouro">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="numero" class="form-label">Número</label>
+                            <input type="text" class="form-control" id="numero">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="bairro" class="form-label">Bairro</label>
+                            <input type="text" class="form-control" id="bairro">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="municipio" class="form-label">Município</label>
+                            <input type="text" class="form-control" id="municipio">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="ponto_de_referencia" class="form-label">Ponto de Referência</label>
+                            <input type="text" class="form-control" id="ponto_de_referencia">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção Localização -->
+                <div class="form-section">
+                    <h5>Localização</h5>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="latitude" class="form-label">Latitude</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="latitude">
+                                <button class="btn btn-outline-secondary" type="button" id="btn-obter-localizacao">
+                                    <i class="fas fa-map-marker-alt"></i> Obter
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="longitude" class="form-label">Longitude</label>
+                            <input type="text" class="form-control" id="longitude">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botões -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="/admin/doadoras/listar-doadoras" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </a>
+                    <button type="submit" class="btn btn-primary" id="btn-salvar">
+                        <span id="loading-btn" style="display: none;">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        </span>
+                        <span id="btn-text">
+                            <i class="fas fa-save"></i> Salvar Alterações
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const id = urlParams.get("id");
+
+            if (!id) {
+                showError("ID da doadora não especificado na URL");
+                return;
+            }
+
+            try {
+                showLoading();
+                await carregarDoadora(id);
+                configurarEventos(id);
+                showForm();
+            } catch (error) {
+                showError(error.message || "Erro ao carregar dados da doadora");
+            }
+        });
+
+        async function carregarDoadora(id) {
+            try {
+                const response = await fetch(`/api/doadoras/obter/editar-doadora/${id}`);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`Erro ao carregar: ${errorText}`);
+                }
+
+                const doadora = await response.json();
+                
+                // Preencher formulário
+                document.getElementById("nome").value = doadora.nome || "";
+                document.getElementById("nome_da_mae").value = doadora.nome_da_mae || "";
+                document.getElementById("data_de_nascimento").value = doadora.data_de_nascimento?.split('T')[0] || "";
+                document.getElementById("naturalidade").value = doadora.naturalidade || "";
+                document.getElementById("profissao").value = doadora.profissao || "";
+                document.getElementById("quantidade_leite_ml").value = doadora.quantidade_leite_ml || "";
+                document.getElementById("receptor").value = doadora.receptor || "";
+                
+                // Converter valores booleanos (que podem vir como 'true'/'false' ou 'SIM'/'NÃO')
+                document.getElementById("coleta_domiciliar").checked = 
+                    doadora.coleta_domiciliar === true || doadora.coleta_domiciliar === 'true' || doadora.coleta_domiciliar === 'SIM';
+                document.getElementById("doadora_exclusiva").checked = 
+                    doadora.doadora_exclusiva === true || doadora.doadora_exclusiva === 'true' || doadora.doadora_exclusiva === 'SIM';
+                document.getElementById("situacao").checked = 
+                    doadora.situacao === true || doadora.situacao === 'true' || doadora.situacao === 'SIM';
+                
+                // Telefones (array para string separada por vírgula)
+                if (Array.isArray(doadora.telefones)) {
+                    document.getElementById("telefones").value = doadora.telefones.join(", ");
+                } else if (doadora.telefone) {
+                    document.getElementById("telefones").value = doadora.telefone;
+                }
+
+                // Endereço
+                if (doadora.endereco) {
+                    document.getElementById("cep").value = doadora.endereco.cep || "";
+                    document.getElementById("logradouro").value = doadora.endereco.logradouro || "";
+                    document.getElementById("numero").value = doadora.endereco.numero || "";
+                    document.getElementById("bairro").value = doadora.endereco.bairro || "";
+                    document.getElementById("municipio").value = doadora.endereco.municipio || "";
+                    document.getElementById("ponto_de_referencia").value = doadora.endereco.ponto_de_referencia || "";
+                    document.getElementById("latitude").value = doadora.endereco.latitude || "";
+                    document.getElementById("longitude").value = doadora.endereco.longitude || "";
+                }
+
+                // Atualizar cabeçalho
+                document.getElementById("doadora-nome").textContent = doadora.nome || "Sem nome";
+                document.getElementById("doadora-status").textContent = 
+                    `Status: ${doadora.situacao ? 'Ativa' : 'Inativa'}`;
+
+            } catch (error) {
+                console.error("Erro ao carregar doadora:", error);
+                throw error;
+            }
+        }
+
+        function configurarEventos(id) {
+            // Submit do formulário
+            document.getElementById("form-editar-doadora").addEventListener("submit", async (e) => {
+                e.preventDefault();
+                await salvarEdicaoDoadora(id);
+            });
+
+            // Botão de obter localização
+            document.getElementById("btn-obter-localizacao").addEventListener("click", obterLocalizacao);
+        }
+
+        async function salvarEdicaoDoadora(id) {
+            // Validar campos obrigatórios
+            const nome = document.getElementById("nome").value.trim();
+            const nome_da_mae = document.getElementById("nome_da_mae").value.trim();
+            const data_de_nascimento = document.getElementById("data_de_nascimento").value;
+
+            if (!nome || !nome_da_mae || !data_de_nascimento) {
+                showError("Por favor, preencha todos os campos obrigatórios");
+                return;
+            }
+
+            // Preparar dados - converter booleanos para 'true'/'false' strings
+            const doadoraData = {
+                nome: nome,
+                nome_da_mae: nome_da_mae,
+                data_de_nascimento: data_de_nascimento,
+                naturalidade: document.getElementById("naturalidade").value.trim() || null,
+                profissao: document.getElementById("profissao").value.trim() || null,
+                quantidade_leite_ml: document.getElementById("quantidade_leite_ml").value || null,
+                telefones: document.getElementById("telefones").value
+                    .split(',')
+                    .map(t => t.trim())
+                    .filter(t => t),
+                coleta_domiciliar: document.getElementById("coleta_domiciliar").checked.toString(),
+                doadora_exclusiva: document.getElementById("doadora_exclusiva").checked.toString(),
+                situacao: document.getElementById("situacao").checked.toString(),
+                receptor: document.getElementById("receptor").value.trim() || null,
+                cep: document.getElementById("cep").value.trim() || null,
+                logradouro: document.getElementById("logradouro").value.trim() || null,
+                numero: document.getElementById("numero").value.trim() || null,
+                bairro: document.getElementById("bairro").value.trim() || null,
+                ponto_de_referencia: document.getElementById("ponto_de_referencia").value.trim() || null,
+                municipio: document.getElementById("municipio").value.trim() || null,
+                latitude: document.getElementById("latitude").value.trim() || null,
+                longitude: document.getElementById("longitude").value.trim() || null
+            };
+
+            try {
+                // Mostrar loading
+                toggleLoading(true);
+
+                const response = await fetch(`/api/doadoras/obter/atualizar-doadora/${id}`, {
+                    method: "PUT",
+                    headers: { 
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${localStorage.getItem('token') || ''}`
+                    },
+                    body: JSON.stringify(doadoraData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json().catch(() => ({}));
+                    throw new Error(errorData.message || "Erro ao atualizar doadora");
+                }
+
+                // Sucesso
+                showSuccess("Doadora atualizada com sucesso! Redirecionando...");
+                
+                setTimeout(() => {
+                    window.location.href = "/admin/doadoras/listar-doadoras";
+                }, 2000);
+
+            } catch (error) {
+                console.error("Erro ao salvar:", error);
+                showError(error.message || "Erro ao atualizar doadora");
+            } finally {
+                toggleLoading(false);
+            }
+        }
+
+        function obterLocalizacao() {
+            if (!navigator.geolocation) {
+                showError("Geolocalização não suportada pelo navegador");
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    document.getElementById("latitude").value = position.coords.latitude.toFixed(6);
+                    document.getElementById("longitude").value = position.coords.longitude.toFixed(6);
+                },
+                (error) => {
+                    showError(`Erro ao obter localização: ${error.message}`);
+                }
+            );
+        }
+
+        // Funções auxiliares de UI
+        function showLoading() {
+            document.getElementById("loading").style.display = "block";
+            document.getElementById("form-container").style.display = "none";
+        }
+
+        function showForm() {
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("form-container").style.display = "block";
+        }
+
+        function toggleLoading(loading) {
+            const btn = document.getElementById("btn-salvar");
+            btn.disabled = loading;
+            document.getElementById("loading-btn").style.display = loading ? "inline-block" : "none";
+            document.getElementById("btn-text").textContent = loading ? "Salvando..." : "Salvar Alterações";
+        }
+
+        function showError(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-danger alert-dismissible fade show mt-3';
+            alertDiv.innerHTML = `
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            const container = document.querySelector('.container');
+            const existingAlert = container.querySelector('.alert');
+            if (existingAlert) existingAlert.remove();
+            
+            container.prepend(alertDiv);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showSuccess(message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = 'alert alert-success alert-dismissible fade show mt-3';
+            alertDiv.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                ${message}
+                <div class="progress mt-2">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 100%"></div>
+                </div>
+            `;
+            
+            const container = document.querySelector('.container');
+            const existingAlert = container.querySelector('.alert');
+            if (existingAlert) existingAlert.remove();
+            
+            container.prepend(alertDiv);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

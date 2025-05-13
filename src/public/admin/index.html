@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">
+    <title>Admin - VidaEmGotas - Dashboard</title>
+   
+
+    <!-- Bootstrap -->
+    <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="../vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="../build/css/custom.min.css" rel="stylesheet">
+    
+<!-- Adicione isso no <head> -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+
+    <!-- Importando o Menu -->
+    <script src="../../admin/components/menu_left/index.js"></script>
+    <script src="../../admin/components/menu_top/index.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="js/auth/autorizacao.js"></script>
+  </head>
+
+  <style>
+    	table.table td, tr {
+        text-align: center;
+    }
+	.btn-status {
+		min-width: 70px; /* Largura fixa */
+		display: inline-block;
+		text-align: center;
+	}
+
+  #listaDepoimentos{
+    text-align: center;
+
+  }
+
+  /* Estilo essencial para os valores */
+.stat-value {
+  display: inline-block !important;
+  min-width: 50px;
+  text-align: right;
+  font-weight: bold;
+  color: #333 !important;
+  background: transparent !important;
+}
+
+/* Corrige possíveis problemas de layout */
+.w_right {
+  overflow: visible !important;
+  position: relative;
+}
+
+/* Remove estilos conflitantes */
+.widget_summary .progress {
+  margin-top: 8px;
+  background-color: #f5f5f5;
+}
+
+  
+  </style>
+
+  <body class="nav-md" onload="carregarDadosDashboard()">
+    <script>
+      checarAutorizacao();
+    </script>
+
+    <div class="container body">
+      <div class="main_container">
+        <!-- Menu Lateral -->
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0; padding-left: 20px;">
+              <a href="/admin" class="site_title"><span>Vida Em Gotas</span></a>
+            </div>
+            <div class="clearfix"></div>
+            <br />
+            <menu-left></menu-left>
+          </div>
+        </div>
+
+        <!-- Menu Superior -->
+        <menu-top></menu-top>
+
+        <!-- Conteúdo Principal -->
+        <div class="right_col" role="main">
+          <!-- Estatísticas Principais -->
+          <div class="row tile_count">
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-hospital-o"></i> Bancos de Leite</span>
+              <div id="banco_de_leite" class="count">0</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-female"></i> Doadoras Ativas</span>
+              <div id="total_doadoras" class="count">0</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-female"></i> Doadoras Inativas</span>
+              <div id="total_doadoras_inativas" class="count">0</div>
+            </div>
+            
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-tint"></i> ml Doados</span>
+              <div id="total_doacoes" class="count">0</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-child"></i> Bebês Beneficiados</span>
+              <div id="total_bebes" class="count">0</div>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+              <span class="count_top"><i class="fa fa-heart"></i> Média por Doadora</span>
+              <div id="media_por_doadora" class="count">0</div>
+            </div>
+          </div>
+
+          <!-- Gráficos Principais -->
+          <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Doações Mensais <small>ml de leite doados</small></h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <canvas id="graficoDoacoesMensais" height="138"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Tipo de Coleta <small>Doadoras por tipo</small></h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <canvas id="graficoTipoColeta" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Novos gráficos abaixo dos existentes -->
+          <div class="row">
+            <!-- Primeiro gráfico -->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Profissões das Doadoras <small>Top 5 mais comuns</small></h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <canvas id="graficoProfissoes" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          
+            <!-- Segundo gráfico -->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Faixa Etária das Doadoras</h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <canvas id="graficoFaixaEtaria" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          
+            <!-- Terceiro gráfico -->
+            <div class="col-md-4 col-sm-4 col-xs-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Status das Doadoras</h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <canvas id="graficoStatusDoadoras" height="200"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+
+
+          <!-- Doadoras Recentes e Depoimentos -->
+          <div class="row">
+            <div class="col-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Últimas Doadoras</h2>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="table-responsive">
+                    <table class="table table-striped" id="tabelaDoadorasRecentes">
+                      <thead>
+                        <tr>
+                          <th>Nome</th>
+                          <th>Data</th>
+                          <th>Quantidade</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Os dados serão preenchidos via JavaScript -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+              <!-- Modal para exibir a tabela de doadoras -->
+<div class="modal fade" id="modalTabelaDoadoras" tabindex="-1" role="dialog" aria-labelledby="modalTabelaDoadorasLabel">
+  <div class="modal-dialog modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalTabelaDoadorasLabel">Doadoras</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">x
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <!-- Tiles de estatísticas -->
+          <div class="widget_summary">
+            <div class="w_left w_25">
+              <span>Total Doadoras</span>
+            </div>
+            <div class="w_center w_55">
+              <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="w_right w_20">
+              <span id="modal_total_doadoras" class="stat-value">0</span>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          
+          <div class="widget_summary">
+            <div class="w_left w_25">
+              <span>Total ml</span>
+            </div>
+            <div class="w_center w_55">
+              <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="w_right w_20">
+              <span id="modal_total_doacoes" class="stat-value">0.00</span>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          
+          <div class="widget_summary">
+            <div class="w_left w_25">
+              <span>Média por Doadora</span>
+            </div>
+            <div class="w_center w_55">
+              <div class="progress">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div class="w_right w_20">
+              <span id="modal_media_por_doadora" class="stat-value">0.00</span>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+       
+
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_title">
+                <h4>Distribuição de Doações</h4>
+                <div class="clearfix"></div>
+              </div>
+              <div class="x_content">
+                <canvas id="graficoBarrasDoadoras" height="100"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+              <div class="x_content">
+                <table id="tabelaDoadorasDetalhes" class="display" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>Nome da Mãe</th>
+                      <th>Quantidade (ml)</th>
+                      <th>Data</th>
+                      <th>Tipo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Dados serão preenchidos via JavaScript -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+        <!-- Rodapé -->
+        <footer>
+          <div class="pull-right">
+            Vida em Gotas &copy; <span id="anoAtual"></span> - Todos os direitos reservados
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="../vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script src="../vendors/Chart.js/dist/Chart.min.js"></script>
+   <!-- Chart.js -->
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <!-- 3. Chart.js (APENAS UMA VERSÃO - RECOMENDO A DO CDN) -->
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+   
+    <!-- Custom Theme Scripts -->
+    <script src="../build/js/custom.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- DataTables Portuguese -->
+    <script src="https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"></script>
+
+    <script>
+      // Variáveis globais
+      let graficoDoacoes = null;
+      let graficoTipoColeta = null;
+      let dataTableDoadoras = null;
+      let mesesCompletos = [];
+
+      // Ano atual no footer
+      document.getElementById('anoAtual').textContent = new Date().getFullYear();
+
+      // Função principal para carregar todos os dados
+      async function carregarDadosDashboard() {
+        try {
+          // Carrega estatísticas principais
+          await carregarEstatisticas();
+          
+          // Carrega gráficos
+          await carregarGraficoDoacoesMensais();
+          await carregarGraficoTipoColeta();
+          await carregarStatusDoadoras(); // Adicione esta linha
+
+          
+          // Carrega tabela de doadoras recentes
+          await carregarDoadorasRecentes();
+          
+         
+        } catch (error) {
+          console.error('Erro ao carregar dados do dashboard:', error);
+          Swal.fire('Erro', 'Não foi possível carregar os dados do dashboard.', 'error');
+        }
+      }
+
+      // Função para carregar estatísticas principais
+      async function carregarEstatisticas() {
+        const response = await fetch('/api/dashboard/estatisticas');
+        const data = await response.json();
+
+        
+        
+        // Atualiza os valores
+        document.getElementById('banco_de_leite').textContent = data.bancosLeite || 0;
+        document.getElementById('total_doadoras').textContent = data.doadorasAtivas || 0;
+        document.getElementById('total_doadoras_inativas').textContent = data.doadorasInativas || 0;
+
+        document.getElementById('total_doacoes').textContent = (data.totalDoacoesLitros || 0).toFixed(3);
+        document.getElementById('total_bebes').textContent = data.bebesBeneficiados || 0;
+        document.getElementById('media_por_doadora').textContent = (data.mediaPorDoadora || 0).toFixed(2);
+       
+      }
+
+      // Função para carregar gráfico de doações mensais
+      async function carregarGraficoDoacoesMensais() {
+  try {
+    const response = await fetch('/api/dashboard/doacoes-mensais');
+    const data = await response.json();
+
+
+    
+    
+    // Cria mesesCompletos se não existir nos dados
+    if (!data.dados_completos && data.meses && data.valores) {
+      data.dados_completos = data.meses.map((nome_mes, index) => ({
+        nome_mes: nome_mes.trim(),
+        mes: obterCodigoMes(nome_mes, index)
+      }));
+    }
+    
+    window.mesesCompletos = data.dados_completos || [];
+    
+    const ctx = document.getElementById('graficoDoacoesMensais').getContext('2d');
+    
+
+
+    if (window.graficoDoacoes) {
+      window.graficoDoacoes.destroy();
+    }
+
+    window.graficoDoacoes = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: data.meses || [],
+        datasets: [{
+          label: 'ml Doados',
+          data: data.valores || [],
+          backgroundColor: 'rgba(38, 185, 154, 0.7)'
+        }]
+      },
+      options: {
+        responsive: true,
+        onClick: async (event, elementos, chart) => {
+          try {
+            const chartRef = chart || this.chart || window.graficoDoacoes;
+            
+            if (elementos?.length > 0 && window.mesesCompletos[elementos[0].index]) {
+              const mesData = window.mesesCompletos[elementos[0].index];
+              
+              Swal.fire({
+                title: 'Carregando doadoras...',
+                allowOutsideClick: false,
+                didOpen: () => Swal.showLoading()
+              });
+              
+              const response = await fetch(`/api/dashboard/doadoras-por-mes/${mesData.mes}`);
+              if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.mensagem || `Erro ${response.status}`);
+              }
+              
+              const resultado = await response.json();
+
+              console.log("ttttttttt:", resultado);    
+
+
+              if (!resultado.sucesso) {
+                throw new Error(resultado.mensagem);
+              }
+              
+              Swal.close();
+              mostrarTabelaDoadoras(resultado.dados, mesData.nome_mes);
+            }
+          } catch (error) {
+            console.error('Erro no clique:', error);
+            Swal.fire('Erro', 'Não foi possível carregar as doadoras deste mês', 'error');
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              font: {
+                size: 12
+              },
+              padding: 20
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.label}: ${context.raw} mL`;
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Armazene a instância para referência futura
+    window.chartInstance = window.graficoDoacoes;
+
+  } catch (error) {
+    console.error('Erro ao carregar gráfico:', error);
+    document.getElementById('graficoDoacoesMensais').innerHTML = `
+      <div class="alert alert-danger">
+        Erro ao carregar dados do gráfico: ${error.message}
+      </div>
+    `;
+  }
+}
+
+
+// Função auxiliar para criar códigos de mês (YYYY-MM)
+function obterCodigoMes(nomeMes, index) {
+  const date = new Date();
+  date.setMonth(date.getMonth() - (11 - index)); // Ajuste para os últimos 12 meses
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+}
+
+ // Variável para armazenar as estatísticas gerais originais
+let estatisticasGerais = {};
+
+// Função para carregar e mostrar as estatísticas gerais
+async function carregarEstatisticasGerais() {
+  try {
+    const response = await fetch('/api/dashboard/estatisticas');
+    estatisticasGerais = await response.json();
+    atualizarTilesEstatisticas(estatisticasGerais);
+  } catch (error) {
+    console.error('Erro ao carregar estatísticas gerais:', error);
+    Swal.fire('Erro', 'Não foi possível carregar os dados gerais', 'error');
+  }
+}
+
+// Função para voltar à visão geral
+function voltarParaVisaoGeral() {
+  // Oculta a tabela de detalhes
+  $('#painel-tabela-doadoras').hide();
+  
+  // Restaura as estatísticas gerais
+  atualizarTilesEstatisticas(estatisticasGerais);
+  
+  // Opcional: destacar que está vendo os dados gerais
+  Swal.fire({
+    title: 'Visão Geral',
+    text: 'Mostrando estatísticas consolidadas',
+    icon: 'info',
+    timer: 2000,
+    showConfirmButton: false
+  }).then(() => {
+             window.location.href = '/admin';
+        });
+}
+
+// Evento do botão Voltar
+$(document).on('click', '#btn-voltar-geral', voltarParaVisaoGeral);     
+// Função para exibir tabela de doadoras com DataTables
+async function mostrarTabelaDoadoras(doadoras, mesNome) {
+  try {
+    // Verifica se doadoras é válido
+    if (!doadoras || typeof doadoras !== 'object') {
+      throw new Error('Dados inválidos recebidos');
+    }
+
+    // Obtém os dados da resposta
+    const dados = Array.isArray(doadoras.dados) ? doadoras.dados : 
+                 Array.isArray(doadoras) ? doadoras : [];
+
+                 console.log("dados:", dados);    
+
+    
+    // Prepara os dados para a tabela
+    const dadosTabela = dados.map(d => [
+      d.nome || 'N/A',
+      d.nome_da_mae || 'N/A',
+      d.quantidade_leite_ml || 0,
+      d.created_at ? new Date(d.created_at).toLocaleDateString('pt-BR') : 'N/A',
+      d.coleta_domiciliar ? 'Domiciliar' : 'Banco de Leite'
+    ]);
+
+    console.log("dadosTabela:", dadosTabela);    
+
+    // Prepara dados para o gráfico (agrupa por quantidade)
+    const dadosGrafico = prepararDadosParaGrafico(dados);
+
+    // Calcula estatísticas para o mês selecionado
+    const estatisticasMes = calcularEstatisticasMes(dados);
+
+    // Atualiza o título do modal
+    $('#modalTabelaDoadorasLabel').html(`Doadoras de ${mesNome}`);
+    
+    // Atualiza os tiles DO MODAL
+    atualizarTilesEstatisticas(estatisticasMes, true);
+
+
+      // Cria o gráfico de barras
+      criarGraficoBarras(dadosGrafico, mesNome);
+
+    // Destrói a tabela anterior se existir
+    if ($.fn.DataTable.isDataTable('#tabelaDoadorasDetalhes')) {
+      $('#tabelaDoadorasDetalhes').DataTable().destroy();
+      $('#tabelaDoadorasDetalhes').empty();
+    }
+
+    // Inicializa a DataTable
+    window.tabelaDoadoras = $('#tabelaDoadorasDetalhes').DataTable({
+      data: dadosTabela,
+      columns: [
+        { title: "Nome" },
+        { title: "Nome da Mãe" },
+        { title: "Quantidade (ml)", className: "text-right" },
+        { title: "Data", className: "text-center" },
+        { title: "Tipo", className: "text-center" }
+      ],
+      pageLength: 10,
+      responsive: true,
+      language: {
+        url: "https://cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json"
+      },
+      dom: '<"top"f>rt<"bottom"lip><"clear">'
+    });
+
+    // Mostra o modal com tratamento de acessibilidade
+    $('#modalTabelaDoadoras')
+      .modal({
+        show: true,
+        backdrop: 'static'
+      })
+      .on('shown.bs.modal', function() {
+        $(this).removeAttr('aria-hidden');
+        $('[tabindex="-1"]', this).removeAttr('tabindex');
+        
+        // Força redraw dos elementos (solução para valores não aparecerem)
+        $('.stat-value').each(function() {
+          $(this).hide().show();
+        });
+      });
+
+  } catch (error) {
+    console.error('Erro ao mostrar tabela de doadoras:', error);
+    // Mostra mensagem de erro no modal
+    $('#modalTabelaDoadoras .modal-body').html(`
+      <div class="alert alert-danger">
+        <i class="fa fa-exclamation-triangle"></i> 
+        Erro ao carregar dados: ${error.message}
+      </div>
+    `);
+    $('#modalTabelaDoadoras').modal('show');
+  }
+}
+
+// Função para preparar os dados para o gráfico
+function prepararDadosParaGrafico(dados) {
+  // Agrupa as doadoras por faixa de quantidade (em ml)
+  const faixas = {
+    '0-500': { count: 0, totalML: 0 },
+    '501-1000': { count: 0, totalML: 0 },
+    '1001-1500': { count: 0, totalML: 0 },
+    '1501-2000': { count: 0, totalML: 0 },
+    '2000+': { count: 0, totalML: 0 }
+  };
+
+  dados.forEach(d => {
+    const qtd = d.quantidade_leite_ml || 0;
+    let faixa;
+    
+    if (qtd <= 500) faixa = '0-500';
+    else if (qtd <= 1000) faixa = '501-1000';
+    else if (qtd <= 1500) faixa = '1001-1500';
+    else if (qtd <= 2000) faixa = '1501-2000';
+    else faixa = '2000+';
+    
+    faixas[faixa].count++;
+    faixas[faixa].totalML += qtd;
+  });
+
+  return {
+    labels: Object.keys(faixas),
+    contagens: Object.values(faixas).map(f => f.count),
+    totaisML: Object.values(faixas).map(f => f.totalML),
+    cores: [
+      'rgba(54, 162, 235, 0.7)',  // Azul
+      'rgba(75, 192, 192, 0.7)',  // Verde-água
+      'rgba(255, 206, 86, 0.7)',  // Amarelo
+      'rgba(255, 159, 64, 0.7)',  // Laranja
+      'rgba(153, 102, 255, 0.7)'  // Roxo
+    ]
+  };
+}
+function criarGraficoBarras(dados, mesNome) {
+  const ctx = document.getElementById('graficoBarrasDoadoras').getContext('2d');
+  
+  // Destrói gráfico anterior se existir
+  if (window.graficoBarrasModal) {
+    window.graficoBarrasModal.destroy();
+  }
+
+  window.graficoBarrasModal = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: dados.labels,
+      datasets: [
+        {
+          label: 'Número de Doadoras',
+          data: dados.contagens,
+          backgroundColor: dados.cores,
+          borderColor: dados.cores.map(c => c.replace('0.7', '1')),
+          borderWidth: 1,
+          yAxisID: 'y'
+        },
+        {
+          label: 'Total em mL',
+          data: dados.totaisML,
+          type: 'line',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: 'rgba(255, 99, 132, 0.1)',
+          borderWidth: 2,
+          pointRadius: 4,
+          pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+          yAxisID: 'y1'
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              let label = context.dataset.label || '';
+              if (label) {
+                label += ': ';
+              }
+              if (context.datasetIndex === 0) {
+                label += `${context.raw} doadoras`;
+              } else {
+                label += `${context.raw.toLocaleString('pt-BR')} mL`;
+              }
+              return label;
+            },
+            footer: function(context) {
+              if (context[0].datasetIndex === 0 && context[1]) {
+                const media = context[1].raw / context[0].raw;
+                return `Média: ${media.toFixed(0)} mL/doadora`;
+              }
+            }
+          }
+        },
+        legend: {
+          position: 'top',
+          labels: {
+            usePointStyle: true,
+            padding: 20
+          }
+        }
+      },
+      scales: {
+        y: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+          title: {
+            display: true,
+            text: 'Número de Doadoras'
+          },
+          ticks: {
+            precision: 0
+          }
+        },
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          title: {
+            display: true,
+            text: 'Total em mL',
+            color: 'rgba(255, 99, 132, 1)'
+          },
+          grid: {
+            drawOnChartArea: false
+          },
+          ticks: {
+            callback: function(value) {
+              return value.toLocaleString('pt-BR');
+            }
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Faixa de Doação (mL)'
+          }
+        }
+      }
+    }
+  });
+}
+
+function calcularEstatisticasMes(dados) {
+
+  
+
+  const totalDoadoras = new Set(dados.map(d => `${d.nome.toLowerCase()}|${d.nome_da_mae.toLowerCase()}`)).size;
+  const totalLeite = dados.reduce((sum, d) => sum + (d.quantidade_leite_ml || 0), 0);
+  const mediaPorDoadora = totalDoadoras > 0 ? totalLeite / totalDoadoras : 0;
+
+  
+
+
+  
+  return {
+    totalDoadoras,
+    totalLeiteLitros: (totalLeite / 1000).toFixed(2),
+    mediaPorDoadora: mediaPorDoadora.toFixed(2),
+    // Adicione outras estatísticas conforme necessário
+  };
+}
+
+// function atualizarTilesEstatisticas(estatisticas) {
+//   console.log("Atualizando tiles com:", estatisticas);
+//   $('#total_doadoras').text(estatisticas.totalDoadoras);
+//   $('#total_doacoes').text(estatisticas.totalLeiteLitros);
+//   $('#media_por_doadora').text(estatisticas.mediaPorDoadora);
+  
+ 
+// }
+
+function atualizarTilesEstatisticas(estatisticas, isModal = false) {
+  const prefix = isModal ? 'modal_' : '';
+  
+  // Método seguro que funciona em qualquer situação
+  const updateElement = (id, value) => {
+    const el = document.getElementById(`${prefix}${id}`);
+    if (el) {
+      el.textContent = value;
+      // Força repaint (solução nuclear para problemas de renderização)
+      el.style.display = 'none';
+      el.offsetHeight; // Trigger reflow
+      el.style.display = 'inline-block';
+    }
+  };
+
+  updateElement('total_doadoras', estatisticas.totalDoadoras);
+  updateElement('total_doacoes', estatisticas.totalLeiteLitros);
+  updateElement('media_por_doadora', estatisticas.mediaPorDoadora);
+
+  // Debug adicional
+  console.log(`Valores atualizados (${isModal ? 'modal' : 'dashboard'}):`, estatisticas);
+}
+
+      // Função para carregar gráfico de tipo de coleta
+      async function carregarGraficoTipoColeta() {
+        const response = await fetch('/api/dashboard/tipo-coleta');
+        const data = await response.json();
+        
+        
+        const ctx = document.getElementById('graficoTipoColeta').getContext('2d');
+        
+        // Destrói o gráfico anterior se existir
+        if (graficoTipoColeta) {
+          graficoTipoColeta.destroy();
+        }
+        
+        graficoTipoColeta = new Chart(ctx, {
+          type: 'doughnut',
+          data: {
+
+            labels: ['coleta_domiciliar', 'doadora_exclusiva', 'outros'],
+            datasets: [{
+              data: [
+                data.coleta_domiciliar || 0,
+                data.doadora_exclusiva || 0,
+                data.outros || 0
+              ],
+              backgroundColor: [
+                'rgba(26, 188, 156, 0.8)',
+                'rgba(52, 152, 219, 0.8)',
+                'rgba(155, 89, 182, 0.8)'
+              ]
+            }]
+          },
+          options: {
+            responsive: true,
+    onClick: async (event, elementos, chart) => {
+      try {
+        const chartRef = chart || this.chart || chartInstance;
+        
+        if (elementos?.length > 0) {
+          const index = elementos[0].index;
+          const tipo = chartRef.data.labels[index];
+          
+          
+          const response = await fetch(`/api/dashboard/tipo-coleta/${tipo.toLowerCase()}`);
+          const doadoras = await response.json();
+          mostrarTabelaDoadoras(doadoras, tipo);
+        }
+      } catch (error) {
+        console.error('Erro no clique:', error);
+        Swal.fire('Erro', 'Não foi possível carregar os dados', 'error');
+      }
+    },
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          font: {
+            size: 12
+          },
+          padding: 20
+        }
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return `${context.label}: ${context.raw} doadoras`;
+          }
+        }
+      }
+    }
+  }
+});
+
+// Armazene a instância para referência futura
+chartInstance = graficoTipoColeta;}
+
+      // Função para carregar doadoras recentes
+      async function carregarDoadorasRecentes() {
+        const response = await fetch('/api/dashboard/doadoras-recentes');
+        const data = await response.json();
+        
+        
+        const tabela = document.querySelector('#tabelaDoadorasRecentes tbody');
+        tabela.innerHTML = '';
+        
+        data.forEach(doadora => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${doadora.nome}</td>
+            <td>${new Date(doadora.data_de_cadastro).toLocaleDateString()}</td>
+            <td>${doadora.quantidade_leite_ml} mL</td>
+            <td>${doadora.coleta_domiciliar ? 'Domiciliar' : 'Banco de Leite'}</td>
+          `;
+          tabela.appendChild(row);
+        });
+      }
+
+    
+      // Função para carregar todos os dados do perfil
+// 1. Variáveis para armazenar os gráficos
+let graficoProfissoes = null;
+let graficoFaixaEtaria = null;
+
+// 2. Função para carregar dados
+async function carregarPerfilDoadoras() {
+  try {
+    
+    const [resProfissoes, resFaixaEtaria] = await Promise.all([
+      fetch('/api/dashboard/profissoes-doadoras'),
+      fetch('/api/dashboard/faixa-etaria-doadoras')
+    ]);
+    
+    const profissoes = await resProfissoes.json();
+    const faixaEtaria = await resFaixaEtaria.json();
+    
+    
+    // Verifica se os dados estão no formato correto
+    if (!profissoes.sucesso || !faixaEtaria.sucesso) {
+      throw new Error('Dados inválidos da API');
+    }
+    
+    criarGraficoProfissoes(profissoes.dados);
+    criarGraficoFaixaEtaria(faixaEtaria.dados);
+    
+  } catch (error) {
+    console.error('Erro ao carregar perfil:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Erro',
+      text: 'Erro ao carregar dados do perfil',
+      footer: error.message
+    });
+  }
+}
+
+// 3. Função para criar gráfico de profissões
+function criarGraficoProfissoes(dados) {
+  const ctx = document.getElementById('graficoProfissoes');
+  
+  if (!ctx) {
+    console.error('Elemento #graficoProfissoes não encontrado!');
+    return;
+  }
+  
+  // Destrói gráfico anterior se existir
+  if (graficoProfissoes) {
+    graficoProfissoes.destroy();
+  }
+  
+  // Prepara dados
+  const labels = dados.map(item => item.profissao || 'Não informado');
+  const valores = dados.map(item => Number(item.total));
+  
+  
+  graficoProfissoes = new Chart(ctx.getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Quantidade',
+        data: valores,
+        backgroundColor: 'rgba(54, 162, 235, 0.7)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: getOpcoesPadrao('bar')
+  });
+}
+
+// 4. Função para criar gráfico de faixa etária
+function criarGraficoFaixaEtaria(dados) {
+  const ctx = document.getElementById('graficoFaixaEtaria');
+  
+  if (!ctx) {
+    console.error('Elemento #graficoFaixaEtaria não encontrado!');
+    return;
+  }
+  
+  // Destrói gráfico anterior se existir
+  if (graficoFaixaEtaria) {
+    graficoFaixaEtaria.destroy();
+  }
+  
+  // Ordena e prepara dados
+  const ordemFaixas = ['<20', '20-29', '30-39', '40+'];
+  const dadosOrdenados = ordemFaixas.map(faixa => {
+    return dados.find(d => d.faixa_etaria === faixa) || { 
+      faixa_etaria: faixa, 
+      total: 0 
+    };
+  });
+  
+  const labels = dadosOrdenados.map(item => `${item.faixa_etaria} anos`);
+  const valores = dadosOrdenados.map(item => Number(item.total));
+  
+  
+  graficoFaixaEtaria = new Chart(ctx.getContext('2d'), {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: valores,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)'
+        ]
+      }]
+    },
+    options: getOpcoesPadrao('pie')
+  });
+}
+
+// 5. Função com opções padrão (para evitar repetição)
+function getOpcoesPadrao(tipo) {
+  const base = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: (context) => {
+            const label = context.label || '';
+            const value = context.raw || 0;
+            const total = context.dataset.data.reduce((a, b) => a + b, 0);
+            const percentage = Math.round((value / total) * 100);
+            return `${label}: ${value} (${percentage}%)`;
+          }
+        }
+      }
+    }
+  };
+  
+  if (tipo === 'bar') {
+    base.scales = {
+      y: { beginAtZero: true, ticks: { precision: 0 } }
+    };
+    base.plugins.legend = { display: false };
+  } else {
+    base.plugins.legend = { 
+      position: 'bottom',
+      labels: { padding: 20, font: { size: 12 } }
+    };
+  }
+  
+  return base;
+}
+
+// 6. Inicialização quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', function() {
+  carregarPerfilDoadoras();
+});
+// Variável global para o gráfico
+let graficoStatusDoadoras = null;
+// Função para carregar status de doadoras
+async function carregarStatusDoadoras() {
+  try {
+    const response = await fetch('/api/dashboard/estatisticas');
+    const data = await response.json();
+    console.log(data);
+    
+    
+    // Formata os dados para o gráfico
+    const dadosGrafico = {
+      labels: ['Ativas', 'Inativas'],
+      valores: [data.doadorasAtivas, data.doadorasInativas],
+      cores: [
+        'rgba(46, 204, 113, 0.7)', // Verde para ativas
+        'rgba(231, 76, 60, 0.7)'   // Vermelho para inativas
+      ]
+    };
+    
+    criarGraficoStatusDoadoras(dadosGrafico);
+  } catch (error) {
+    console.error('Erro ao carregar status das doadoras:', error);
+    document.getElementById('graficoStatusDoadoras').innerHTML = `
+      <div class="alert alert-danger">
+        Erro ao carregar dados: ${error.message}
+      </div>
+    `;
+  }
+}
+
+// Função para criar o gráfico de status
+function criarGraficoStatusDoadoras(dados) {
+  const ctx = document.getElementById('graficoStatusDoadoras');
+  
+  // Verifica se o contexto do canvas existe
+  if (!ctx) {
+    console.error('Elemento #graficoStatusDoadoras não encontrado');
+    return;
+  }
+
+  // Destrói gráfico anterior se existir e for válido
+  if (graficoStatusDoadoras && typeof graficoStatusDoadoras.destroy === 'function') {
+    graficoStatusDoadoras.destroy();
+  }
+
+  // Cria novo gráfico
+  try {
+    graficoStatusDoadoras = new Chart(ctx.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: dados.labels,
+        datasets: [{
+          data: dados.valores,
+          backgroundColor: dados.cores,
+          borderColor: dados.cores.map(c => c.replace('0.7', '1')),
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 20,
+              font: {
+                size: 12
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.raw;
+                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                const percentage = Math.round((value / total) * 100);
+                return `${label}: ${value} (${percentage}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao criar gráfico:', error);
+    ctx.innerHTML = `
+      <div class="alert alert-danger">
+        Erro ao renderizar gráfico: ${error.message}
+      </div>
+    `;
+  }
+}
+    </script>
+    
+  </body>
+    <!-- Adicione isso antes do fechamento </body> (após o jQuery e antes do custom.min.js) -->
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+</html>

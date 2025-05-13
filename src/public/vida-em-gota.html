@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vida em Gotas é uma plataforma web dedicada a incentivar a doação de leite materno, promovendo informação, cadastro e mobilização social para salvar vidas de recém-nascidos.">
+  <meta name="keywords" content="doação de leite materno, banco de leite humano, leite materno, saúde neonatal, prematuros, amamentação, voluntariado, Vida em Gotas, coleta de leite humano, geolocalização de postos de coleta, plataforma web de saúde">
+  
+  <title>Vida Em Gotas – Plataforma de Doação de Leite Materno para Salvar Vidas</title>
+
+  <link rel="icon" href="../../assets/img/nome-vida-em-gotas.png" type="image/ico">    
+  
+  <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <link href="assets/css/main.css" rel="stylesheet">
+
+  <script src="assets/components/menu_footer/index.js"></script>
+  <script src="assets/components/menu_top/index.js"></script>
+
+  <script src="assets/components/Contatos/WhattAppButton.js"></script>
+
+<style>
+  .btn-outline-primary {
+      background-color: #fff !important;
+      border-color: #5b3101 !important;
+      color: #5b3101 !important;
+  }
+  .btn-primary {
+      background-color: #5b3101 !important;
+      border-color: #5b3101 !important;
+      color: #fff !important;
+  } 
+
+  .social-links {
+      text-align: end;
+      padding-top: 15px;
+  }
+  .social-links a {
+      color: #5b3101;
+      font-size: 1.5rem;
+      margin: 0 10px;
+      transition: all 0.3s ease;
+  }
+  .social-links a.github:hover {
+      color: #333;
+  }
+  .social-links a.linkedin:hover {
+      color: #0a66c2;
+  }
+
+  .testimonials .testimonial-item {
+      background-color: var(--surface-color);
+      box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+      box-sizing: content-box;
+      padding: 30px;
+      margin: 30px 15px;
+      position: relative;
+      text-align: center;
+  }
+
+  .testimonials .testimonial-item .testimonial-img {
+      width: 90px;
+      border-radius: 50px;
+      margin-right: 15px;
+  }
+
+  .testimonials .testimonial-item h3 {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 10px 0 5px 0;
+  }
+
+  .testimonials .testimonial-item h4 {
+      font-size: 14px;
+      color: color-mix(in srgb, var(--default-color), transparent 40%);
+      margin: 0;
+  }
+
+  .testimonials .testimonial-item .stars {
+      margin: 10px 0;
+  }
+
+  .testimonials .testimonial-item .stars i {
+      color: #ffc107;
+      margin: 0 1px;
+  }
+
+  .testimonials .testimonial-item .quote-icon-left,
+  .testimonials .testimonial-item .quote-icon-right {
+      color: color-mix(in srgb, var(--accent-color), transparent 50%);
+      font-size: 26px;
+      line-height: 0;
+  }
+
+  .testimonials .testimonial-item .quote-icon-left {
+      display: inline-block;
+      left: -5px;
+      position: relative;
+  }
+
+  .testimonials .testimonial-item .quote-icon-right {
+      display: inline-block;
+      right: -50px;
+      position: relative;
+      top: 10px;
+      transform: scale(-1, -1);
+  }
+
+  .testimonials .testimonial-item p {
+      margin: 15px auto;
+      padding: 0 10px;
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.6;
+      text-indent: 1.5em;
+      text-align-last: left;
+  }
+
+
+  .testimonials .testimonial-item p span {
+      display: block;
+      margin-bottom: 1.2em;
+      text-indent: 1.5em;
+      position: relative;
+  }
+
+  .testimonials .swiper-wrapper {
+      height: auto;
+  }
+
+  .testimonials .swiper-pagination {
+      margin-top: 20px;
+      position: relative;
+  }
+
+  .testimonials .swiper-pagination .swiper-pagination-bullet {
+      width: 12px;
+      height: 12px;
+      background-color: color-mix(in srgb, var(--default-color), transparent 85%);
+      opacity: 1;
+  }
+
+  .swiper-slide {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+  }
+
+  .testimonials .swiper-pagination .swiper-pagination-bullet-active {
+      background-color: var(--accent-color);
+  }
+
+  .testimonials .testimonial-item .testimonial-img {
+      width: 70px;
+      border-radius: 70px;
+      margin-right: 15px;
+  }
+
+  @media (max-width: 767px) {
+      .testimonials .testimonial-wrap {
+          padding-left: 0;
+      }
+
+      .testimonials .testimonial-item {
+          padding: 30px;
+          margin: 15px;
+      }
+
+      .testimonials .testimonial-item .testimonial-img {
+          position: static;
+          left: auto;
+      }
+      
+      .testimonials .testimonial-item p {
+          padding: 0 5px;
+      }
+  }
+</style>
+
+</head>
+
+
+<body class="index-page">
+
+
+<header>
+  <!-- Exportando a Navegação e Banner -->
+  <menu-top></menu-top>
+  <!-- Exportando a Navegação e Banner -->
+</header>
+<section class="serve"  style="background-color: #f5f0e7;">
+    <div id="container-pode" class="container mt-4">
+      <!-- Section Title -->
+      <div id="som-titulo" class="container section-title" data-aos="fade-up">
+        <h2>Projeto Vida em Gotas</h2>
+    </div><!-- End Section Title -->
+    
+      <!-- Primeira seção -->
+      <div id="content" class="row">
+        <div class="col-12 mb-3">
+          <div class="text-container">
+            <div class="texto-doacao">
+                <p>
+                    <strong>Vida em Gotas</strong> é um projeto criado para incentivar a doação de leite materno, 
+                    utilizando uma plataforma web como principal meio de informação, cadastro e mobilização. Nosso objetivo é promover a
+                    conscientização da sociedade, facilitar o processo de coleta e contribuir para salvar vidas por meio da doação.
+                  </p>  
+                  <p>A iniciativa busca suprir a crescente demanda dos bancos de leite, ajudando a reduzir a mortalidade neonatal e 
+                    fortalecendo a saúde de recém-nascidos, especialmente os prematuros e em situação de vulnerabilidade.</p>
+                
+                </div>
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-volume-up"></i> Ouvir
+            </button>
+          </div>
+        </div>
+      </div>
+    
+      <hr class="border border-1 border-danger my-4">
+    
+      <!-- Segunda seção -->
+      <div id="content" class="row">
+        <div class="col-12 mb-3">
+          <div class="text-container">
+
+            <div class="texto-doacao">
+                <h3>Objetivos</h3><br>
+
+                <p>
+                    Desenvolver e implantar uma plataforma web intuitiva, acessível e responsiva, que concentre informações, 
+                    oriente as doadoras e otimize o processo de cadastro e captação de leite materno.
+                  </p>
+        
+                  <ul>
+                    <li>Conscientizar a população sobre a importância da doação de leite materno, por meio de conteúdos educativos e de fácil compreensão.</li>
+                    <li>Criar um sistema eficiente de cadastro que conecte diretamente as doadoras aos bancos de leite.</li>
+                    <li>Integrar uma ferramenta de geolocalização para facilitar a identificação de postos de coleta.</li>
+                  </ul>            </div>
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-volume-up"></i> Ouvir
+            </button>
+          </div>
+        </div>
+      </div>
+    
+      <hr class="border border-1 border-danger my-4">
+    
+      <!-- Terceira seção -->
+      <div id="content" class="row">
+        <div class="col-12 mb-3">
+          <div class="text-container">
+            <div class="texto-doacao">
+                <h3>Justificativa</h3><br>
+                <p>
+                    A escassez de leite materno nos bancos de leite é um desafio constante, que compromete
+                    a saúde de muitos recém-nascidos. A doação de leite humano é essencial
+                    para garantir nutrição adequada a bebês que não podem ser amamentados por suas mães.
+                  </p>
+                  <p>
+                    Com base nesse cenário, o Vida em Gotas surge como uma solução que une 
+                    tecnologia, educação em saúde e mobilização social. Acreditamos que, com informação de 
+                    qualidade e um canal acessível, é possível ampliar o número de doadoras e criar uma rede de apoio à vida.
+                  </p>
+
+             
+            </div>
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-volume-up"></i> Ouvir
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="section-title" data-aos="fade-up">
+        <h2>Quem Somos</h2>
+      </div>
+
+      <div id="content" class="row">
+        <div class="col-12 mb-3">
+          <div class="text-container">
+            <div class="texto-doacao">
+                <p>
+                    Nós somos uma equipe multidisciplinar, movida pela empatia, inovação e desejo de 
+                    transformar realidades. Unimos nossas habilidades para 
+                    desenvolver projetos com impacto social direto, especialmente no setor da saúde.
+                  </p>
+             
+            </div>
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-volume-up"></i> Ouvir
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr class="border border-1 border-danger my-4">
+
+
+      <div id="content" class="row">
+        <div class="col-12 mb-3">
+          <div class="text-container">
+            <div class="texto-doacao">
+                <h3>Nosso Projeto: Vida em Gotas</h3>
+                <br>
+                <p> O <strong>Vida em Gotas</strong> nasceu do desejo de ajudar a salvar vidas por meio da doação de leite materno. 
+                Criamos uma plataforma que conecta doadoras a bancos de leite, oferece 
+                conteúdos informativos e acessíveis e facilita o processo de doação de forma segura e prática.
+              </p>
+              <p>Nosso foco é garantir que mais recém-nascidos tenham acesso ao leite materno — um alimento essencial para sua saúde,
+                  crescimento e desenvolvimento. 
+                Ao promover conhecimento, engajamento e empatia, buscamos construir uma sociedade mais consciente e solidária.</p>
+             
+            </div>
+            <button class="btn btn-outline-primary">
+              <i class="fas fa-volume-up"></i> Ouvir
+            </button>
+          </div>
+        </div>
+      </div>
+
+  
+    </div>
+  
+    <!-- Script otimizado para todos os botões -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        // Configuração para todos os botões de som
+        document.querySelectorAll('.btn-outline-primary').forEach(botao => {
+          botao.addEventListener('click', function() {
+            const card = this.closest('.text-container');
+            const texto = card.querySelector('.texto-doacao').textContent;
+            
+            if (window.speechSynthesis.speaking) {
+              window.speechSynthesis.cancel();
+              this.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir';
+              this.classList.remove('btn-primary');
+              this.classList.add('btn-outline-primary');
+              return;
+            }
+    
+            const voz = new SpeechSynthesisUtterance(texto);
+            voz.lang = 'pt-BR';
+            voz.rate = 0.9;
+    
+            voz.onstart = () => {
+              this.innerHTML = '<i class="fas fa-stop"></i> Parar';
+              this.classList.remove('btn-outline-primary');
+              this.classList.add('btn-primary');
+            };
+    
+            voz.onend = voz.onerror = () => {
+              this.innerHTML = '<i class="fas fa-volume-up"></i> Ouvir';
+              this.classList.remove('btn-primary');
+              this.classList.add('btn-outline-primary');
+            };
+    
+            window.speechSynthesis.speak(voz);
+          });
+        });
+      });
+    </script>
+
+<!-- Testimonials Section -->
+<section id="testimonials" class="testimonials section">
+
+  <!-- Section Title -->
+  <div class="container section-title" data-aos="fade-up">
+    <h2>Desenvolvedores do Projeto</h2>
+  </div><!-- End Section Title -->
+
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
+    <div class="row">
+
+      <!-- Grazzy -->
+      <div class="col-md-4">
+        <div class="testimonial-item">
+          <img src="assets/img/desenvolvedor/grazzy.jpeg" class="testimonial-img" alt="Alana Graziela" title="Imagem de Alana Graziela">
+          <h3>Alana Graziela</h3>
+          <h4>Desenvolvedor Front-End</h4>
+          <p>
+            <span>Atuando como front-end, ajudei a moldar a experiência visual, criando uma 
+              linguagem visual harmoniosa que reforça a mensagem e a conexão com o público.</span>
+              <span>Finalizei o projeto satisfeita por contribuir para uma plataforma que transforma o desejo de ajudar em ação, criando uma experiência acolhedora que valoriza essa causa.</span>
+          </p>
+          <div class="social-links mt-3">
+            <a href="https://github.com/Grazielacid" target="_blank" class="github"><i class="bi bi-github"></i></a>
+            <a href="https://br.linkedin.com/in/grazielacid" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div><!-- End testimonial item -->
+
+      <!-- João Marcos -->
+      <div class="col-md-4">
+        <div class="testimonial-item">
+          <img src="assets/img/desenvolvedor/joao.jpeg" class="testimonial-img" alt="João Marcos" title="Imagem de João Marcos">
+          <h3>João Marcos</h3>
+          <h4>Tech Lead</h4>
+          <p>
+            <span>Como Tech Lead, liderei o backend e integração com front, orientando a equipe na busca por soluções eficientes que garantissem qualidade no sistema.</span>
+            <span>Acredito que esse projeto pode salvar vidas. É gratificante saber que, com informação e tecnologia, podemos fazer a diferença na vida de tantos recém-nascidos e famílias.</span>
+          </p>
+          <div class="social-links mt-3">
+            <a href="https://github.com/marcosbarrosj" target="_blank" class="github"><i class="bi bi-github"></i></a>
+            <a href="https://www.linkedin.com/in/marcosbarrosj/" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div><!-- End testimonial item -->
+
+      <!-- Leonardo Lopes -->
+      <div class="col-md-4">
+        <div class="testimonial-item">
+          <img src="assets/img/desenvolvedor/leonardo.jpeg" class="testimonial-img" alt="Leonardo Lopes" title="Imagem de Leonardo Lopes">
+          <h3>Leonardo Lopes</h3>
+          <h4>Desenvolvedor Back-End</h4>
+          <p>
+            <span>Trabalhar no backend deste projeto me ensinou a importância da organização dos dados e da integração para criar soluções que realmente fazem a diferença.</span>
+            <span>Responsável pelo backend, desenvolvendo a integração dos controladores administrativos e organizando a estrutura do banco de dados para garantir eficiência.</span>
+          </p>
+          <div class="social-links mt-3">
+            <a href="https://github.com/leo-lopes-dev" target="_blank" class="github"><i class="bi bi-github"></i></a>
+            <a href="https://www.linkedin.com/in/leonardo-lopes-link/" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div><!-- End testimonial item -->
+
+    </div><!-- End row -->
+
+    <div class="row mt-4">
+
+      <!-- Pedro Augusto -->
+      <div class="col-md-4">
+        <div class="testimonial-item">
+          <img src="assets/img/desenvolvedor/PedroAugusto.jpeg" class="testimonial-img" alt="Pedro Augusto" title="Imagem de Pedro Augusto">
+          <h3>Pedro Augusto</h3>
+          <h4>Desenvolvedor Front-End</h4>
+          <p>
+            <span>Como Desenvolvedor Front-End no Vida em Gotas, criei interfaces acessíveis e intuitivas, garantindo uma experiência acolhedora para doadoras e famílias necessitadas.</span>
+            <span>Mais que código, construí esperança. No Vida em Gotas, transformei tecnologia em solidariedade, conectando doadoras a famílias e ajudando a salvar vidas.</span>
+          </p>
+          <div class="social-links mt-3">
+            <a href="https://github.com/pedroaugustos12" target="_blank" class="github"><i class="bi bi-github"></i></a>
+            <a href="https://www.linkedin.com/in/pedro-augusto-4866b2238/" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div><!-- End testimonial item -->
+
+      <!-- Pedro Ribeiro -->
+      <div class="col-md-4">
+        <div class="testimonial-item">
+          <img src="assets/img/desenvolvedor/pedroRibeiro.jpeg" class="testimonial-img" alt="Pedro Ribeiro" title="Imagem de Pedro Ribeiro">
+          <h3>Pedro Ribeiro</h3>
+          <h4>Desenvolvedor Front-End</h4>
+          <p>
+            <span>Como responsável pelo Front-End, desenvolvi ajustes de interface, otimizei a usabilidade e refatorei códigos, priorizando sempre a melhor experiência do usuário.</span>
+            <span>Finalizar este projeto é a certeza de que estamos transformando tecnologia em esperança, criando um impacto real e humanizando o futuro.</span>
+          </p>
+          <div class="social-links mt-3">
+            <a href="https://github.com/PedroRibeiro-92" target="_blank" class="github"><i class="bi bi-github"></i></a>
+            <a href="https://www.linkedin.com/in/pedro-ribeiro-906888302/?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div><!-- End testimonial item -->
+
+    </div><!-- End row -->
+  </div>
+</section><!-- /Testimonials Section -->
+
+
+
+  <!-- Componente whatsapp -->
+  <whatsapp-button></whatsapp-button>
+
+  <footer>
+
+    <!-- Exportando o Footer -->
+    <menu-footer></menu-footer>
+    <!-- Exportando o Footer -->
+
+  </footer>
+
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>
