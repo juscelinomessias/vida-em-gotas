@@ -320,27 +320,16 @@
     </div>
     
     <div class="container">
-    
       <div class="row justify-content-center">
-    
         <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
-    
           <div class="faq-container" id="faq-container">
             <!-- As perguntas serão carregadas dinamicamente aqui -->
-            <div class="text-center py-4">
-              <div class="spinner-border text-primary"></div>
-              <p class="mt-2">Carregando perguntas...</p>
-            </div>
           </div>
-
           <div class="text-center mt-4"> 
             <a href="duvidas" class="btn-faq">Ver Mais Perguntas</a>
           </div>
-
         </div>
-
       </div>
-      
     </div>
 
     <script>
@@ -354,10 +343,13 @@
     
           if (perguntas && perguntas.length > 0) {
             renderizarPerguntas(perguntas);
+          } else {
+            container.innerHTML = '';
           }
     
         } catch (error) {
           console.error('Erro ao carregar perguntas:', error);
+          container.innerHTML = '';
         }
       });
     
@@ -416,38 +408,18 @@
       <!-- Carrossel de depoimentos -->
       <div class="swiper init-swiper">
         <div class="swiper-wrapper" id="depoimentos-carrossel">
-          <!-- Loading state -->
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <div class="text-center py-4">
-                <div class="spinner-border text-primary"></div>
-                <p class="mt-2">Carregando depoimentos...</p>
-              </div>
-            </div>
-          </div>
+          <!-- Conteúdo será carregado dinamicamente -->
         </div>
-  
+
         <br><br><br><br><br><br>
         <div class="swiper-pagination"></div>
       </div>
-  
+
     </div>
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const container = document.getElementById('depoimentos-carrossel');
-    
-        // Mostrar loader
-        container.innerHTML = `
-          <div class="swiper-slide">
-            <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
-              <div class="text-center">
-                <div class="spinner-border text-primary"></div>
-                <p class="mt-2">Carregando depoimentos...</p>
-              </div>
-            </div>
-          </div>
-        `;
     
         setTimeout(async () => {
           try {
@@ -506,8 +478,8 @@
           </div>
           <div class="perfil-img">
             <img src="${imagemMae}" 
-                 alt="Foto de ${nomeMae}" 
-                 onerror="this.onerror=null;this.src='assets/img/depoimentos/logo-vida-em-gotas-pequeno.png'">
+                alt="Foto de ${nomeMae}" 
+                onerror="this.onerror=null;this.src='assets/img/depoimentos/logo-vida-em-gotas-pequeno.png'">
           </div>
           <div class="perfil-nome">
             <h3>${nomeMae}</h3>
@@ -575,15 +547,7 @@
 
       <div class="swiper init-swiper-momento-mamae">
         <div class="swiper-wrapper align-items-center" id="momento-mamae-carrossel">
-          
-          <!-- Loading state -->
-          <div class="swiper-slide">
-            <div class="text-center py-5">
-              <div class="spinner-border text-primary"></div>
-              <p class="mt-2">Carregando imagens...</p>
-            </div>
-          </div>
-          
+          <!-- Conteúdo será carregado dinamicamente -->
         </div>
         <div class="swiper-pagination"></div>
       </div>
@@ -593,16 +557,6 @@
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const container = document.getElementById('momento-mamae-carrossel');
-    
-        // Mostrar loader
-        container.innerHTML = `
-          <div class="swiper-slide">
-            <div class="text">
-              <div class="spinner-border text-primary"></div>
-              <p class="mt-2">Carregando imagens...</p>
-            </div>
-          </div>
-        `;
     
         setTimeout(async () => {
           try {
@@ -628,9 +582,6 @@
           }
         }, 800);
       });
-    
-
-
 
       function renderImagens(imagens) {
         const container = document.getElementById('momento-mamae-carrossel');
@@ -675,9 +626,6 @@
         }
       }
 
-
-
-    
       function initSwiperMomentoMamae() {
         try {
           if (typeof Swiper !== 'function') {
