@@ -3,7 +3,7 @@ class MenuFooter extends HTMLElement {
         this.innerHTML = `
 			<footer>
 				<div class="pull-right">
-					 2025 - VidaEmGotas - Todos os direitos reservados
+					 2025 - Vida em Gotas - Todos os direitos reservados
 				</div>
 				<div class="clearfix"></div>
 			</footer>

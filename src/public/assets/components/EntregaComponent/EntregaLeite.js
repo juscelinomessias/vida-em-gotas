@@ -236,7 +236,7 @@
               </div>
               
               <div class="container section-title" data-aos="fade-up">
-                <p>Hhhhospital Dr. José Pedro Bezerra (Hospital Santa Catarina)</p>
+                <p>Hospital Dr. José Pedro Bezerra (Hospital Santa Catarina)</p>
                 <p>Rua Araquari, S/N. Bairro: Potengi. Natal / RN Setor Banco de Leite Humano</p>
               </div>
             </div>
